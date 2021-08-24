@@ -1,3 +1,3 @@
-# final-project
+# Type Fighter
 
-A full stack JavaScript solo project.
+A full stack JavaScript team hackathon project for Mintbean!
