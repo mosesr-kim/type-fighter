@@ -23,11 +23,23 @@ app.get('/api/games', (req, res, next) => {
   select "gameId",
          "isJoined",
          "createdAt"
-    from "games"
+    from "games";
   `;
   const dbQuery = db.query(sql);
-  dbQuery.then(result => {
-    res.status(200).send(result.rows);
+  dbQuery.then(games => {
+    res.status(200).send(games.rows);
+  }).catch(err => next(err));
+});
+
+app.post('/api/game', (req, res, next) => {
+  const sql = `
+  insert into "games" ("isJoined")
+  values (false)
+  returning *;
+  `;
+  const dbQuery = db.query(sql);
+  dbQuery.then(game => {
+    res.status(200).send(game.rows[0]);
   }).catch(err => next(err));
 });
 

@@ -1,2 +1,2 @@
-insert into "games" ("isJoined", "gameId")
-values (false, 1)
+insert into "games" ("isJoined")
+values (false)
