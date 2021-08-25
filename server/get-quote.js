@@ -1,20 +1,18 @@
+const axios = require('axios');
 
 function getQuotes() {
-  fetch('https://api.quotable.io/random')
-    .then(result => result.json())
-    .then(quote => {
-      const { content, author, length } = quote;
-      const randomQuote = {
+  axios
+    .get('https://api.quotable.io/random')
+    .then(response => {
+      const { content, author, length } = response.data;
+      const quote = {
         content,
         author,
         length
       };
-      console.log(randomQuote);
 
-      return randomQuote;
+      return quote;
     });
 }
 
 module.exports = getQuotes;
-
-getQuotes();
