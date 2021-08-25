@@ -4,6 +4,7 @@ const errorMiddleware = require('./error-middleware');
 const staticMiddleware = require('./static-middleware');
 const jsonMiddleware = express.json();
 const pg = require('pg');
+const ClientError = require('./client-error');
 
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
@@ -38,7 +39,32 @@ app.post('/api/game', (req, res, next) => {
   `;
   const dbQuery = db.query(sql);
   dbQuery.then(game => {
-    res.status(200).send(game.rows[0]);
+    res.status(201).send(game.rows[0]);
+  }).catch(err => next(err));
+});
+
+app.put('/api/game', (req, res, next) => {
+  if (!req.query.gameId) {
+    throw new ClientError(400, 'gameId is required');
+  }
+  const gameId = parseFloat(req.query.gameId);
+  if (!Number.isInteger(gameId)) {
+    throw new ClientError(400, 'gameId must be a positive integer');
+  }
+  const sql = `
+  update "games"
+     set "isJoined" = true
+   where "gameId" = $1
+   returning *;
+  `;
+  const params = [gameId];
+  const dbQuery = db.query(sql, params);
+  dbQuery.then(game => {
+    if (game.rows[0]) {
+      res.status(200).send(game.rows[0]);
+    } else {
+      throw new ClientError(404, 'gameId not found');
+    }
   }).catch(err => next(err));
 });
 
