@@ -20,10 +20,9 @@ app.use(staticMiddleware);
 
 app.get('/api/games', (req, res, next) => {
   const sql = `
-  select "gameId",
-         "isJoined",
-         "createdAt"
-    from "games";
+  select *
+    from "games"
+   where "isJoined" = false;
   `;
   const dbQuery = db.query(sql);
   dbQuery.then(games => {
