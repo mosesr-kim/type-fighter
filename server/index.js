@@ -61,7 +61,7 @@ app.put('/api/game', (req, res, next) => {
   const dbQuery = db.query(sql, params);
   dbQuery.then(game => {
     if (game.rows[0]) {
-      res.status(200).send(game.rows[0]);
+      res.send(game.rows[0]);
     } else {
       throw new ClientError(404, 'gameId not found');
     }
