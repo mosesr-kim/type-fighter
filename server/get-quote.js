@@ -1,7 +1,7 @@
 const axios = require('axios');
 
-function getQuotes() {
-  axios
+function getQuote() {
+  return axios
     .get('https://api.quotable.io/random')
     .then(response => {
       const { content, author, length } = response.data;
@@ -12,7 +12,8 @@ function getQuotes() {
       };
 
       return quote;
-    });
+    })
+    .catch(err => console.error(err));
 }
 
-module.exports = getQuotes;
+module.exports = getQuote;
