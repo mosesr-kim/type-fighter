@@ -25,6 +25,7 @@ const PostedGame = styled(Button)({
 export default function Lobby(props) {
   const [posts, setPosts] = useState([]);
 
+  // connect socket
   useEffect(() => {
     const socket = io();
 
@@ -34,15 +35,29 @@ export default function Lobby(props) {
     };
   }, []);
 
+  // get posted games
   useEffect(() => {
     fetch('/api/games')
       .then(res => res.json())
       .then(posts => setPosts(posts));
   }, []);
 
+  function addPost() {
+    const req = {
+      method: 'POST'
+    };
+    fetch('/api/game', req)
+      .then(res => res.json())
+      .then(result => {
+        const newPosts = [...posts];
+        newPosts.push(result);
+        setPosts(newPosts);
+      });
+  }
+
   return (
     <Container>
-      <PostGameButton variant="contained">
+      <PostGameButton variant="contained" onClick={addPost}>
         Post A Game
       </PostGameButton>
       <List>
