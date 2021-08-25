@@ -20,7 +20,9 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 io.on('connection', socket => {
-
+  socket.on('join lobby', () => {
+    socket.join('lobby');
+  });
 });
 
 app.use(jsonMiddleware);
