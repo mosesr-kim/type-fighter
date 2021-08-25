@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Button, List, ListItem, ListItemText, styled } from '@material-ui/core';
-// import { io } from 'socket.io-client';
+import { io } from 'socket.io-client';
 
 const PostGameButton = styled(Button)({
   background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
@@ -26,7 +26,12 @@ export default function Lobby(props) {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    // const socket = io();
+    const socket = io();
+
+    socket.emit('join lobby');
+  }, []);
+
+  useEffect(() => {
     fetch('/api/games')
       .then(res => res.json())
       .then(posts => setPosts(posts));
