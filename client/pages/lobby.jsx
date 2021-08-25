@@ -29,6 +29,9 @@ export default function Lobby(props) {
     const socket = io();
 
     socket.emit('join lobby');
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   useEffect(() => {
