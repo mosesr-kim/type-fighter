@@ -6,11 +6,11 @@ drop schema "public" cascade;
 
 create schema "public";
 
-CREATE TABLE "public"."game" (
+CREATE TABLE "public"."games" (
 	"isJoined" BOOLEAN NOT NULL,
 	"createdAt" TIMESTAMP(6) WITH TIME ZONE NOT NULL default now(),
 	"gameId" serial NOT NULL,
-	CONSTRAINT "game_pk" PRIMARY KEY ("gameId")
+	CONSTRAINT "games_pk" PRIMARY KEY ("gameId")
 ) WITH (
   OIDS=FALSE
 );
