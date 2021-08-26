@@ -1,0 +1,63 @@
+@font-face {
+  font-family: retro;
+  src: url('/fonts/retro.ttf');
+}
+
+button,
+input {
+  font-family: 'retro', sans-serif;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.homeForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+input#playerName {
+  width: 20rem;
+  height: 3rem;
+  font-size: 1.5rem;
+  text-align: center;
+  letter-spacing: 0.1rem;
+  text-decoration: none;
+  border: 3px solid white;
+  background-color: transparent;
+  color: white;
+  margin-bottom: 3rem;
+}
+
+input#playerName::placeholder {
+  color: white;
+}
+
+input#playerName:focus {
+  outline: none;
+}
+
+.startButton {
+  width: 20rem;
+  height: 3rem;
+  margin-top: 3rem;
+  background-color: transparent;
+  border: 3px solid white;
+  color: white;
+  font-size: 1.5rem;
+  letter-spacing: 0.1rem;
+}
+
+.portrait {
+  border: 3px solid white;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.portrait:hover {
+  cursor: pointer;
+  border: 3px solid red;
+}
