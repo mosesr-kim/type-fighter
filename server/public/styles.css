@@ -1,0 +1,36 @@
+@font-face {
+  font-family: retro;
+  src: url('/Minecraft.ttf');
+}
+
+.homeForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+input#playerName {
+  width: 20rem;
+  height: 3rem;
+  font-size: 1.5rem;
+  text-align: center;
+  letter-spacing: 0.1rem;
+  text-decoration: none;
+}
+
+input#playerName:focus {
+  outline: none;
+}
+
+.startButton {
+  width: 20rem;
+  height: 3rem;
+  margin-top: 3rem;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  letter-spacing: 0.1rem;
+}
