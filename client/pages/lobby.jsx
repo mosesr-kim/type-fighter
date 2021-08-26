@@ -30,16 +30,14 @@ export default function Lobby(props) {
     const socket = io();
 
     socket.on('new game', game => {
-      const newPosts = [...posts];
-      newPosts.push(game);
-      setPosts(newPosts);
+      setPosts(prevPosts => [...prevPosts, game]);
     });
 
     socket.emit('join lobby');
     return () => {
       socket.disconnect();
     };
-  }, [posts]);
+  }, []);
 
   // get posted games
   useEffect(() => {
