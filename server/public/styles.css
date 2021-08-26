@@ -39,6 +39,7 @@ input#playerName::placeholder {
 
 input#playerName:focus {
   outline: none;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .startButton {
@@ -50,6 +51,10 @@ input#playerName:focus {
   color: white;
   font-size: 1.5rem;
   letter-spacing: 0.1rem;
+}
+
+.startButton:hover {
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .portrait {
