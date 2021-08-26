@@ -12,6 +12,7 @@ table *,
 table .MuiTableCell-root {
   font-family: 'retro', sans-serif;
   color: white;
+  letter-spacing: 0.1rem;
 }
 
 th.MuiTableCell-root {
