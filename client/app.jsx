@@ -1,7 +1,7 @@
 import React from 'react';
 import Home from './pages/home';
 // import Fight from './pages/fight';
-import { styled } from '@material-ui/core/styles';
+import { styled } from '@material-ui/core';
 
 const BGContainer = styled('div')(() => ({
   position: 'relative'
