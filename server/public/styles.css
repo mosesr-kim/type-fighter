@@ -1,6 +1,6 @@
 @font-face {
   font-family: retro;
-  src: url('/Minecraft.ttf');
+  src: url('/fonts/retro.ttf');
 }
 
 .homeForm {
@@ -18,6 +18,14 @@ input#playerName {
   text-align: center;
   letter-spacing: 0.1rem;
   text-decoration: none;
+  border: 3px solid white;
+  background-color: transparent;
+  color: white;
+  margin-bottom: 3rem;
+}
+
+input#playerName::placeholder {
+  color: white;
 }
 
 input#playerName:focus {
@@ -28,9 +36,19 @@ input#playerName:focus {
   width: 20rem;
   height: 3rem;
   margin-top: 3rem;
-  background-color: rgba(0, 0, 0, 0.75);
+  background-color: transparent;
+  border: 3px solid white;
   color: white;
-  border: none;
   font-size: 1.5rem;
   letter-spacing: 0.1rem;
+}
+
+.portrait {
+  border: 3px solid white;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.portrait:hover {
+  cursor: pointer;
+  border: 3px solid red;
 }
