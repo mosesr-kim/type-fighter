@@ -1,6 +1,7 @@
 import React from 'react';
-import Home from './pages/home';
+// import Home from './pages/home';
 // import Fight from './pages/fight';
+import Lobby from './pages/lobby';
 import { styled } from '@material-ui/core';
 
 const BGContainer = styled('div')(() => ({
@@ -35,7 +36,7 @@ export default function App() {
         <BGOverlay />
         <BGImage src="sf2background.png" alt="street fighter 2 background" />
       </BGContainer>
-      <Home />
+      <Lobby />
     </>
   );
 }
