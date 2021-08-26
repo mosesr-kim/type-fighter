@@ -3,6 +3,15 @@
   src: url('/fonts/retro.ttf');
 }
 
+button,
+input {
+  font-family: 'retro', sans-serif;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
 .homeForm {
   display: flex;
   flex-direction: column;
