@@ -33,6 +33,10 @@ export default function Lobby(props) {
       setPosts(prevPosts => [...prevPosts, game]);
     });
 
+    socket.on('game joined', game => {
+      setPosts(prevPosts => prevPosts.filter(post => post.gameId !== game.gameId));
+    });
+
     socket.emit('join lobby');
     return () => {
       socket.disconnect();
