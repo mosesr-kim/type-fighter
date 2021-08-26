@@ -49,6 +49,7 @@ app.post('/api/game', (req, res, next) => {
   `;
   const dbQuery = db.query(sql);
   dbQuery.then(game => {
+    io.to('lobby').emit('new game', game.rows[0]);
     res.status(201).send(game.rows[0]);
   }).catch(err => next(err));
 });

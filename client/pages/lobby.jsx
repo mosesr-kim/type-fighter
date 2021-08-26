@@ -29,11 +29,17 @@ export default function Lobby(props) {
   useEffect(() => {
     const socket = io();
 
+    socket.on('new game', game => {
+      const newPosts = [...posts];
+      newPosts.push(game);
+      setPosts(newPosts);
+    });
+
     socket.emit('join lobby');
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [posts]);
 
   // get posted games
   useEffect(() => {
@@ -46,13 +52,7 @@ export default function Lobby(props) {
     const req = {
       method: 'POST'
     };
-    fetch('/api/game', req)
-      .then(res => res.json())
-      .then(result => {
-        const newPosts = [...posts];
-        newPosts.push(result);
-        setPosts(newPosts);
-      });
+    fetch('/api/game', req);
   }
 
   return (
