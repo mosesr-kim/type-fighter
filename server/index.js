@@ -20,7 +20,9 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 io.on('connection', socket => {
-
+  socket.on('join lobby', () => {
+    socket.join('lobby');
+  });
 });
 
 app.use(jsonMiddleware);
@@ -47,6 +49,7 @@ app.post('/api/game', (req, res, next) => {
   `;
   const dbQuery = db.query(sql);
   dbQuery.then(game => {
+    io.to('lobby').emit('new game', game.rows[0]);
     res.status(201).send(game.rows[0]);
   }).catch(err => next(err));
 });
@@ -78,7 +81,7 @@ app.put('/api/game', (req, res, next) => {
 
 app.use(errorMiddleware);
 
-app.listen(process.env.PORT, () => {
+server.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`express server listening on port ${process.env.PORT}`);
 });
