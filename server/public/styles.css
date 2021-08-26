@@ -8,6 +8,17 @@ input {
   font-family: 'retro', sans-serif;
 }
 
+table *,
+table .MuiTableCell-root {
+  font-family: 'retro', sans-serif;
+  color: white;
+}
+
+th.MuiTableCell-root {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
 button:hover {
   cursor: pointer;
 }

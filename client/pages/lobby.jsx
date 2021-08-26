@@ -5,17 +5,19 @@ import {
   Button,
   Grid,
   TableContainer,
+  Table,
   TableHead,
   TableBody,
   TableRow,
-  TableCell
+  TableCell,
+  Box
 } from '@material-ui/core';
 import { io } from 'socket.io-client';
 
 const PostGameButton = styled(Button)({
   background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
-  border: 0,
-  borderRadius: 3,
+  border: '3px solid black',
+  borderRadius: 0,
   boxShadow: '0 3px 5px 2px rgba(33, 203, 243, .3)',
   color: 'white',
   height: 48,
@@ -24,12 +26,16 @@ const PostGameButton = styled(Button)({
 
 const PostedGame = styled(Button)({
   background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-  border: 0,
-  borderRadius: 3,
+  border: '3px solid black',
+  borderRadius: 0,
   boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
   color: 'white',
   height: 48,
   padding: '0 30px'
+});
+
+const GamesTable = styled(Table)({
+  fontFamily: 'retro, sans-serif'
 });
 
 export default function Lobby(props) {
@@ -76,36 +82,41 @@ export default function Lobby(props) {
   }
 
   return (
-    <Container fixed>
-      <PostGameButton variant="contained" onClick={addPost}>
-        Post A Game
-      </PostGameButton>
-      <Grid container>
-        <Grid item>
-          <TableContainer>
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Gamemode</TableCell>
-                <TableCell></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {posts.map(post => (
-                <TableRow key={post.gameId}>
-                  <TableCell>No Name</TableCell>
-                  <TableCell>Normal</TableCell>
-                  <TableCell>
-                    <PostedGame variant="contained" id={post.gameId} onClick={joinGame}>
-                      Join Game {post.gameId}
-                    </PostedGame>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </TableContainer>
+    <Container>
+      <Box mt={'20vh'}>
+        <Grid container justifyContent="center">
+          <Grid item xs={8}>
+            <TableContainer>
+              <GamesTable>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Name</TableCell>
+                    <TableCell>Gamemode</TableCell>
+                    <TableCell align="center">
+                      <PostGameButton variant="contained" onClick={addPost}>
+                        Post A Game
+                      </PostGameButton>
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {posts.map(post => (
+                    <TableRow key={post.gameId}>
+                      <TableCell>No Name</TableCell>
+                      <TableCell>Normal</TableCell>
+                      <TableCell align="center">
+                        <PostedGame variant="contained" id={post.gameId} onClick={joinGame}>
+                          Join Game {post.gameId}
+                        </PostedGame>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </GamesTable>
+            </TableContainer>
+          </Grid>
         </Grid>
-      </Grid>
+      </Box>
     </Container>
   );
 }
