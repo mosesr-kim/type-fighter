@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Button, List, ListItem, ListItemText, styled } from '@material-ui/core';
+import {
+  styled,
+  Container,
+  Button,
+  Grid,
+  TableContainer,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell
+} from '@material-ui/core';
 import { io } from 'socket.io-client';
 
 const PostGameButton = styled(Button)({
@@ -66,21 +76,36 @@ export default function Lobby(props) {
   }
 
   return (
-    <Container>
+    <Container fixed>
       <PostGameButton variant="contained" onClick={addPost}>
         Post A Game
       </PostGameButton>
-      <List>
-        {posts.map(post => (
-          <ListItem key={post.gameId}>
-            <ListItemText>
-              <PostedGame variant="contained" id={post.gameId} onClick={joinGame}>
-                Join Game {post.gameId}
-              </PostedGame>
-            </ListItemText>
-          </ListItem>
-        ))}
-      </List>
+      <Grid container>
+        <Grid item>
+          <TableContainer>
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Gamemode</TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {posts.map(post => (
+                <TableRow key={post.gameId}>
+                  <TableCell>No Name</TableCell>
+                  <TableCell>Normal</TableCell>
+                  <TableCell>
+                    <PostedGame variant="contained" id={post.gameId} onClick={joinGame}>
+                      Join Game {post.gameId}
+                    </PostedGame>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </TableContainer>
+        </Grid>
+      </Grid>
     </Container>
   );
 }
