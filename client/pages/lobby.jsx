@@ -33,6 +33,10 @@ export default function Lobby(props) {
       setPosts(prevPosts => [...prevPosts, game]);
     });
 
+    socket.on('game joined', game => {
+      setPosts(prevPosts => prevPosts.filter(post => post.gameId !== game.gameId));
+    });
+
     socket.emit('join lobby');
     return () => {
       socket.disconnect();
@@ -53,6 +57,14 @@ export default function Lobby(props) {
     fetch('/api/game', req);
   }
 
+  function joinGame(event) {
+    const gameId = event.target.closest('button').id;
+    const req = {
+      method: 'PUT'
+    };
+    fetch(`/api/game?gameId=${gameId}`, req);
+  }
+
   return (
     <Container>
       <PostGameButton variant="contained" onClick={addPost}>
@@ -62,7 +74,7 @@ export default function Lobby(props) {
         {posts.map(post => (
           <ListItem key={post.gameId}>
             <ListItemText>
-              <PostedGame variant="contained">
+              <PostedGame variant="contained" id={post.gameId} onClick={joinGame}>
                 Join Game {post.gameId}
               </PostedGame>
             </ListItemText>
