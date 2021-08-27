@@ -29,6 +29,13 @@ io.on('connection', socket => {
     const phrase = await getQuote();
     socket.to('gameId').emit(phrase);
   });
+
+  socket.on('finish word', payload => {
+    const { correctMap, userId, gameId } = payload;
+    // correctMap is a string of 1s and 0s indicating whether the letter was correct or incorrect
+    const data = { correctMap, userId };
+    socket.broadcast.to(gameId).emit(data);
+  });
 });
 
 app.use(jsonMiddleware);
