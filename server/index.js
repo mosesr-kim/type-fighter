@@ -33,6 +33,11 @@ io.on('connection', socket => {
   socket.on('finish word', gameId => {
     socket.broadcast.to(gameId).emit('finish word');
   });
+
+  socket.on('finish phrase', payload => {
+    const { gameId, winnerId } = payload;
+    socket.broadcast.to(gameId).emit('finish phrase', winnerId);
+  });
 });
 
 app.use(jsonMiddleware);
