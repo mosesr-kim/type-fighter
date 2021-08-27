@@ -27,14 +27,11 @@ io.on('connection', socket => {
 
   socket.on('get random', async gameId => {
     const phrase = await getQuote();
-    socket.to('gameId').emit(phrase);
+    socket.to('gameId').emit('get random', phrase);
   });
 
-  socket.on('finish word', payload => {
-    const { correctMap, userId, gameId } = payload;
-    // correctMap is a string of 1s and 0s indicating whether the letter was correct or incorrect
-    const data = { correctMap, userId };
-    socket.broadcast.to(gameId).emit(data);
+  socket.on('finish word', gameId => {
+    socket.broadcast.to(gameId).emit('finish word');
   });
 });
 
