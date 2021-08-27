@@ -7,6 +7,7 @@ const staticMiddleware = require('./static-middleware');
 const jsonMiddleware = express.json();
 const pg = require('pg');
 const ClientError = require('./client-error');
+const getQuote = require('./get-quote');
 
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
@@ -22,6 +23,20 @@ const io = new Server(server);
 io.on('connection', socket => {
   socket.on('join lobby', () => {
     socket.join('lobby');
+  });
+
+  socket.on('get random', async gameId => {
+    const phrase = await getQuote();
+    socket.to('gameId').emit('get random', phrase);
+  });
+
+  socket.on('finish word', gameId => {
+    socket.broadcast.to(gameId).emit('finish word');
+  });
+
+  socket.on('finish phrase', payload => {
+    const { gameId, winnerId } = payload;
+    socket.broadcast.to(gameId).emit('finish phrase', winnerId);
   });
 });
 
