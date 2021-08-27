@@ -36,7 +36,7 @@ io.on('connection', socket => {
 
   socket.on('finish phrase', payload => {
     const { gameId, winnerId } = payload;
-    socket.broadcast.to(gameId).emit('finish phrase', winnerId);
+    socket.to(gameId).emit('finish phrase', winnerId);
   });
 });
 
