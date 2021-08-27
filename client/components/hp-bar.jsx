@@ -1,20 +1,26 @@
 import React from 'react';
-import { styled } from '@material-ui/core';
-
-const BarContainer = styled('div')({
-  backgroundColor: 'gray'
-});
-
-const Bar = styled('div')({
-  backgroundColor: 'red'
-});
+import { Box, styled } from '@material-ui/core';
 
 export default function HPBar(props) {
-  // const { hp } = props;
-  const hp = 50;
+  const { hp } = props;
+
+  const BarContainer = styled('div')({
+    border: '3px solid white',
+    width: '500px',
+    height: '3rem'
+  });
+
+  const Bar = styled('div')({
+    backgroundColor: 'red',
+    height: '100%',
+    width: `${hp}%`
+
+  });
   return (
-    <BarContainer>
-      <Bar width={hp} />
-    </BarContainer>
+    <Box m={2}>
+      <BarContainer>
+        <Bar />
+      </BarContainer>
+    </Box>
   );
 }
