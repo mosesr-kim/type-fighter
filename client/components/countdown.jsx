@@ -1,6 +1,18 @@
 import React, { useState } from 'react';
 import { styled } from '@material-ui/core';
 
+const CountdownContainer = styled('div')({
+  pointerEvents: 'none',
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100vh',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center'
+});
+
 const CountdownText = styled('div')({
   fontFamily: 'retro, sans-serif',
   fontSize: '5rem',
@@ -20,6 +32,8 @@ export default function Countdown(props) {
   }, 1000);
 
   return (
-    <CountdownText>{text[counter]}</CountdownText>
+    <CountdownContainer>
+      <CountdownText>{text[counter]}</CountdownText>
+    </CountdownContainer>
   );
 }
