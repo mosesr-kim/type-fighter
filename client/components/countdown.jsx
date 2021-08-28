@@ -20,7 +20,18 @@ const CountdownText = styled('div')({
 });
 
 export default function Countdown(props) {
-  if (!props.counting) {
+  /* In Outer Function
+  const [counting, setCounting] = useState(true);
+
+  function removeCountdown() {
+    setCounting(false);
+  }
+
+  <Countdown counting={counting} removeCountdown={removeCountdown} />
+  */
+
+  const { counting, removeCountdown } = props;
+  if (!counting) {
     return <></>;
   }
 
@@ -28,7 +39,11 @@ export default function Countdown(props) {
   const [counter, setCounter] = useState(0);
 
   setTimeout(() => {
-    setCounter(prev => prev === 3 ? 0 : prev + 1);
+    if (counter === 3) {
+      removeCountdown();
+    } else {
+      setCounter(counter + 1);
+    }
   }, 1000);
 
   return (
