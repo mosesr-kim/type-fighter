@@ -73,3 +73,19 @@ input#playerName:focus {
   cursor: pointer;
   border: 3px solid red;
 }
+
+.green-text {
+  color: green;
+}
+
+.red-text {
+  color: red;
+}
+
+.outline-none {
+  outline: none;
+}
+
+.underline {
+  text-decoration: underline;
+}
