@@ -41,24 +41,16 @@ export default function TypingGame(props) {
     setIsFocused(false);
   };
 
-  useEffect(() => {
-    const handleKeyPress = event => {
-
-      if (event.key.length !== 1) return;
-      insertTyping(event.key);
-    };
-
-    window.addEventListener('keydown', handleKeyPress);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyPress);
-    };
-  }, []);
+  const handleKeyPress = key => {
+    if (key.length !== 1) return;
+    insertTyping(key);
+  };
 
   return (
     <>
       <div
         tabIndex={0}
+        onKeyDown={event => handleKeyPress(event.key)}
         onFocus={focusText}
         onBlur={blurText}
         className="outline-none"
@@ -67,14 +59,11 @@ export default function TypingGame(props) {
           {props.text.split('').map((ltr, i) => {
             const state = charsState[i];
             let color = '';
-            let underline = '';
             if (state === 1) color = 'green-text';
             else if (state !== 0 && state !== 1) color = 'red-text';
 
-            if (i === currIndex + 1) underline = 'underline';
-
             return (
-              <span key={ltr + i} className={`${color} ${underline}`}>
+              <span key={ltr + i} className={color}>
                 {ltr}
               </span>
             );

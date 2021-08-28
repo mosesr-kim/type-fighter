@@ -86,10 +86,6 @@ input#playerName:focus {
   outline: none;
 }
 
-.underline {
-  text-decoration: underline;
-}
-
 @keyframes flash-caret {
   0%,
   100% {
