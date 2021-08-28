@@ -1,9 +1,8 @@
 import React from 'react';
+import TypingBox from '../components/typing-box';
 
-export default class Fight extends React.Component {
-  render() {
-    return (
-      <div>Fighting happens here.</div>
-    );
-  }
+export default function Fight(props) {
+  return (
+    <TypingBox text="Type Text Here" />
+  );
 }
