@@ -89,3 +89,22 @@ input#playerName:focus {
 .underline {
   text-decoration: underline;
 }
+
+@keyframes flash-caret {
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.caret {
+  position: absolute;
+  display: inline;
+  animation-name: flash-caret;
+  animation-iteration-count: infinite;
+  animation-duration: 1s;
+}

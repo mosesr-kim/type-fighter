@@ -29,14 +29,9 @@ export default function TypingGame(props) {
       const top = spanref.offsetTop - 2;
       return { left, top };
     } else {
-      return { left: -2, top: 2 };
+      return { left: '0.5rem', top: '0.5rem' };
     }
   }, [currIndex]);
-
-  const handleKeyPress = key => {
-    if (key.length !== 1) return;
-    insertTyping(key);
-  };
 
   const focusText = () => {
     setIsFocused(true);
@@ -46,11 +41,24 @@ export default function TypingGame(props) {
     setIsFocused(false);
   };
 
+  useEffect(() => {
+    const handleKeyPress = event => {
+
+      if (event.key.length !== 1) return;
+      insertTyping(event.key);
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, []);
+
   return (
     <>
       <div
         tabIndex={0}
-        onKeyDown={event => handleKeyPress(event.key)}
         onFocus={focusText}
         onBlur={blurText}
         className="outline-none"
@@ -74,7 +82,12 @@ export default function TypingGame(props) {
         </div>
         {phase !== 2 && isFocused
           ? (
-          <span style={{ left: cursor.left, top: cursor.top }}>&nbsp;</span>
+          <span
+            style={{ left: cursor.left, top: cursor.top, opacity: 1 }}
+            className="caret"
+          >
+            |
+          </span>
             )
           : null}
       </div>
