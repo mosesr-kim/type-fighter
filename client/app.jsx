@@ -1,7 +1,9 @@
 import React from 'react';
 import Home from './pages/home';
-// import Fight from './pages/fight';
+import Lobby from './pages/lobby';
+import Fight from './pages/fight';
 import { styled } from '@material-ui/core';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 const BGContainer = styled('div')(() => ({
   position: 'relative'
@@ -30,12 +32,23 @@ const BGOverlay = styled('div')(() => ({
 
 export default function App() {
   return (
-    <>
+    <BrowserRouter>
       <BGContainer>
         <BGOverlay />
         <BGImage src="sf2background.png" alt="street fighter 2 background" />
       </BGContainer>
-      <Home />
-    </>
+
+      <Switch>
+        <Route path="/lobby" >
+          <Lobby />
+        </Route>
+        <Route path="/fight" >
+          <Fight />
+        </Route>
+        <Route path="/" >
+          <Home />
+        </Route>
+      </Switch>
+    </BrowserRouter>
   );
 }
