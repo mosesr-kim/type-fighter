@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 function authorizationMiddleware(req, res, next) {
   if (!req.signedCookies.userToken) {
-    throw new ClientError(401, 'authentication requireds');
+    throw new ClientError(401, 'authentication required');
   }
 
   const payload = jwt.verify(req.signedCookies.userToken, process.env.TOKEN_SECRET);
