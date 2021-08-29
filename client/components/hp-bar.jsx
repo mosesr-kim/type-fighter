@@ -22,7 +22,8 @@ export default function HPBar(props) {
 
   const BarContainer = styled('div')({
     border: '3px solid white',
-    width: '500px',
+    maxWidth: '500px',
+    width: '40vw',
     height: '3rem',
     transform: `rotateY(${rotation}deg)`
   });
