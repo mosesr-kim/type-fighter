@@ -10,6 +10,7 @@ const ClientError = require('./client-error');
 const getQuote = require('./get-quote');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser')(process.env.COOKIE_SECRET);
+const authorizationMiddleware = require('./authorization-middleware');
 
 const app = express();
 const server = http.createServer(app);
@@ -91,17 +92,23 @@ app.get('/api/games', (req, res, next) => {
   }).catch(err => next(err));
 });
 
-app.post('/api/game', (req, res, next) => {
+app.post('/api/game', authorizationMiddleware, (req, res, next) => {
+  const { userId } = req.user;
+
   const sql = `
-  insert into "games" ("isJoined")
-  values (false)
+  insert into "games" ("hostId")
+  values ($1)
   returning *;
   `;
-  const dbQuery = db.query(sql);
-  dbQuery.then(game => {
-    io.to('lobby').emit('new game', game.rows[0]);
-    res.status(201).send(game.rows[0]);
-  }).catch(err => next(err));
+
+  const params = [userId];
+
+  db.query(sql, params)
+    .then(game => {
+      io.to('lobby').emit('new game', game.rows[0]);
+      res.status(201).send(game.rows[0]);
+    })
+    .catch(err => next(err));
 });
 
 app.put('/api/game', (req, res, next) => {
