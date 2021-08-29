@@ -16,11 +16,14 @@ import { io } from 'socket.io-client';
 const GameButton = styled('button')({
   background: 'blue',
   border: '3px solid black',
-  height: 48,
-  padding: '0 30px',
+  height: '3rem !important',
+  width: '10rem',
+  padding: 'auto',
   textTransform: 'uppercase',
+  textDecoration: 'none',
   '&:hover': {
-    border: '3px solid white'
+    border: '3px solid white',
+    cursor: 'pointer'
   }
 });
 
@@ -68,7 +71,12 @@ export default function Lobby(props) {
     const req = {
       method: 'POST'
     };
-    fetch('/api/game', req);
+    fetch('/api/game', req)
+      .then(res => res.json())
+      .then(result => {
+        const { gameId } = result;
+        window.location.href = `/fight?gameId=${gameId}`;
+      });
   }
 
   function joinGame(event) {
@@ -91,7 +99,7 @@ export default function Lobby(props) {
                     <TableCell>Opponent</TableCell>
                     <TableCell>Gamemode</TableCell>
                     <TableCell align="center">
-                      <PostGameButton variant="contained" onClick={addPost}>
+                      <PostGameButton onClick={addPost}>
                         Post A Game
                       </PostGameButton>
                     </TableCell>
@@ -103,7 +111,7 @@ export default function Lobby(props) {
                       <TableCell>No Name</TableCell>
                       <TableCell>Normal</TableCell>
                       <TableCell align="center">
-                        <JoinGameButton variant="contained" id={post.gameId} onClick={joinGame}>
+                        <JoinGameButton id={post.gameId} onClick={joinGame}>
                           Join Game {post.gameId}
                         </JoinGameButton>
                       </TableCell>
