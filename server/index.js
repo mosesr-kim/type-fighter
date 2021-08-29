@@ -117,7 +117,7 @@ app.get('/api/game/:gameId', (req, res, next) => {
     join "users" as "host" on ("g"."hostId" = "host"."userId")
     join "users" as "opp" on ("g"."oppId" = "opp"."userId" or
                              ("g"."oppId" is null))
-   where "g"."gameId" = 1;
+   where "g"."gameId" = $1;
   `;
 
   const params = [gameId];
@@ -156,12 +156,12 @@ app.post('/api/game', authorizationMiddleware, (req, res, next) => {
 });
 
 // Join a game
-app.put('/api/game', authorizationMiddleware, (req, res, next) => {
-  if (!req.query.gameId) {
+app.put('/api/game/:gameId', authorizationMiddleware, (req, res, next) => {
+  const gameId = parseFloat(req.params.gameId);
+  if (!gameId) {
     throw new ClientError(400, 'gameId is required');
   }
 
-  const gameId = parseFloat(req.query.gameId);
   if (!Number.isInteger(gameId) || gameId < 1) {
     throw new ClientError(400, 'gameId must be a positive integer');
   }
