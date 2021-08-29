@@ -84,10 +84,12 @@ export default function Fight(props) {
         <Grid container>
           {/* Player 1 */}
           <Grid item xs={6}>
-            <Grid container justifyContent="center" spacing={6}>
+            <Grid container justifyContent="center">
               {/* HP Bar */}
               <Grid item onClick={() => damage('you')}>
-                <HPBar hp={yourHp} side={'left'} />
+                <Box mb={8}>
+                  <HPBar hp={yourHp} side={'left'} />
+                </Box>
               </Grid>
 
               {/* Sprite */}
@@ -99,10 +101,12 @@ export default function Fight(props) {
 
           {/* Player 2 */}
           <Grid item xs={6}>
-            <Grid container justifyContent="center" spacing={6}>
+            <Grid container justifyContent="center">
               {/* HP Bar */}
               <Grid item onClick={() => damage('opp')}>
-                <HPBar hp={oppHp} side={'right'} />
+                <Box mb={8}>
+                  <HPBar hp={oppHp} side={'right'} />
+                </Box>
               </Grid>
 
               {/* Sprite */}
