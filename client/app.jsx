@@ -3,7 +3,8 @@ import Home from './pages/home';
 import Lobby from './pages/lobby';
 import Fight from './pages/fight';
 import { styled } from '@material-ui/core';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, useHistory } from 'react-router-dom';
+import RouterContext from './lib/router-context';
 
 const BGContainer = styled('div')(() => ({
   position: 'relative'
@@ -30,9 +31,19 @@ const BGOverlay = styled('div')(() => ({
   backgroundColor: 'rgba(0, 0, 0, 0.5)'
 }));
 
-export default function App() {
+export default function AppWrapper() {
   return (
     <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  );
+}
+
+function App() {
+  const history = useHistory();
+
+  return (
+    <RouterContext.Provider value={{ history }}>
       <BGContainer>
         <BGOverlay />
         <BGImage src="sf2background.png" alt="street fighter 2 background" />
@@ -49,6 +60,6 @@ export default function App() {
           <Home />
         </Route>
       </Switch>
-    </BrowserRouter>
+    </RouterContext.Provider>
   );
 }
