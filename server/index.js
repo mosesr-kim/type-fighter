@@ -77,13 +77,17 @@ app.post('/api/user', (req, res, next) => {
 
 app.get('/api/games', (req, res, next) => {
   const sql = `
-  select *
+  select "games".*,
+         "host"."username",
+         "host"."character"
     from "games"
-   where "oppId" = null;
+    join "users" as "host" on ("games"."hostId" = "host"."userId")
+   where "games"."oppId" is null;
   `;
+
   const dbQuery = db.query(sql);
   dbQuery.then(games => {
-    res.status(200).send(games.rows);
+    res.status(200).json(games.rows);
   }).catch(err => next(err));
 });
 
