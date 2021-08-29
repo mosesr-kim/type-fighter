@@ -117,7 +117,7 @@ export default function Lobby(props) {
                       <TableCell>Normal</TableCell>
                       <TableCell align="center">
                         <JoinGameButton id={post.gameId} onClick={joinGame}>
-                          Join Game {post.gameId}
+                          Join Game
                         </JoinGameButton>
                       </TableCell>
                     </TableRow>
