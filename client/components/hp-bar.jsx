@@ -31,7 +31,7 @@ export default function HPBar(props) {
   const Bar = styled('div')({
     backgroundColor: barColor,
     height: '100%',
-    width: `${hp}%`,
+    width: `${Math.max(0, hp)}%`,
     transition: 'all 0.25s ease'
   });
 

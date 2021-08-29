@@ -24,9 +24,21 @@ export default function Fight(props) {
   const [metaData, setMetaData] = useState(null);
   const location = useLocation();
 
-  const [counting, setCounting] = useState(true);
+  const [counting, setCounting] = useState(false);
   function removeCountdown() {
     setCounting(false);
+  }
+
+  const [yourHp, setYourHp] = useState(100);
+  const [oppHp, setOppHp] = useState(100);
+
+  function damage(player) {
+    const hit = 20;
+    if (player === 'you') {
+      setYourHp(yourHp - hit);
+    } else if (player === 'opp') {
+      setOppHp(oppHp - hit);
+    }
   }
 
   // get metaData
@@ -52,8 +64,8 @@ export default function Fight(props) {
           <Grid item xs={6}>
             <Grid container justifyContent="center">
               {/* HP Bar */}
-              <Grid item>
-                <HPBar hp={80} side={'left'} />
+              <Grid item onClick={() => damage('you')}>
+                <HPBar hp={yourHp} side={'left'} />
               </Grid>
 
               {/* Sprite */}
@@ -67,8 +79,8 @@ export default function Fight(props) {
           <Grid item xs={6}>
             <Grid container justifyContent="center">
               {/* HP Bar */}
-              <Grid item>
-                <HPBar hp={40} side={'right'} />
+              <Grid item onClick={() => damage('opp')}>
+                <HPBar hp={oppHp} side={'right'} />
               </Grid>
 
               {/* Sprite */}
