@@ -80,7 +80,7 @@ app.get('/api/games', (req, res, next) => {
   const sql = `
   select "games".*,
          "host"."username",
-         "host"."character"
+         "host"."character" as "hostChar"
     from "games"
     join "users" as "host" on ("games"."hostId" = "host"."userId")
    where "games"."oppId" is null;
@@ -93,7 +93,7 @@ app.get('/api/games', (req, res, next) => {
 });
 
 app.post('/api/game', authorizationMiddleware, (req, res, next) => {
-  const { userId } = req.user;
+  const { userId, username, character } = req.user;
 
   const sql = `
   insert into "games" ("hostId")
@@ -105,8 +105,9 @@ app.post('/api/game', authorizationMiddleware, (req, res, next) => {
 
   db.query(sql, params)
     .then(game => {
-      io.to('lobby').emit('new game', game.rows[0]);
-      res.status(201).send(game.rows[0]);
+      const newGame = Object.assign({}, game.rows[0], { username, character });
+      io.to('lobby').emit('new game', newGame);
+      res.status(201).send(newGame);
     })
     .catch(err => next(err));
 });
