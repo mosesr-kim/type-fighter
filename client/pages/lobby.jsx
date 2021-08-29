@@ -16,9 +16,8 @@ import { io } from 'socket.io-client';
 const GameButton = styled('button')({
   background: 'blue',
   border: '3px solid black',
-  height: '3rem !important',
+  height: '3rem',
   width: '10rem',
-  padding: 'auto',
   textTransform: 'uppercase',
   textDecoration: 'none',
   '&:hover': {
