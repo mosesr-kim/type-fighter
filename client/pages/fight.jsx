@@ -4,7 +4,7 @@ import TypingBox from '../components/typing-box';
 import Countdown from '../components/countdown';
 import HPBar from '../components/hp-bar';
 import { Grid, Box, styled } from '@material-ui/core';
-import { connectSocket, disconnectSocket, getRandom } from '../lib/fight-socket';
+import { connectSocket, disconnectSocket, getRandom, finishPhrase } from '../lib/fight-socket';
 
 const dummyMeta = {
   gameId: 1,

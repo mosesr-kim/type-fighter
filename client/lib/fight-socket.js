@@ -23,3 +23,9 @@ export function getRandom(gameId) {
     socket.emit('get random', gameId);
   }
 }
+
+export function finishPhrase(gameId, winnerId) {
+  if (socket) {
+    socket.emit('finish phrase', { gameId, winnerId });
+  }
+}
