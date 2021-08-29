@@ -6,11 +6,28 @@ drop schema "public" cascade;
 
 create schema "public";
 
+CREATE TABLE "public"."users" (
+	"userId" serial NOT NULL,
+	"username" TEXT NOT NULL,
+	"character" TEXT NOT NULL,
+	CONSTRAINT "users_pk" PRIMARY KEY ("userId")
+) WITH (
+  OIDS=FALSE
+);
+
+
+
 CREATE TABLE "public"."games" (
-	"isJoined" BOOLEAN NOT NULL,
-	"createdAt" TIMESTAMP(6) WITH TIME ZONE NOT NULL default now(),
 	"gameId" serial NOT NULL,
+	"hostId" int NOT NULL,
+	"oppId" int,
 	CONSTRAINT "games_pk" PRIMARY KEY ("gameId")
 ) WITH (
   OIDS=FALSE
 );
+
+
+
+
+ALTER TABLE "games" ADD CONSTRAINT "games_fk0" FOREIGN KEY ("hostId") REFERENCES "users"("userId");
+ALTER TABLE "games" ADD CONSTRAINT "games_fk1" FOREIGN KEY ("oppId") REFERENCES "users"("userId");
