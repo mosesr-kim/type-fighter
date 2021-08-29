@@ -48,7 +48,7 @@ app.use(staticMiddleware);
 
 app.use(cookieParser);
 
-app.post('/api/new-user', (req, res, next) => {
+app.post('/api/user', (req, res, next) => {
   const { username, character } = req.body;
   if (!username || !character) {
     throw new ClientError(400, 'invalid request');
