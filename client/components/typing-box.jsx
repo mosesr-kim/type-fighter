@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid, styled } from '@material-ui/core';
 import TypingGame from '../components/typing-game';
 
@@ -16,12 +16,22 @@ const TypeText = styled('div')({
 });
 
 export default function TypingBox(props) {
+  const [isFocused, setIsFocused] = useState(true);
+
+  const focusText = () => {
+    setIsFocused(true);
+  };
+
+  const blurText = () => {
+    setIsFocused(false);
+  };
+
   return (
     <TextBox>
-      <Grid container className="text-box">
+      <Grid container className="text-box" onFocus={focusText} onBlur={blurText}>
         <Grid item>
           <TypeText>
-            <TypingGame text={props.text} />
+            <TypingGame text={props.text} isFocused={isFocused} />
           </TypeText>
         </Grid>
       </Grid>
