@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   styled,
   Container,
@@ -12,6 +12,7 @@ import {
   Box
 } from '@material-ui/core';
 import { io } from 'socket.io-client';
+import RouterContext from '../lib/router-context';
 
 const GameButton = styled('button')({
   background: 'blue',
@@ -40,6 +41,7 @@ const GamesTable = styled(Table)({
 
 export default function Lobby(props) {
   const [posts, setPosts] = useState([]);
+  const { history } = useContext(RouterContext);
 
   // connect socket
   useEffect(() => {
@@ -74,7 +76,7 @@ export default function Lobby(props) {
       .then(res => res.json())
       .then(result => {
         const { gameId } = result;
-        window.location.href = `/fight?gameId=${gameId}`;
+        history.push(`/fight?gameId=${gameId}`);
       });
   }
 
@@ -87,7 +89,7 @@ export default function Lobby(props) {
       .then(res => res.json())
       .then(result => {
         const { gameId } = result;
-        window.location.href = `/fight?gameId=${gameId}`;
+        history.push(`/fight?gameId=${gameId}`);
       });
   }
 
