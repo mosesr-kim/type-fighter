@@ -48,7 +48,7 @@ app.get('/api/games', (req, res, next) => {
   const sql = `
   select *
     from "games"
-   where "isJoined" = false;
+   where "oppId" = null;
   `;
   const dbQuery = db.query(sql);
   dbQuery.then(games => {
