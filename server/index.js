@@ -7,6 +7,7 @@ const staticMiddleware = require('./static-middleware');
 const jsonMiddleware = express.json();
 const pg = require('pg');
 const ClientError = require('./client-error');
+const getQuote = require('./get-quote');
 
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
@@ -20,7 +21,23 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 io.on('connection', socket => {
+  socket.on('join lobby', () => {
+    socket.join('lobby');
+  });
 
+  socket.on('get random', async gameId => {
+    const phrase = await getQuote();
+    socket.to('gameId').emit('get random', phrase);
+  });
+
+  socket.on('finish word', gameId => {
+    socket.broadcast.to(gameId).emit('finish word');
+  });
+
+  socket.on('finish phrase', payload => {
+    const { gameId, winnerId } = payload;
+    socket.to(gameId).emit('finish phrase', winnerId);
+  });
 });
 
 app.use(jsonMiddleware);
@@ -47,6 +64,7 @@ app.post('/api/game', (req, res, next) => {
   `;
   const dbQuery = db.query(sql);
   dbQuery.then(game => {
+    io.to('lobby').emit('new game', game.rows[0]);
     res.status(201).send(game.rows[0]);
   }).catch(err => next(err));
 });
@@ -69,6 +87,7 @@ app.put('/api/game', (req, res, next) => {
   const dbQuery = db.query(sql, params);
   dbQuery.then(game => {
     if (game.rows[0]) {
+      io.to('lobby').emit('game joined', game.rows[0]);
       res.send(game.rows[0]);
     } else {
       throw new ClientError(404, 'gameId not found');
@@ -78,7 +97,7 @@ app.put('/api/game', (req, res, next) => {
 
 app.use(errorMiddleware);
 
-app.listen(process.env.PORT, () => {
+server.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`express server listening on port ${process.env.PORT}`);
 });
