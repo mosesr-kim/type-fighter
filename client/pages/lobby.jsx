@@ -84,7 +84,12 @@ export default function Lobby(props) {
     const req = {
       method: 'PUT'
     };
-    fetch(`/api/game?gameId=${gameId}`, req);
+    fetch(`/api/game?gameId=${gameId}`, req)
+      .then(res => res.json())
+      .then(result => {
+        const { gameId } = result;
+        window.location.href = `/fight?gameId=${gameId}`;
+      });
   }
 
   return (
