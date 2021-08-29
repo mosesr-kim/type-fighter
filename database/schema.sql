@@ -19,8 +19,8 @@ CREATE TABLE "public"."users" (
 
 CREATE TABLE "public"."games" (
 	"gameId" serial NOT NULL,
-	"hostId" int NOT NULL,
-	"oppId" int,
+	"hostId" int NOT NULL UNIQUE,
+	"oppId" int UNIQUE,
 	CONSTRAINT "games_pk" PRIMARY KEY ("gameId")
 ) WITH (
   OIDS=FALSE
