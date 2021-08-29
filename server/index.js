@@ -16,6 +16,12 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 io.on('connection', socket => {
+  const { gameId } = socket.handshake.query;
+
+  if (gameId) {
+    socket.join(gameId);
+  }
+
   socket.on('join lobby', () => {
     socket.join('lobby');
   });
