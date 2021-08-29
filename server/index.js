@@ -8,6 +8,8 @@ const jsonMiddleware = express.json();
 const pg = require('pg');
 const ClientError = require('./client-error');
 const getQuote = require('./get-quote');
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser')(process.env.COOKIE_SECRET);
 
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
