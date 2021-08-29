@@ -3,8 +3,8 @@ import { useLocation } from 'react-router';
 import TypingBox from '../components/typing-box';
 import Countdown from '../components/countdown';
 import HPBar from '../components/hp-bar';
-import { io } from 'socket.io-client';
 import { Grid, Box, styled } from '@material-ui/core';
+import { connectSocket, disconnectSocket, getRandom } from '../lib/fight-socket';
 
 const dummyMeta = {
   gameId: 1,
@@ -51,15 +51,10 @@ export default function Fight(props) {
   // socket connection
   useEffect(() => {
     const gameId = location.search.replace('?gameId=', '');
-    const socket = io('/', { query: { gameId } });
-
-    socket.on('get random', phrase => {
-      setPhrase(phrase.content);
-    });
-
-    socket.emit('get random', gameId);
+    connectSocket(gameId, { setPhrase });
+    getRandom(gameId);
     return () => {
-      socket.disconnect();
+      disconnectSocket();
     };
   }, []);
 
