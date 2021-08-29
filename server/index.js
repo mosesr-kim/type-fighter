@@ -42,6 +42,7 @@ app.use(staticMiddleware);
 
 app.use(cookieParser);
 
+// Create a new user
 app.post('/api/user', (req, res, next) => {
   const { username, character } = req.body;
   if (!username || !character) {
@@ -76,6 +77,7 @@ app.post('/api/user', (req, res, next) => {
     .catch(err => next(err));
 });
 
+// Get all available games (no opponent)
 app.get('/api/games', (req, res, next) => {
   const sql = `
   select "games".*,
@@ -92,6 +94,7 @@ app.get('/api/games', (req, res, next) => {
   }).catch(err => next(err));
 });
 
+// Create a game
 app.post('/api/game', authorizationMiddleware, (req, res, next) => {
   const { userId, username, character } = req.user;
 
@@ -112,30 +115,35 @@ app.post('/api/game', authorizationMiddleware, (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.put('/api/game', (req, res, next) => {
+// Join a game
+app.put('/api/game', authorizationMiddleware, (req, res, next) => {
   if (!req.query.gameId) {
     throw new ClientError(400, 'gameId is required');
   }
+
   const gameId = parseFloat(req.query.gameId);
-  if (!Number.isInteger(gameId)) {
+  if (!Number.isInteger(gameId) || gameId < 1) {
     throw new ClientError(400, 'gameId must be a positive integer');
   }
+
+  const { userId } = req.user;
+
   const sql = `
   update "games"
-     set "isJoined" = true
-   where "gameId" = $1
+     set "oppId" = $1
+   where "gameId" = $2
    returning *;
   `;
-  const params = [gameId];
-  const dbQuery = db.query(sql, params);
-  dbQuery.then(game => {
-    if (game.rows[0]) {
-      io.to('lobby').emit('game joined', game.rows[0]);
-      res.send(game.rows[0]);
-    } else {
-      throw new ClientError(404, 'gameId not found');
-    }
-  }).catch(err => next(err));
+  const params = [userId, gameId];
+  db.query(sql, params)
+    .then(game => {
+      if (game.rows[0]) {
+        io.to('lobby').emit('game joined', game.rows[0]);
+        res.send(game.rows[0]);
+      } else {
+        throw new ClientError(404, 'gameId not found');
+      }
+    }).catch(err => next(err));
 });
 
 app.use(errorMiddleware);
