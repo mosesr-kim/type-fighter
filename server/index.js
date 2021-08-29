@@ -75,7 +75,9 @@ app.post('/api/new-user', (req, res, next) => {
         httpOnly: true,
         signed: true
       };
-      res.cookie('userToken', token, cookieParams).redirect('/');
+      res.cookie('userToken', token, cookieParams)
+        .status(201)
+        .json({ success: true });
     })
     .catch(err => next(err));
 });
