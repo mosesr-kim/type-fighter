@@ -46,6 +46,40 @@ app.use(jsonMiddleware);
 
 app.use(staticMiddleware);
 
+app.use(cookieParser);
+
+app.post('/api/new-user', (req, res, next) => {
+  const { username, character } = req.body;
+  if (!username || !character) {
+    throw new ClientError(400, 'invalid request');
+  }
+
+  const sql = `
+  insert into "users" ("username", "character")
+       values ($1, $2)
+    returning *;
+  `;
+
+  const params = [username, character];
+
+  db.query(sql, params)
+    .then(result => {
+      const { userId, username, character } = result.rows[0];
+      const newUser = {
+        userId,
+        username,
+        character
+      };
+      const token = jwt.sign(newUser, process.env.TOKEN_SECRET);
+      const cookieParams = {
+        httpOnly: true,
+        signed: true
+      };
+      res.cookie('userToken', token, cookieParams).redirect('/');
+    })
+    .catch(err => next(err));
+});
+
 app.get('/api/games', (req, res, next) => {
   const sql = `
   select *
