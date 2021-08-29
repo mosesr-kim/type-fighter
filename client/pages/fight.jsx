@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
 import TypingBox from '../components/typing-box';
+import Countdown from '../components/countdown';
 import { io } from 'socket.io-client';
 
 const dummyMeta = {
@@ -14,6 +15,11 @@ const dummyMeta = {
 export default function Fight(props) {
   const [metaData, setMetaData] = useState(null);
   const location = useLocation();
+
+  const [counting, setCounting] = useState(false);
+  function removeCountdown() {
+    setCounting(false);
+  }
 
   // get metaData
   useEffect(() => {
@@ -30,6 +36,9 @@ export default function Fight(props) {
     return <></>;
   }
   return (
-    <TypingBox text="Type Text Here" />
+    <>
+      <TypingBox text="Type Text Here" />
+      <Countdown counting={counting} removeCountdown={removeCountdown} />
+    </>
   );
 }
