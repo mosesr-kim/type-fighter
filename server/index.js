@@ -28,16 +28,16 @@ io.on('connection', socket => {
 
   socket.on('get random', async gameId => {
     const phrase = await getQuote();
-    socket.to('gameId').emit('get random', phrase);
+    io.to(gameId).emit('get random', phrase);
   });
 
   socket.on('finish word', gameId => {
-    socket.broadcast.to(gameId).emit('finish word');
+    io.broadcast.to(gameId).emit('finish word');
   });
 
   socket.on('finish phrase', payload => {
     const { gameId, winnerId } = payload;
-    socket.to(gameId).emit('finish phrase', winnerId);
+    io.to(gameId).emit('finish phrase', winnerId);
   });
 });
 
