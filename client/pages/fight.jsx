@@ -68,12 +68,23 @@ export default function Fight(props) {
   }
   return (
     <Grid container direction="column">
-      {/* Sprites Box */}
+      {/* Typing Row */}
+      <Grid item xs={12}>
+        <Box my={4}>
+          <Grid container justifyContent="center">
+            <Grid item>
+              <TypingBox text={phrase} />
+            </Grid>
+          </Grid>
+        </Box>
+      </Grid>
+
+      {/* Sprites Row */}
       <Grid item xs={12}>
         <Grid container>
           {/* Player 1 */}
           <Grid item xs={6}>
-            <Grid container justifyContent="center">
+            <Grid container justifyContent="center" spacing={6}>
               {/* HP Bar */}
               <Grid item onClick={() => damage('you')}>
                 <HPBar hp={yourHp} side={'left'} />
@@ -88,7 +99,7 @@ export default function Fight(props) {
 
           {/* Player 2 */}
           <Grid item xs={6}>
-            <Grid container justifyContent="center">
+            <Grid container justifyContent="center" spacing={6}>
               {/* HP Bar */}
               <Grid item onClick={() => damage('opp')}>
                 <HPBar hp={oppHp} side={'right'} />
@@ -101,17 +112,6 @@ export default function Fight(props) {
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
-
-      {/* Typing Box */}
-      <Grid item xs={12}>
-        <Box my={2}>
-          <Grid container justifyContent="center">
-            <Grid item>
-              <TypingBox text={phrase} />
-            </Grid>
-          </Grid>
-        </Box>
       </Grid>
 
       <Countdown counting={counting} removeCountdown={removeCountdown} />
