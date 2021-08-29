@@ -112,7 +112,7 @@ export default function Lobby(props) {
                 <TableBody>
                   {posts.map(post => (
                     <TableRow key={post.gameId}>
-                      <TableCell>No Name</TableCell>
+                      <TableCell>{post.hostUsername}</TableCell>
                       <TableCell>Normal</TableCell>
                       <TableCell align="center">
                         <JoinGameButton id={post.gameId} onClick={joinGame}>
