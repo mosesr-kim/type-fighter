@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-
+import { useLocation } from 'react-router';
 import TypingBox from '../components/typing-box';
+import { io } from 'socket.io-client';
 
 const dummyMeta = {
   gameId: 1,
@@ -12,15 +13,22 @@ const dummyMeta = {
 
 export default function Fight(props) {
   const [metaData, setMetaData] = useState(null);
+  const location = useLocation();
 
+  // get metaData
   useEffect(() => {
     setMetaData(dummyMeta);
+  }, []);
+
+  // socket connection
+  useEffect(() => {
+    const gameId = parseInt(location.search.replace('?gameId=', ''));
+    const socket = io('/', { query: gameId }); // eslint-disable-line
   }, []);
 
   if (!metaData) {
     return <></>;
   }
-
   return (
     <TypingBox text="Type Text Here" />
   );
