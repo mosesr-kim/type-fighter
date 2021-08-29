@@ -32,6 +32,8 @@ export default function Fight(props) {
   const [yourHp, setYourHp] = useState(100);
   const [oppHp, setOppHp] = useState(100);
 
+  const [phrase, setPhrase] = useState('Getting phrase');
+
   function damage(player) {
     const hit = 20;
     if (player === 'you') {
@@ -48,8 +50,17 @@ export default function Fight(props) {
 
   // socket connection
   useEffect(() => {
-    const gameId = parseInt(location.search.replace('?gameId=', ''));
-    const socket = io('/', { query: gameId }); // eslint-disable-line
+    const gameId = location.search.replace('?gameId=', '');
+    const socket = io('/', { query: { gameId } });
+
+    socket.on('get random', phrase => {
+      setPhrase(phrase.content);
+    });
+
+    socket.emit('get random', gameId);
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   if (!metaData) {
@@ -97,7 +108,7 @@ export default function Fight(props) {
         <Box my={2}>
           <Grid container justifyContent="center">
             <Grid item>
-              <TypingBox text="Type Text Here" />
+              <TypingBox text={phrase} />
             </Grid>
           </Grid>
         </Box>
