@@ -81,17 +81,56 @@ app.post('/api/user', (req, res, next) => {
 app.get('/api/games', (req, res, next) => {
   const sql = `
   select "games".*,
-         "host"."username",
-         "host"."character" as "hostChar"
-    from "games"
-    join "users" as "host" on ("games"."hostId" = "host"."userId")
-   where "games"."oppId" is null;
+  "host"."username",
+  "host"."character" as "hostChar"
+  from "games"
+  join "users" as "host" on ("games"."hostId" = "host"."userId")
+  where "games"."oppId" is null;
   `;
 
   const dbQuery = db.query(sql);
   dbQuery.then(games => {
     res.status(200).json(games.rows);
   }).catch(err => next(err));
+});
+
+// Get info regarding a game
+app.get('/api/game/:gameId', (req, res, next) => {
+  const gameId = parseFloat(req.params.gameId);
+  if (!gameId) {
+    throw new ClientError(400, 'gameId is required');
+  }
+
+  if (!Number.isInteger(gameId) || gameId < 1) {
+    throw new ClientError(400, 'gameId must be a positive integer');
+  }
+
+  const sql = `
+  select "g"."gameId",
+         "g"."hostId",
+         "g"."oppId",
+         "host"."username" as "hostName",
+         "host"."character" as "hostChar",
+         "opp"."username" as "oppName",
+         "opp"."character" as "oppChar"
+    from "games" as "g"
+    join "users" as "host" on ("g"."hostId" = "host"."userId")
+    join "users" as "opp" on ("g"."oppId" = "opp"."userId")
+   where "g"."gameId" = $1;
+  `;
+
+  const params = [gameId];
+
+  db.query(sql, params)
+    .then(game => {
+      if (game.rows.length === 0) {
+        throw new ClientError(404, 'gameId not found');
+      }
+
+      const gameInfo = game.rows[0];
+      res.json(gameInfo);
+    })
+    .catch(err => next(err));
 });
 
 // Create a game
