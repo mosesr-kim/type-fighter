@@ -115,8 +115,9 @@ app.get('/api/game/:gameId', (req, res, next) => {
          "opp"."character" as "oppChar"
     from "games" as "g"
     join "users" as "host" on ("g"."hostId" = "host"."userId")
-    join "users" as "opp" on ("g"."oppId" = "opp"."userId")
-   where "g"."gameId" = $1;
+    join "users" as "opp" on ("g"."oppId" = "opp"."userId" or
+                             ("g"."oppId" is null))
+   where "g"."gameId" = 1;
   `;
 
   const params = [gameId];
