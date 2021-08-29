@@ -5,18 +5,11 @@ const { Server } = require('socket.io');
 const errorMiddleware = require('./error-middleware');
 const staticMiddleware = require('./static-middleware');
 const jsonMiddleware = express.json();
-const pg = require('pg');
+const db = require('./db');
 const ClientError = require('./client-error');
 const getQuote = require('./get-quote');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser')(process.env.COOKIE_SECRET);
-
-const db = new pg.Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
-});
 
 const app = express();
 const server = http.createServer(app);
