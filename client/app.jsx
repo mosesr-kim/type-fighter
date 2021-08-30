@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Home from './pages/home';
 import Lobby from './pages/lobby';
 import Fight from './pages/fight';
 import { styled } from '@material-ui/core';
-import { BrowserRouter, Route, Switch, useHistory } from 'react-router-dom';
+import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import RouterContext from './lib/router-context';
+import UserContext from './lib/user-context';
 
 const BGContainer = styled('div')(() => ({
   position: 'relative'
@@ -31,16 +32,21 @@ const BGOverlay = styled('div')(() => ({
   backgroundColor: 'rgba(0, 0, 0, 0.5)'
 }));
 
-export default function AppWrapper() {
-  return (
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  );
-}
-
-function App() {
+export default function App() {
+  const [user, setUser] = useState(null);
+  const [isAuthorizing, setIsAuthorizing] = useState(true);
   const history = useHistory();
+
+  useEffect(() => {
+    fetch('/api/user')
+      .then(result => result.json())
+      .then(userInfo => {
+        setUser(userInfo);
+        setIsAuthorizing(false);
+      });
+  }, []);
+
+  if (isAuthorizing) return null;
 
   return (
     <RouterContext.Provider value={{ history }}>
@@ -49,17 +55,19 @@ function App() {
         <BGImage src="sf2background.png" alt="street fighter 2 background" />
       </BGContainer>
 
-      <Switch>
-        <Route path="/lobby" >
-          <Lobby />
-        </Route>
-        <Route path="/fight" >
-          <Fight />
-        </Route>
-        <Route path="/" >
-          <Home />
-        </Route>
-      </Switch>
+      <UserContext.Provider value={user}>
+        <Switch>
+          <Route path="/lobby" >
+            {user.userId ? <Lobby /> : <Redirect to="/" />}
+          </Route>
+          <Route path="/fight" >
+            {user.userId ? <Fight /> : <Redirect to="/" />}
+          </Route>
+          <Route path="/" >
+            {user.userId ? <Redirect to="/lobby" /> : <Home />}
+          </Route>
+        </Switch>
+      </UserContext.Provider>
     </RouterContext.Provider>
   );
 }

@@ -16,6 +16,10 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
+io.use((socket, next) => {
+
+});
+
 io.on('connection', socket => {
   const { gameId } = socket.handshake.query;
 
@@ -47,6 +51,15 @@ app.use(jsonMiddleware);
 app.use(staticMiddleware);
 
 app.use(cookieParser);
+
+// Get user info from cookie (if it exists)
+app.get('/api/user', (req, res, next) => {
+  const payload = req.signedCookies.userToken
+    ? jwt.verify(req.signedCookies.userToken, process.env.TOKEN_SECRET)
+    : { userId: null, username: null, character: null };
+
+  res.json(payload);
+});
 
 // Create a new user
 app.post('/api/user', (req, res, next) => {
