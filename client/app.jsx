@@ -3,7 +3,7 @@ import Home from './pages/home';
 import Lobby from './pages/lobby';
 import Fight from './pages/fight';
 import { styled } from '@material-ui/core';
-import { BrowserRouter, Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import RouterContext from './lib/router-context';
 import UserContext from './lib/user-context';
 
@@ -32,15 +32,7 @@ const BGOverlay = styled('div')(() => ({
   backgroundColor: 'rgba(0, 0, 0, 0.5)'
 }));
 
-export default function AppWrapper() {
-  return (
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  );
-}
-
-function App() {
+export default function App() {
   const history = useHistory();
 
   return (
