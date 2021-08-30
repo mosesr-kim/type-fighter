@@ -64,16 +64,6 @@ input#playerName:focus {
   letter-spacing: 0.1rem;
 }
 
-.portrait {
-  border: 3px solid white;
-  background-color: rgba(0, 0, 0, 0.75);
-}
-
-.portrait:hover {
-  cursor: pointer;
-  border: 3px solid red;
-}
-
 .green-text {
   color: green;
 }
