@@ -8,6 +8,9 @@ export default function TypingGame(props) {
     return <></>;
   }
   const [duration, setDuration] = useState(0);
+  const [wordCount, setWordCount] = useState(0);
+  const [timerId, setTimerId] = useState(null);
+
   const letters = useRef(null);
   const { youFinishFirst, counting } = useContext(FightContext);
 
@@ -35,6 +38,13 @@ export default function TypingGame(props) {
       return { left: -2, top: -2 };
     }
   }, [currIndex]);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setDuration(prevCount => prevCount + 1);
+    }, 1000);
+    setTimerId(id);
+  }, [startTime]);
 
   useEffect(() => {
     if (endTime) {
