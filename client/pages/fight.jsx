@@ -4,16 +4,8 @@ import TypingBox from '../components/typing-box';
 import Countdown from '../components/countdown';
 import HPBar from '../components/hp-bar';
 import { Grid, Box, styled } from '@material-ui/core';
-import { connectSocket, disconnectSocket, getRandom, finishPhrase } from '../lib/fight-socket';
+import { connectSocket, disconnectSocket, updateHost, getRandom, finishPhrase } from '../lib/fight-socket';
 import FightContext from '../lib/fight-context';
-
-const dummyMeta = {
-  gameId: 1,
-  hostId: 1,
-  hostUsername: 'Player 1',
-  oppId: 2,
-  oppUsername: 'Player 2'
-};
 
 const PlayerName = styled('h1')({
   fontFamily: 'retro, sans-serif',
@@ -46,6 +38,7 @@ export default function Fight(props) {
     youFinishFirst: () => {
       damage('opp');
       finishPhrase(gameId, yourId);
+      console.log('point4');
     },
     counting
   };
@@ -65,19 +58,35 @@ export default function Fight(props) {
   }
 
   // get metaData
-  useEffect(() => {
-    setMetaData(dummyMeta);
-    setYourId(dummyMeta.hostId);
-    setYourUsername(dummyMeta.hostUsername);
-    setOppUsername(dummyMeta.oppUsername);
+  useEffect(async () => {
+    const metaData = await fetch(`/api/game/${gameId}`)
+      .then(res => res.json())
+      .then(result => {
+        return result;
+      });
+    setMetaData(metaData);
+    if (!metaData.oppId) {
+      setYourId(metaData.hostId);
+      setYourUsername(metaData.hostName);
+      setOppUsername('Waiting for opponent...');
+    } else {
+      setYourId(metaData.oppId);
+      setYourUsername(metaData.oppName);
+      setOppUsername(metaData.hostName);
+      updateHost(metaData);
+    }
+    console.log('point3');
   }, []);
 
   // socket connection
   useEffect(() => {
     connectSocket(gameId, {
       setPhrase,
+      setMetaData,
+      setOppUsername,
       damage
     });
+    console.log('point1');
     return () => {
       disconnectSocket();
     };
@@ -85,9 +94,12 @@ export default function Fight(props) {
 
   // get new phrase
   useEffect(() => {
-    if (metaData) {
-      if (yourHp !== 0 && oppHp !== 0 && yourId === metaData.hostId) {
-        getRandom(gameId);
+    console.log('point2');
+    if (metaData && metaData.oppId) {
+      if (yourHp !== 0 && oppHp !== 0) {
+        if (yourId === metaData.hostId) {
+          getRandom(gameId);
+        }
         setCounting(true);
         setShowCountdown(true);
         setPhrase('Getting phrase');

@@ -27,6 +27,10 @@ io.on('connection', socket => {
     socket.join('lobby');
   });
 
+  socket.on('game joined', metaData => {
+    socket.to(gameId).emit('game joined', metaData);
+  });
+
   socket.on('get random', async gameId => {
     const phrase = await getQuote();
     io.to(gameId).emit('get random', phrase);
