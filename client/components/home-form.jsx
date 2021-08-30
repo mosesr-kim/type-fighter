@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
-// import Animations from './animations';
+import Animations from './animations';
 
 export default function HomeForm(props) {
   return (
@@ -21,7 +21,7 @@ export default function HomeForm(props) {
         </Grid>
       </Grid>
       <button type="submit" className="startButton">Start</button>
-      {/* <Animations /> */}
+      <Animations />
     </form>
   );
 }
