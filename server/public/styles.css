@@ -65,6 +65,7 @@ input#playerName:focus {
   letter-spacing: 0.1rem;
 }
 
+<<<<<<< HEAD
 .startButton:hover {
   background-color: rgba(0, 0, 0, 0.5);
 }
@@ -72,11 +73,41 @@ input#playerName:focus {
 .portrait {
   border: 3px solid white;
   background-color: rgba(0, 0, 0, 0.75);
+=======
+.green-text {
+  color: green;
+>>>>>>> origin
 }
 
-.portrait:hover {
-  cursor: pointer;
-  border: 3px solid red;
+.red-text {
+  color: red;
+}
+
+.gray-text {
+  color: gray;
+}
+
+.outline-none {
+  outline: none;
+}
+
+@keyframes flash-caret {
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.caret {
+  position: absolute;
+  display: inline;
+  animation-name: flash-caret;
+  animation-iteration-count: infinite;
+  animation-duration: 1s;
 }
 
 /* #canvas {
