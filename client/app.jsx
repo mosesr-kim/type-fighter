@@ -33,7 +33,20 @@ const BGOverlay = styled('div')(() => ({
 }));
 
 export default function App() {
+  const [user, setUser] = useState(null);
+  const [isAuthorizing, setIsAuthorizing] = useState(true);
   const history = useHistory();
+
+  useEffect(() => {
+    fetch('/api/user')
+      .then(result => result.json())
+      .then(userInfo => {
+        setUser(userInfo);
+        setIsAuthorizing(false);
+      });
+  }, []);
+
+  if (isAuthorizing) return null;
 
   return (
     <RouterContext.Provider value={{ history }}>
@@ -42,7 +55,7 @@ export default function App() {
         <BGImage src="sf2background.png" alt="street fighter 2 background" />
       </BGContainer>
 
-      <UserContext.Provider>
+      <UserContext.Provider value={user}>
         <Switch>
           <Route path="/lobby" >
             <Lobby />
