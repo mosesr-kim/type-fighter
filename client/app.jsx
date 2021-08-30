@@ -58,13 +58,13 @@ export default function App() {
       <UserContext.Provider value={user}>
         <Switch>
           <Route path="/lobby" >
-            {user ? <Lobby /> : <Redirect to="/" />}
+            {user.userId ? <Lobby /> : <Redirect to="/" />}
           </Route>
           <Route path="/fight" >
-            {user ? <Fight /> : <Redirect to="/" />}
+            {user.userId ? <Fight /> : <Redirect to="/" />}
           </Route>
           <Route path="/" >
-            {user ? <Redirect to="/lobby" /> : <Home />}
+            {user.userId ? <Redirect to="/lobby" /> : <Home />}
           </Route>
         </Switch>
       </UserContext.Provider>
