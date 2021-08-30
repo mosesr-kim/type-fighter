@@ -6,6 +6,8 @@ import Animations from './animations';
 const CharPortrait = styled('img')({
   border: '3px solid white',
   backgroundColor: 'rgba(0, 0, 0, 0.75)',
+  width: '100px',
+  height: '100px',
   '&:hover': {
     cursor: 'pointer',
     border: '3px solid red'
@@ -27,20 +29,20 @@ export default function HomeForm(props) {
 
   const charList = [
     {
-      name: 'ryu',
-      image: '/portraits/ryu.gif'
+      name: 'king',
+      image: '/portraits/king.png'
     },
     {
-      name: 'ken',
-      image: '/portraits/ken.gif'
+      name: 'knight',
+      image: '/portraits/knight.png'
     },
     {
-      name: 'guile',
-      image: '/portraits/guile.gif'
+      name: 'samurai',
+      image: '/portraits/samurai.png'
     },
     {
-      name: 'chunli',
-      image: '/portraits/chunli.gif'
+      name: 'wizard',
+      image: '/portraits/wizard.png'
     }
   ];
 
