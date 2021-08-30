@@ -52,11 +52,8 @@ export default function Fight(props) {
 
   // get metaData
   useEffect(async () => {
-    const metaData = await fetch(`/api/game/${gameId}`)
-      .then(res => res.json())
-      .then(result => {
-        return result;
-      });
+    const res = await fetch(`/api/game/${gameId}`);
+    const metaData = await res.json();
     setMetaData(metaData);
     if (!metaData.oppId) {
       setYourId(metaData.hostId);
@@ -94,15 +91,13 @@ export default function Fight(props) {
 
   // get new phrase
   useEffect(() => {
-    if (metaData && metaData.oppId) {
-      if (yourHp !== 0 && oppHp !== 0) {
-        if (yourId === metaData.hostId) {
-          socket.current.emit('get random', gameId);
-        }
-        setCounting(true);
-        setShowCountdown(true);
-        setPhrase('Getting phrase');
+    if (yourHp !== 0 && oppHp !== 0 && metaData && metaData.oppId) {
+      if (yourId === metaData.hostId) {
+        socket.current.emit('get random', gameId);
       }
+      setCounting(true);
+      setShowCountdown(true);
+      setPhrase('Getting phrase');
     }
   }, [yourHp, oppHp, metaData]);
 
