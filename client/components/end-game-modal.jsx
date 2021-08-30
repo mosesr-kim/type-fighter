@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { styled } from '@material-ui/core';
+
+import RouterContext from '../lib/router-context';
 
 const ModalContainer = styled('div')({
   position: 'fixed',
@@ -47,12 +49,17 @@ const ReturnButton = styled('button')({
 });
 
 export default function EndGameModal(props) {
+  const { history } = useContext(RouterContext);
+
+  function joinLobby(event) {
+    history.push('/lobby');
+  }
 
   return (
     <ModalContainer>
       <Modal>
         <Message>You Win!</Message>
-        <ReturnButton>Return to Lobby</ReturnButton>
+        <ReturnButton onClick={joinLobby}>Return to Lobby</ReturnButton>
       </Modal>
     </ModalContainer>
   );
