@@ -86,7 +86,7 @@ export default function Fight(props) {
     });
     return () => {
       socket.current.emit('user disconnect', metaData.gameId);
-      socket.disconnect();
+      socket.current.disconnect();
     };
   }, []);
 
