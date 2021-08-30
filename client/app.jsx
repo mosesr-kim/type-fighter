@@ -3,7 +3,7 @@ import Home from './pages/home';
 import Lobby from './pages/lobby';
 import Fight from './pages/fight';
 import { styled } from '@material-ui/core';
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import RouterContext from './lib/router-context';
 import UserContext from './lib/user-context';
 
@@ -58,13 +58,13 @@ export default function App() {
       <UserContext.Provider value={user}>
         <Switch>
           <Route path="/lobby" >
-            <Lobby />
+            {user ? <Lobby /> : <Redirect to="/" />}
           </Route>
           <Route path="/fight" >
-            <Fight />
+            {user ? <Fight /> : <Redirect to="/" />}
           </Route>
           <Route path="/" >
-            <Home />
+            {user ? <Redirect to="/lobby" /> : <Home />}
           </Route>
         </Switch>
       </UserContext.Provider>
