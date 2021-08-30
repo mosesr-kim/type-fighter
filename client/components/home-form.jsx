@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Grid, styled } from '@material-ui/core';
+import RouterContext from '../lib/router-context';
 
 const CharPortrait = styled('img')({
   border: '3px solid white',
@@ -21,6 +22,7 @@ export default function HomeForm(props) {
   const [character, setCharacter] = useState(null);
   const [username, setUsername] = useState('');
   const [displayMessage, setDisplayMessage] = useState(null);
+  const { history } = useContext(RouterContext);
 
   const charList = [
     {
@@ -68,7 +70,17 @@ export default function HomeForm(props) {
     };
     fetch('/api/user', req)
       .then(result => result.json())
-      .then();
+      .then(res => {
+        if (res.success) {
+          history.push('/lobby');
+        } else {
+          setDisplayMessage('An error occurred. Please try again.');
+        }
+      })
+      .catch(err => {
+        setDisplayMessage('An error occurred. Please try again.');
+        console.error(err);
+      });
   };
 
   return (
