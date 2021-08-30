@@ -6,6 +6,7 @@ import HPBar from '../components/hp-bar';
 import { Grid, Box, styled } from '@material-ui/core';
 import FightContext from '../lib/fight-context';
 import { io } from 'socket.io-client';
+import EndGameModal from '../components/end-game-modal';
 
 const PlayerName = styled('h1')({
   fontFamily: 'retro, sans-serif',
@@ -33,6 +34,9 @@ export default function Fight(props) {
   const [yourHp, setYourHp] = useState(100);
   const [oppHp, setOppHp] = useState(100);
   const [phrase, setPhrase] = useState('Getting phrase');
+  const [showEndGameModal, setShowModal] = useState(false);
+  const [didWin, setDidWin] = useState(false);
+  const [oppDisconnected, setOppDisconnected] = useState(false);
 
   const hit = 20;
   const gameId = location.search.replace('?gameId=', '');
@@ -86,17 +90,17 @@ export default function Fight(props) {
     });
 
     socket.current.on('user disconnect', () => {
-      // Display a message saying their opponent disconnected.
-      // Then route the user back to the lobby page using history
+      setOppDisconnected(true);
+      setShowModal(true);
     });
 
     return () => {
-      socket.current.emit('user disconnect', parseInt(gameId));
+      socket.current.emit('user disconnect', gameId);
       socket.current.disconnect();
     };
   }, []);
 
-  // get new phrase
+  // get new phrase OR conclude game
   useEffect(() => {
     if (yourHp !== 0 && oppHp !== 0 && metaData && metaData.oppId) {
       if (yourId === metaData.hostId) {
@@ -105,12 +109,15 @@ export default function Fight(props) {
       setCounting(true);
       setShowCountdown(true);
       setPhrase('Getting phrase');
+    } else if (yourHp === 0) {
+      setShowModal(true);
+    } else if (oppHp === 0) {
+      setDidWin(true);
+      setShowModal(true);
     }
   }, [yourHp, oppHp, metaData]);
 
-  if (!metaData) {
-    return <></>;
-  }
+  if (!metaData) return null;
   return (
     <FightContext.Provider value={contextValue}>
       <Grid container direction="column" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem' }}>
@@ -172,6 +179,7 @@ export default function Fight(props) {
         </Grid>
 
         <Countdown showCountdown={showCountdown} allowTyping={allowTyping} />
+        <EndGameModal showModal={showEndGameModal} didWin={didWin} oppDisconnected={oppDisconnected} />
       </Grid>
     </FightContext.Provider>
   );

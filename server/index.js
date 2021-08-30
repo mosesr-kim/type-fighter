@@ -67,7 +67,7 @@ io.on('connection', socket => {
           where "gameId" = $1;
     `;
 
-    const params = [gameId];
+    const params = [parseInt(gameId)];
 
     db.query(sql, params)
       .then(result => {
