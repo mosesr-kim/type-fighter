@@ -20,16 +20,6 @@ const CountdownText = styled('div')({
 });
 
 export default function Countdown(props) {
-  /* In Outer Function
-  const [counting, setCounting] = useState(true);
-
-  function removeCountdown() {
-    setCounting(false);
-  }
-
-  <Countdown counting={counting} removeCountdown={removeCountdown} />
-  */
-
   const { counting, removeCountdown } = props;
   if (!counting) {
     return <></>;

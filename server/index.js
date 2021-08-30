@@ -17,22 +17,28 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 io.on('connection', socket => {
+  const { gameId } = socket.handshake.query;
+
+  if (gameId) {
+    socket.join(gameId);
+  }
+
   socket.on('join lobby', () => {
     socket.join('lobby');
   });
 
   socket.on('get random', async gameId => {
     const phrase = await getQuote();
-    socket.to('gameId').emit('get random', phrase);
+    io.to(gameId).emit('get random', phrase);
   });
 
   socket.on('finish word', gameId => {
-    socket.broadcast.to(gameId).emit('finish word');
+    io.broadcast.to(gameId).emit('finish word');
   });
 
   socket.on('finish phrase', payload => {
     const { gameId, winnerId } = payload;
-    socket.to(gameId).emit('finish phrase', winnerId);
+    io.to(gameId).emit('finish phrase', winnerId);
   });
 });
 

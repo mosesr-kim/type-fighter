@@ -4,8 +4,8 @@ import TypingGame from '../components/typing-game';
 
 const TextBox = styled('div')({
   border: '3px solid white',
-  width: '35vw',
-  maxWidth: '500px',
+  width: '100%',
+  height: '10rem',
   position: 'relative'
 });
 
