@@ -1,11 +1,70 @@
-import React from 'react';
-import { Grid } from '@material-ui/core';
+import React, { useState } from 'react';
+import { Grid, styled } from '@material-ui/core';
+
+const CharPortrait = styled('img')({
+  border: '3px solid white',
+  backgroundColor: 'rgba(0, 0, 0, 0.75)',
+  '&:hover': {
+    cursor: 'pointer',
+    border: '3px solid red'
+  }
+});
 
 export default function HomeForm(props) {
+  const [character, setCharacter] = useState(null);
+  const [username, setUsername] = useState('');
+
+  const charList = [
+    {
+      name: 'ryu',
+      image: '/portraits/ryu.gif'
+    },
+    {
+      name: 'ken',
+      image: '/portraits/ken.gif'
+    },
+    {
+      name: 'guile',
+      image: '/portraits/guile.gif'
+    },
+    {
+      name: 'chunli',
+      image: '/portraits/chunli.gif'
+    }
+  ];
+
+  const changeName = event => {
+    setUsername(event.target.value);
+  };
+
+  const chooseChar = char => {
+    setCharacter(char);
+  };
+
   return (
     <form action="" className="homeForm">
-      <input type="text" name="playerName" id="playerName" placeholder="Player Name" autoComplete="off" spellCheck="false"/>
+      <input
+        type="text" name="playerName" id="playerName" placeholder="Player Name"
+        autoComplete="off" spellCheck="false" value={username}
+        onChange={changeName}
+      />
       <Grid container spacing={2}>
+        {charList.map(char => {
+          const selected = char.name === character
+            ? 'selected'
+            : '';
+          return (
+          <Grid item key={char.name} onClick={() => chooseChar(char.name)}>
+            <CharPortrait src={char.image} alt={char.name} className={selected} />
+          </Grid>);
+        })}
+      </Grid>
+      <button type="submit" className="startButton">Start</button>
+    </form>
+  );
+}
+
+/*
         <Grid item>
           <img src="/portraits/ryu.gif" alt="ryu" className="portrait" />
         </Grid>
@@ -18,8 +77,4 @@ export default function HomeForm(props) {
         <Grid item>
           <img src="/portraits/chunli.gif" alt="chunli" className="portrait" />
         </Grid>
-      </Grid>
-      <button type="submit" className="startButton">Start</button>
-    </form>
-  );
-}
+*/
