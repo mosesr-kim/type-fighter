@@ -25,6 +25,15 @@ const BlurBox = styled('div')({
   pointerEvents: 'none'
 });
 
+const BlurMessage = styled('div')({
+  position: 'absolute',
+  transform: 'translate(-50%, -50%)',
+  top: '50%',
+  left: '50%',
+  fontFamily: 'retro, sans-serif',
+  color: 'white'
+});
+
 export default function TypingBox(props) {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -40,7 +49,9 @@ export default function TypingBox(props) {
     <TextBox>
       <Grid container className="text-box">
         <Fade in={!isFocused}>
-          <BlurBox />
+          <BlurBox>
+            <BlurMessage>Click on Text</BlurMessage>
+          </BlurBox>
         </Fade>
         <Grid item>
           <TypeText>
