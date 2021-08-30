@@ -31,7 +31,7 @@ const Message = styled('h1')({
   fontSize: '5rem',
   letterSpacing: '0.1rem',
   textAlign: 'center',
-  margin: 0
+  margin: '1rem 0'
 });
 
 const ReturnButton = styled('button')({
@@ -49,16 +49,25 @@ const ReturnButton = styled('button')({
 });
 
 export default function EndGameModal(props) {
+  const { showModal, didWin, oppDisconnected } = props;
   const { history } = useContext(RouterContext);
+
+  let message = 'You Lose';
+  if (didWin) {
+    message = 'You Win!';
+  } else if (oppDisconnected) {
+    message = 'Connection has been lost...';
+  }
 
   function joinLobby(event) {
     history.push('/lobby');
   }
 
+  if (!showModal) return null;
   return (
     <ModalContainer>
       <Modal>
-        <Message>You Win!</Message>
+        <Message style={oppDisconnected ? { fontSize: '3rem' } : null}>{message}</Message>
         <ReturnButton onClick={joinLobby}>Return to Lobby</ReturnButton>
       </Modal>
     </ModalContainer>
