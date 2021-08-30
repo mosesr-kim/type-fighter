@@ -30,7 +30,8 @@ export default function Fight(props) {
   const [oppHp, setOppHp] = useState(100);
   const [phrase, setPhrase] = useState('Getting phrase');
 
-  const socketActions = { connectSocket, disconnectSocket, getRandom, finishPhrase };
+  const gameId = location.search.replace('?gameId=', '');
+  const contextValue = { youFinishFirst: () => { finishPhrase(gameId, 1); } };
 
   function removeCountdown() {
     setCounting(false);
@@ -52,7 +53,6 @@ export default function Fight(props) {
 
   // socket connection
   useEffect(() => {
-    const gameId = location.search.replace('?gameId=', '');
     connectSocket(gameId, { setPhrase });
     getRandom(gameId);
     return () => {
@@ -64,7 +64,7 @@ export default function Fight(props) {
     return <></>;
   }
   return (
-    <FightContext.Provider value={socketActions}>
+    <FightContext.Provider value={contextValue}>
       <Grid container direction="column">
         {/* Typing Row */}
         <Grid item xs={12}>
