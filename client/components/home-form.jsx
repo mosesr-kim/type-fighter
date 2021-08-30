@@ -10,9 +10,17 @@ const CharPortrait = styled('img')({
   }
 });
 
+const ErrorMessage = styled('div')({
+  fontFamily: 'retro, sans-serif',
+  fontSize: '1.5rem',
+  color: 'red',
+  margin: '1rem 0'
+});
+
 export default function HomeForm(props) {
   const [character, setCharacter] = useState(null);
   const [username, setUsername] = useState('');
+  const [displayMessage, setDisplayMessage] = useState(null);
 
   const charList = [
     {
@@ -41,8 +49,16 @@ export default function HomeForm(props) {
     setCharacter(char);
   };
 
+  const submitUser = event => {
+    event.preventDefault();
+    if (!username || !character) {
+      setDisplayMessage('Please select a name and character!');
+    }
+    setDisplayMessage('Loading...');
+  };
+
   return (
-    <form className="homeForm">
+    <form className="homeForm" onSubmit={submitUser}>
       <input
         type="text" name="playerName" id="playerName" placeholder="Player Name"
         autoComplete="off" spellCheck="false" value={username}
@@ -60,6 +76,7 @@ export default function HomeForm(props) {
         })}
       </Grid>
       <button type="submit" className="startButton">Start</button>
+      {displayMessage && <ErrorMessage>{displayMessage}</ErrorMessage>}
     </form>
   );
 }
