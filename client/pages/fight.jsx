@@ -5,6 +5,7 @@ import Countdown from '../components/countdown';
 import HPBar from '../components/hp-bar';
 import { Grid, Box, styled } from '@material-ui/core';
 import { connectSocket, disconnectSocket, getRandom, finishPhrase } from '../lib/fight-socket';
+import FightContext from '../lib/fight-context';
 
 const dummyMeta = {
   gameId: 1,
@@ -25,14 +26,15 @@ export default function Fight(props) {
   const location = useLocation();
 
   const [counting, setCounting] = useState(false);
+  const [yourHp, setYourHp] = useState(100);
+  const [oppHp, setOppHp] = useState(100);
+  const [phrase, setPhrase] = useState('Getting phrase');
+
+  const socketActions = { connectSocket, disconnectSocket, getRandom, finishPhrase };
+
   function removeCountdown() {
     setCounting(false);
   }
-
-  const [yourHp, setYourHp] = useState(100);
-  const [oppHp, setOppHp] = useState(100);
-
-  const [phrase, setPhrase] = useState('Getting phrase');
 
   function damage(player) {
     const hit = 20;
@@ -62,58 +64,60 @@ export default function Fight(props) {
     return <></>;
   }
   return (
-    <Grid container direction="column">
-      {/* Typing Row */}
-      <Grid item xs={12}>
-        <Box my={4}>
-          <Grid container justifyContent="center">
-            <Grid item>
-              <TypingBox text={phrase} />
-            </Grid>
-          </Grid>
-        </Box>
-      </Grid>
-
-      {/* Sprites Row */}
-      <Grid item xs={12}>
-        <Grid container>
-          {/* Player 1 */}
-          <Grid item xs={6}>
+    <FightContext.Provider value={socketActions}>
+      <Grid container direction="column">
+        {/* Typing Row */}
+        <Grid item xs={12}>
+          <Box my={4}>
             <Grid container justifyContent="center">
-              {/* HP Bar */}
-              <Grid item onClick={() => damage('you')}>
-                <Box mb={8}>
-                  <HPBar hp={yourHp} side={'left'} />
-                </Box>
-              </Grid>
-
-              {/* Sprite */}
               <Grid item>
-                <SpriteDummy />
+                <TypingBox text={phrase} />
               </Grid>
             </Grid>
-          </Grid>
+          </Box>
+        </Grid>
 
-          {/* Player 2 */}
-          <Grid item xs={6}>
-            <Grid container justifyContent="center">
-              {/* HP Bar */}
-              <Grid item onClick={() => damage('opp')}>
-                <Box mb={8}>
-                  <HPBar hp={oppHp} side={'right'} />
-                </Box>
+        {/* Sprites Row */}
+        <Grid item xs={12}>
+          <Grid container>
+            {/* Player 1 */}
+            <Grid item xs={6}>
+              <Grid container justifyContent="center">
+                {/* HP Bar */}
+                <Grid item onClick={() => damage('you')}>
+                  <Box mb={8}>
+                    <HPBar hp={yourHp} side={'left'} />
+                  </Box>
+                </Grid>
+
+                {/* Sprite */}
+                <Grid item>
+                  <SpriteDummy />
+                </Grid>
               </Grid>
+            </Grid>
 
-              {/* Sprite */}
-              <Grid item>
-                <SpriteDummy />
+            {/* Player 2 */}
+            <Grid item xs={6}>
+              <Grid container justifyContent="center">
+                {/* HP Bar */}
+                <Grid item onClick={() => damage('opp')}>
+                  <Box mb={8}>
+                    <HPBar hp={oppHp} side={'right'} />
+                  </Box>
+                </Grid>
+
+                {/* Sprite */}
+                <Grid item>
+                  <SpriteDummy />
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
 
-      <Countdown counting={counting} removeCountdown={removeCountdown} />
-    </Grid>
+        <Countdown counting={counting} removeCountdown={removeCountdown} />
+      </Grid>
+    </FightContext.Provider>
   );
 }
