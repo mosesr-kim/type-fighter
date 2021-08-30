@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Grid, styled } from '@material-ui/core';
 import RouterContext from '../lib/router-context';
-import Animations from './animations';
 
 const CharPortrait = styled('img')({
   border: '3px solid white',
@@ -105,7 +104,6 @@ export default function HomeForm(props) {
         })}
       </Grid>
       <button type="submit" className="startButton">Start</button>
-      <Animations />
       {displayMessage && <ErrorMessage>{displayMessage}</ErrorMessage>}
     </form>
   );

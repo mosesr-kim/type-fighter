@@ -99,11 +99,3 @@ input#playerName:focus {
   animation-iteration-count: infinite;
   animation-duration: 1s;
 }
-
-/* #canvas {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  border: 5px solid white;
-  transform: rotateY(180deg);
-} */
