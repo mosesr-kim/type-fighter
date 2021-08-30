@@ -122,7 +122,7 @@ app.post('/api/user', (req, res, next) => {
       };
       res.cookie('userToken', token, cookieParams)
         .status(201)
-        .json({ success: true });
+        .json(newUser);
     })
     .catch(err => next(err));
 });
