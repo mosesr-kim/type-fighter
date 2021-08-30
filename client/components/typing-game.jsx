@@ -8,7 +8,6 @@ export default function TypingGame(props) {
     return <></>;
   }
   const [duration, setDuration] = useState(0);
-  const [isFocused, setIsFocused] = useState(false);
   const letters = useRef(null);
   const { youFinishFirst, counting } = useContext(FightContext);
 
@@ -45,14 +44,6 @@ export default function TypingGame(props) {
     }
   }, [endTime]);
 
-  const focusText = () => {
-    setIsFocused(true);
-  };
-
-  const blurText = () => {
-    setIsFocused(false);
-  };
-
   const handleKeyPress = key => {
     if (counting) return;
     if (key.length !== 1) return;
@@ -63,8 +54,8 @@ export default function TypingGame(props) {
     <div
       tabIndex={0}
       onKeyDown={event => handleKeyPress(event.key)}
-      onFocus={focusText}
-      onBlur={blurText}
+      onFocus={props.onFocus}
+      onBlur={props.onBlur}
       style={{ position: 'relative' }}
       className="outline-none"
     >
@@ -82,7 +73,7 @@ export default function TypingGame(props) {
           );
         })}
       </div>
-      {phase !== 2 && isFocused
+      {phase !== 2 && props.isFocused
         ? (
         <span
           style={{ left: cursor.left, top: cursor.top, opacity: 1 }}
