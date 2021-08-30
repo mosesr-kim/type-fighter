@@ -78,12 +78,12 @@ export default function TypingGame(props) {
       </div>
       {phase !== 2 && props.isFocused
         ? (
-        <span
-          style={{ left: cursor.left, top: cursor.top, opacity: 1 }}
-          className="caret"
-        >
-          |
-        </span>
+          <span
+            style={{ left: cursor.left, top: cursor.top, opacity: 1 }}
+            className="caret"
+          >
+            |
+          </span>
           )
         : null}
     </div>
