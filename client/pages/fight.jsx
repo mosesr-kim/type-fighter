@@ -29,13 +29,12 @@ const SpriteDummy = styled('div')({
 });
 
 export default function Fight(props) {
-  const [metaData, setMetaData] = useState(null);
   const location = useLocation();
 
+  const [metaData, setMetaData] = useState(null);
   const [counting, setCounting] = useState(false);
   const [showCountdown, setShowCountdown] = useState(false);
   const [yourId, setYourId] = useState(0);
-  const [oppId, setOppId] = useState(0);
   const [yourUsername, setYourUsername] = useState('');
   const [oppUsername, setOppUsername] = useState('');
   const [yourHp, setYourHp] = useState(100);
@@ -69,7 +68,6 @@ export default function Fight(props) {
   useEffect(() => {
     setMetaData(dummyMeta);
     setYourId(dummyMeta.hostId);
-    setOppId(dummyMeta.oppId);
     setYourUsername(dummyMeta.hostUsername);
     setOppUsername(dummyMeta.oppUsername);
   }, []);
@@ -80,7 +78,6 @@ export default function Fight(props) {
       setPhrase,
       damage
     });
-    // getRandom(gameId);
     return () => {
       disconnectSocket();
     };
@@ -88,13 +85,15 @@ export default function Fight(props) {
 
   // get new phrase
   useEffect(() => {
-    if (yourHp !== 0 && oppHp !== 0) {
-      getRandom(gameId);
-      setCounting(true);
-      setShowCountdown(true);
-      setPhrase('Getting phrase');
+    if (metaData) {
+      if (yourHp !== 0 && oppHp !== 0 && yourId === metaData.hostId) {
+        getRandom(gameId);
+        setCounting(true);
+        setShowCountdown(true);
+        setPhrase('Getting phrase');
+      }
     }
-  }, [yourHp, oppHp]);
+  }, [yourHp, oppHp, metaData]);
 
   if (!metaData) {
     return <></>;
