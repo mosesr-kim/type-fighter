@@ -26,6 +26,7 @@ export function getRandom(gameId) {
 
 export function finishPhrase(gameId, winnerId) {
   if (socket) {
+    console.log('finished');
     socket.emit('finish phrase', { gameId, winnerId });
   }
 }
