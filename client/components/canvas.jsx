@@ -107,8 +107,8 @@ const sprites = {
   }
 };
 
-const character = 'knight';
-const move = 'hit';
+const character = 'samurai';
+const move = 'idle';
 
 const Canvas = props => {
   const canvasRef = useRef(null);
