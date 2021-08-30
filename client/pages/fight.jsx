@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router';
 import TypingBox from '../components/typing-box';
 import Countdown from '../components/countdown';
 import HPBar from '../components/hp-bar';
 import { Grid, Box, styled } from '@material-ui/core';
-import { connectSocket, disconnectSocket, updateHost, getRandom, finishPhrase } from '../lib/fight-socket';
 import FightContext from '../lib/fight-context';
+import { io } from 'socket.io-client';
 
 const PlayerName = styled('h1')({
   fontFamily: 'retro, sans-serif',
@@ -23,6 +23,7 @@ const SpriteDummy = styled('div')({
 export default function Fight(props) {
   const location = useLocation();
 
+  const socket = useRef(null);
   const [metaData, setMetaData] = useState(null);
   const [counting, setCounting] = useState(false);
   const [showCountdown, setShowCountdown] = useState(false);
@@ -33,12 +34,13 @@ export default function Fight(props) {
   const [oppHp, setOppHp] = useState(100);
   const [phrase, setPhrase] = useState('Getting phrase');
 
+  const hit = 20;
   const gameId = location.search.replace('?gameId=', '');
   const contextValue = {
     youFinishFirst: () => {
-      damage('opp');
-      finishPhrase(gameId, yourId);
-      console.log('point4');
+      const damagedHp = oppHp - hit;
+      setOppHp(damagedHp);
+      socket.current.emit('finish phrase', { gameId, damagedHp });
     },
     counting
   };
@@ -46,15 +48,6 @@ export default function Fight(props) {
   function allowTyping() {
     setCounting(false);
     setTimeout(() => { setShowCountdown(false); }, 1000);
-  }
-
-  function damage(player) {
-    const hit = 20;
-    if (player === 'you') {
-      setYourHp(yourHp - hit);
-    } else if (player === 'opp') {
-      setOppHp(oppHp - hit);
-    }
   }
 
   // get metaData
@@ -73,32 +66,38 @@ export default function Fight(props) {
       setYourId(metaData.oppId);
       setYourUsername(metaData.oppName);
       setOppUsername(metaData.hostName);
-      updateHost(metaData);
+      socket.current.emit('game joined', metaData);
     }
-    console.log('point3');
   }, []);
 
   // socket connection
   useEffect(() => {
-    connectSocket(gameId, {
-      setPhrase,
-      setMetaData,
-      setOppUsername,
-      damage
+    socket.current = io('/', { query: { gameId } });
+
+    socket.current.on('game joined', metaData => {
+      setMetaData(metaData);
+      setOppUsername(metaData.oppName);
     });
-    console.log('point1');
+
+    socket.current.on('get random', phrase => {
+      setPhrase(phrase.content);
+    });
+
+    socket.current.on('finish phrase', damagedHp => {
+      setYourHp(damagedHp);
+      setPhrase('Getting phrase');
+    });
     return () => {
-      disconnectSocket();
+      socket.current.disconnect();
     };
   }, []);
 
   // get new phrase
   useEffect(() => {
-    console.log('point2');
     if (metaData && metaData.oppId) {
       if (yourHp !== 0 && oppHp !== 0) {
         if (yourId === metaData.hostId) {
-          getRandom(gameId);
+          socket.current.emit('get random', gameId);
         }
         setCounting(true);
         setShowCountdown(true);

@@ -41,8 +41,8 @@ io.on('connection', socket => {
   });
 
   socket.on('finish phrase', payload => {
-    const { gameId, winnerId } = payload;
-    socket.to(gameId).emit('finish phrase', winnerId);
+    const { gameId, damagedHp } = payload;
+    socket.to(gameId).emit('finish phrase', damagedHp);
   });
 });
 
