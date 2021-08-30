@@ -15,8 +15,6 @@ export default function TypingGame(props) {
     states: {
       charsState,
       currIndex,
-      correctChar,
-      errorChar,
       startTime,
       endTime,
       phase
