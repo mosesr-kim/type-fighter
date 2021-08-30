@@ -31,6 +31,7 @@ const BlurMessage = styled('div')({
   top: '50%',
   left: '50%',
   fontFamily: 'retro, sans-serif',
+  fontSize: '1.25rem',
   color: 'red'
 });
 
