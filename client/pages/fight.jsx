@@ -15,6 +15,13 @@ const dummyMeta = {
   oppUsername: 'Player 2'
 };
 
+const PlayerName = styled('h1')({
+  fontFamily: 'retro, sans-serif',
+  color: 'white',
+  letterSpacing: '0.1rem',
+  margin: '0.5rem 0'
+});
+
 const SpriteDummy = styled('div')({
   backgroundColor: 'blue',
   width: '20rem',
@@ -26,6 +33,8 @@ export default function Fight(props) {
   const location = useLocation();
 
   const [counting, setCounting] = useState(false);
+  const [yourUsername, setYourUsername] = useState('');
+  const [oppUsername, setOppUsername] = useState('');
   const [yourHp, setYourHp] = useState(100);
   const [oppHp, setOppHp] = useState(100);
   const [phrase, setPhrase] = useState('Getting phrase');
@@ -52,6 +61,8 @@ export default function Fight(props) {
   // get metaData
   useEffect(() => {
     setMetaData(dummyMeta);
+    setYourUsername(dummyMeta.hostUsername);
+    setOppUsername(dummyMeta.oppUsername);
   }, []);
 
   // socket connection
@@ -85,10 +96,13 @@ export default function Fight(props) {
           <Grid container>
             {/* Player 1 */}
             <Grid item xs={6}>
-              <Grid container justifyContent="center">
+              <Grid container direction="column" alignItems="center">
                 {/* HP Bar */}
                 <Grid item onClick={() => damage('you')}>
-                  <Box mb={14}>
+                  <Box mb={8}>
+                    <PlayerName style={{ marginLeft: '1rem' }}>
+                      {yourUsername}
+                    </PlayerName>
                     <HPBar hp={yourHp} side={'left'} />
                   </Box>
                 </Grid>
@@ -102,10 +116,14 @@ export default function Fight(props) {
 
             {/* Player 2 */}
             <Grid item xs={6}>
-              <Grid container justifyContent="center">
+              <Grid container direction="column" alignItems="center">
+
                 {/* HP Bar */}
                 <Grid item onClick={() => damage('opp')}>
-                  <Box mb={14}>
+                  <Box mb={8}>
+                    <PlayerName style={{ textAlign: 'right', marginRight: '1rem' }}>
+                      {oppUsername}
+                    </PlayerName>
                     <HPBar hp={oppHp} side={'right'} />
                   </Box>
                 </Grid>
