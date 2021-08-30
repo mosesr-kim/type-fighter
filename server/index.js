@@ -43,6 +43,10 @@ io.on('connection', socket => {
     socket.join('lobby');
   });
 
+  socket.on('game joined', metaData => {
+    socket.to(gameId).emit('game joined', metaData);
+  });
+
   socket.on('get random', async gameId => {
     const phrase = await getQuote();
     io.to(gameId).emit('get random', phrase);
@@ -53,8 +57,23 @@ io.on('connection', socket => {
   });
 
   socket.on('finish phrase', payload => {
-    const { gameId, winnerId } = payload;
-    socket.to(gameId).emit('finish phrase', winnerId);
+    const { gameId, damagedHp } = payload;
+    socket.to(gameId).emit('finish phrase', damagedHp);
+  });
+
+  socket.on('user disconnect', gameId => {
+    const sql = `
+    delete from "games"
+          where "gameId" = $1;
+    `;
+
+    const params = [parseInt(gameId)];
+
+    db.query(sql, params)
+      .then(result => {
+        io.to('lobby').emit('game joined', { gameId });
+        socket.to(gameId).emit('user disconnect');
+      });
   });
 });
 
@@ -103,7 +122,7 @@ app.post('/api/user', (req, res, next) => {
       };
       res.cookie('userToken', token, cookieParams)
         .status(201)
-        .json({ success: true });
+        .json(newUser);
     })
     .catch(err => next(err));
 });
