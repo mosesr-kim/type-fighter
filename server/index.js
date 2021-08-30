@@ -52,6 +52,15 @@ app.use(staticMiddleware);
 
 app.use(cookieParser);
 
+// Get user info from cookie (if it exists)
+app.get('/api/user', (req, res, next) => {
+  const payload = req.signedCookies.userToken
+    ? jwt.verify(req.signedCookies.userToken, process.env.TOKEN_SECRET)
+    : { userId: null, username: null, character: null };
+
+  res.json(payload);
+});
+
 // Create a new user
 app.post('/api/user', (req, res, next) => {
   const { username, character } = req.body;
