@@ -3,7 +3,6 @@ import useTyping from 'react-typing-game-hook';
 
 export default function TypingGame(props) {
   const [duration, setDuration] = useState(0);
-  const [isFocused, setIsFocused] = useState(false);
   const letters = useRef(null);
 
   const {
@@ -29,17 +28,9 @@ export default function TypingGame(props) {
       const top = spanref.offsetTop - 2;
       return { left, top };
     } else {
-      return { left: '0.5rem', top: '0.5rem' };
+      return { left: '0.5rem', top: '0.4rem' };
     }
   }, [currIndex]);
-
-  const focusText = () => {
-    setIsFocused(true);
-  };
-
-  const blurText = () => {
-    setIsFocused(false);
-  };
 
   const handleKeyPress = key => {
     if (key.length !== 1) return;
@@ -51,8 +42,8 @@ export default function TypingGame(props) {
       <div
         tabIndex={0}
         onKeyDown={event => handleKeyPress(event.key)}
-        onFocus={focusText}
-        onBlur={blurText}
+        onFocus={props.onFocus}
+        onBlur={props.onBlur}
         className="outline-none"
       >
         <div ref={letters} className="select-none">
@@ -69,7 +60,7 @@ export default function TypingGame(props) {
             );
           })}
         </div>
-        {phase !== 2 && isFocused
+        {phase !== 2 && props.isFocused
           ? (
           <span
             style={{ left: cursor.left, top: cursor.top, opacity: 1 }}
