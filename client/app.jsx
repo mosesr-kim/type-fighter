@@ -55,7 +55,7 @@ export default function App() {
         <BGImage src="sf2background.png" alt="street fighter 2 background" />
       </BGContainer>
 
-      <UserContext.Provider value={user}>
+      <UserContext.Provider value={{ user, setUser }}>
         <Switch>
           <Route path="/lobby" >
             {user.userId ? <Lobby /> : <Redirect to="/" />}

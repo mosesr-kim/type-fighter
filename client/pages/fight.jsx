@@ -1,19 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router';
 import TypingBox from '../components/typing-box';
 import Countdown from '../components/countdown';
 import HPBar from '../components/hp-bar';
 import { Grid, Box, styled } from '@material-ui/core';
-import { connectSocket, disconnectSocket, getRandom, finishPhrase } from '../lib/fight-socket';
 import FightContext from '../lib/fight-context';
-
-const dummyMeta = {
-  gameId: 1,
-  hostId: 1,
-  hostUsername: 'Player 1',
-  oppId: 2,
-  oppUsername: 'Player 2'
-};
+import { io } from 'socket.io-client';
+import EndGameModal from '../components/end-game-modal';
 
 const PlayerName = styled('h1')({
   fontFamily: 'retro, sans-serif',
@@ -31,6 +24,7 @@ const SpriteDummy = styled('div')({
 export default function Fight(props) {
   const location = useLocation();
 
+  const socket = useRef(null);
   const [metaData, setMetaData] = useState(null);
   const [counting, setCounting] = useState(false);
   const [showCountdown, setShowCountdown] = useState(false);
@@ -40,12 +34,17 @@ export default function Fight(props) {
   const [yourHp, setYourHp] = useState(100);
   const [oppHp, setOppHp] = useState(100);
   const [phrase, setPhrase] = useState('Getting phrase');
+  const [showEndGameModal, setShowModal] = useState(false);
+  const [didWin, setDidWin] = useState(false);
+  const [oppDisconnected, setOppDisconnected] = useState(false);
 
+  const hit = 20;
   const gameId = location.search.replace('?gameId=', '');
   const contextValue = {
     youFinishFirst: () => {
-      damage('opp');
-      finishPhrase(gameId, yourId);
+      const damagedHp = oppHp - hit;
+      setOppHp(damagedHp);
+      socket.current.emit('finish phrase', { gameId, damagedHp });
     },
     counting
   };
@@ -55,49 +54,70 @@ export default function Fight(props) {
     setTimeout(() => { setShowCountdown(false); }, 1000);
   }
 
-  function damage(player) {
-    const hit = 20;
-    if (player === 'you') {
-      setYourHp(yourHp - hit);
-    } else if (player === 'opp') {
-      setOppHp(oppHp - hit);
-    }
-  }
-
   // get metaData
-  useEffect(() => {
-    setMetaData(dummyMeta);
-    setYourId(dummyMeta.hostId);
-    setYourUsername(dummyMeta.hostUsername);
-    setOppUsername(dummyMeta.oppUsername);
+  useEffect(async () => {
+    const res = await fetch(`/api/game/${gameId}`);
+    const metaData = await res.json();
+    setMetaData(metaData);
+    if (!metaData.oppId) {
+      setYourId(metaData.hostId);
+      setYourUsername(metaData.hostName);
+      setOppUsername('Waiting for opponent...');
+    } else {
+      setYourId(metaData.oppId);
+      setYourUsername(metaData.oppName);
+      setOppUsername(metaData.hostName);
+      socket.current.emit('game joined', metaData);
+    }
   }, []);
 
   // socket connection
   useEffect(() => {
-    connectSocket(gameId, {
-      setPhrase,
-      damage
+    socket.current = io('/', { query: { gameId } });
+
+    socket.current.on('game joined', metaData => {
+      setMetaData(metaData);
+      setOppUsername(metaData.oppName);
     });
+
+    socket.current.on('get random', phrase => {
+      setPhrase(phrase.content);
+    });
+
+    socket.current.on('finish phrase', damagedHp => {
+      setYourHp(damagedHp);
+      setPhrase('Getting phrase');
+    });
+
+    socket.current.on('user disconnect', () => {
+      setOppDisconnected(true);
+      setShowModal(true);
+    });
+
     return () => {
-      disconnectSocket();
+      socket.current.emit('user disconnect', gameId);
+      socket.current.disconnect();
     };
   }, []);
 
-  // get new phrase
+  // get new phrase OR conclude game
   useEffect(() => {
-    if (metaData) {
-      if (yourHp !== 0 && oppHp !== 0 && yourId === metaData.hostId) {
-        getRandom(gameId);
-        setCounting(true);
-        setShowCountdown(true);
-        setPhrase('Getting phrase');
+    if (yourHp !== 0 && oppHp !== 0 && metaData && metaData.oppId) {
+      if (yourId === metaData.hostId) {
+        socket.current.emit('get random', gameId);
       }
+      setCounting(true);
+      setShowCountdown(true);
+      setPhrase('Getting phrase');
+    } else if (yourHp === 0) {
+      setShowModal(true);
+    } else if (oppHp === 0) {
+      setDidWin(true);
+      setShowModal(true);
     }
   }, [yourHp, oppHp, metaData]);
 
-  if (!metaData) {
-    return <></>;
-  }
+  if (!metaData) return null;
   return (
     <FightContext.Provider value={contextValue}>
       <Grid container direction="column" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem' }}>
@@ -159,6 +179,7 @@ export default function Fight(props) {
         </Grid>
 
         <Countdown showCountdown={showCountdown} allowTyping={allowTyping} />
+        <EndGameModal showModal={showEndGameModal} didWin={didWin} oppDisconnected={oppDisconnected} />
       </Grid>
     </FightContext.Provider>
   );
