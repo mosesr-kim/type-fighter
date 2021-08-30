@@ -5,8 +5,9 @@ function getQuote() {
     .get('https://api.quotable.io/random')
     .then(response => {
       const { content, author, length } = response.data;
+      const parsedContent = content.replace(/’/g, "'");
       const quote = {
-        content,
+        content: parsedContent,
         author,
         length
       };
