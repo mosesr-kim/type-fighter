@@ -85,7 +85,8 @@ export default function Fight(props) {
       setPhrase('Getting phrase');
     });
     return () => {
-      socket.current.disconnect();
+      socket.current.emit('user disconnect', metaData.gameId);
+      socket.disconnect();
     };
   }, []);
 
