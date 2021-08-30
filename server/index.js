@@ -34,7 +34,6 @@ io.use((socket, next) => {
 
 io.on('connection', socket => {
   const { gameId } = socket.handshake.query;
-  console.log(socket.user);
 
   if (gameId) {
     socket.join(gameId);
