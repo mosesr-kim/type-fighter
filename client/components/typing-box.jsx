@@ -22,7 +22,8 @@ const BlurBox = styled('div')({
   backdropFilter: 'blur(6px)',
   WebkitBackdropFilter: 'blur(6px)',
   position: 'absolute',
-  pointerEvents: 'none'
+  pointerEvents: 'none',
+  zIndex: 1
 });
 
 const BlurMessage = styled('div')({
