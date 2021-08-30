@@ -2,14 +2,17 @@ import { io } from 'socket.io-client';
 
 let socket;
 
-export function connectSocket(gameId, setters) {
-  const { setPhrase } = setters;
+export function connectSocket(gameId, functions) {
+  const { setPhrase, damage } = functions;
   socket = io('/', { query: { gameId } });
 
   socket.on('get random', phrase => {
     setPhrase(phrase.content);
   });
 
+  socket.on('finish phrase', winnerId => {
+    damage('you');
+  });
 }
 
 export function disconnectSocket() {
@@ -26,7 +29,6 @@ export function getRandom(gameId) {
 
 export function finishPhrase(gameId, winnerId) {
   if (socket) {
-    console.log('finished');
     socket.emit('finish phrase', { gameId, winnerId });
   }
 }

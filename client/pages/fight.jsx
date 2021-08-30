@@ -33,6 +33,8 @@ export default function Fight(props) {
   const location = useLocation();
 
   const [counting, setCounting] = useState(false);
+  const [yourId, setYourId] = useState(0);
+  const [oppId, setOppId] = useState(0);
   const [yourUsername, setYourUsername] = useState('');
   const [oppUsername, setOppUsername] = useState('');
   const [yourHp, setYourHp] = useState(100);
@@ -41,7 +43,10 @@ export default function Fight(props) {
 
   const gameId = location.search.replace('?gameId=', '');
   const contextValue = {
-    youFinishFirst: () => { finishPhrase(gameId, 1); },
+    youFinishFirst: () => {
+      damage('opp');
+      finishPhrase(gameId, yourId);
+    },
     counting
   };
 
@@ -61,13 +66,18 @@ export default function Fight(props) {
   // get metaData
   useEffect(() => {
     setMetaData(dummyMeta);
+    setYourId(dummyMeta.hostId);
+    setOppId(dummyMeta.oppId);
     setYourUsername(dummyMeta.hostUsername);
     setOppUsername(dummyMeta.oppUsername);
   }, []);
 
   // socket connection
   useEffect(() => {
-    connectSocket(gameId, { setPhrase });
+    connectSocket(gameId, {
+      setPhrase,
+      damage
+    });
     getRandom(gameId);
     return () => {
       disconnectSocket();
