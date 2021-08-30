@@ -17,11 +17,24 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 io.use((socket, next) => {
+  cookieParser(socket.request, null, next);
+});
 
+io.use((socket, next) => {
+  const cookies = socket.request.signedCookies;
+  if (!cookies.userToken) {
+    next(new ClientError(401, 'authentication required'));
+  }
+
+  const payload = jwt.verify(cookies.userToken, process.env.TOKEN_SECRET);
+
+  socket.user = payload;
+  next();
 });
 
 io.on('connection', socket => {
   const { gameId } = socket.handshake.query;
+  console.log(socket.user);
 
   if (gameId) {
     socket.join(gameId);
