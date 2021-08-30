@@ -10,7 +10,7 @@ export default function TypingGame(props) {
   const [duration, setDuration] = useState(0);
   const [isFocused, setIsFocused] = useState(false);
   const letters = useRef(null);
-  const { youFinishFirst } = useContext(FightContext);
+  const { youFinishFirst, counting } = useContext(FightContext);
 
   const {
     states: {
@@ -54,6 +54,7 @@ export default function TypingGame(props) {
   };
 
   const handleKeyPress = key => {
+    if (counting) return;
     if (key.length !== 1) return;
     insertTyping(key);
   };

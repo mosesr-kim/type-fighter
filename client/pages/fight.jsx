@@ -31,7 +31,10 @@ export default function Fight(props) {
   const [phrase, setPhrase] = useState('Getting phrase');
 
   const gameId = location.search.replace('?gameId=', '');
-  const contextValue = { youFinishFirst: () => { finishPhrase(gameId, 1); } };
+  const contextValue = {
+    youFinishFirst: () => { finishPhrase(gameId, 1); },
+    counting
+  };
 
   function removeCountdown() {
     setCounting(false);
@@ -65,12 +68,12 @@ export default function Fight(props) {
   }
   return (
     <FightContext.Provider value={contextValue}>
-      <Grid container direction="column">
+      <Grid container direction="column" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem' }}>
         {/* Typing Row */}
         <Grid item xs={12}>
           <Box my={4}>
             <Grid container justifyContent="center">
-              <Grid item>
+              <Grid item xs>
                 <TypingBox text={phrase} />
               </Grid>
             </Grid>
@@ -85,7 +88,7 @@ export default function Fight(props) {
               <Grid container justifyContent="center">
                 {/* HP Bar */}
                 <Grid item onClick={() => damage('you')}>
-                  <Box mb={8}>
+                  <Box mb={14}>
                     <HPBar hp={yourHp} side={'left'} />
                   </Box>
                 </Grid>
@@ -102,7 +105,7 @@ export default function Fight(props) {
               <Grid container justifyContent="center">
                 {/* HP Bar */}
                 <Grid item onClick={() => damage('opp')}>
-                  <Box mb={8}>
+                  <Box mb={14}>
                     <HPBar hp={oppHp} side={'right'} />
                   </Box>
                 </Grid>
