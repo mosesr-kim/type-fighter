@@ -19,8 +19,8 @@ const TypeText = styled('div')({
 const BlurBox = styled('div')({
   minWidth: '100%',
   minHeight: '100%',
-  backdropFilter: 'blur(4px)',
-  WebkitBackdropFilter: 'blur(4px)',
+  backdropFilter: 'blur(6px)',
+  WebkitBackdropFilter: 'blur(6px)',
   position: 'absolute',
   pointerEvents: 'none'
 });
@@ -31,7 +31,7 @@ const BlurMessage = styled('div')({
   top: '50%',
   left: '50%',
   fontFamily: 'retro, sans-serif',
-  color: 'white'
+  color: 'red'
 });
 
 export default function TypingBox(props) {
@@ -50,7 +50,10 @@ export default function TypingBox(props) {
       <Grid container className="text-box">
         <Fade in={!isFocused}>
           <BlurBox>
-            <BlurMessage>Click on Text</BlurMessage>
+            <BlurMessage>{`
+            Click on Text
+            or Press Tab
+            `}</BlurMessage>
           </BlurBox>
         </Fade>
         <Grid item>
