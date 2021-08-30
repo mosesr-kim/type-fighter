@@ -15,6 +15,13 @@ const dummyMeta = {
   oppUsername: 'Player 2'
 };
 
+const PlayerName = styled('h1')({
+  fontFamily: 'retro, sans-serif',
+  color: 'white',
+  letterSpacing: '0.1rem',
+  margin: '0.5rem 0'
+});
+
 const SpriteDummy = styled('div')({
   backgroundColor: 'blue',
   width: '20rem',
@@ -22,22 +29,30 @@ const SpriteDummy = styled('div')({
 });
 
 export default function Fight(props) {
-  const [metaData, setMetaData] = useState(null);
   const location = useLocation();
 
+  const [metaData, setMetaData] = useState(null);
   const [counting, setCounting] = useState(false);
+  const [showCountdown, setShowCountdown] = useState(false);
+  const [yourId, setYourId] = useState(0);
+  const [yourUsername, setYourUsername] = useState('');
+  const [oppUsername, setOppUsername] = useState('');
   const [yourHp, setYourHp] = useState(100);
   const [oppHp, setOppHp] = useState(100);
   const [phrase, setPhrase] = useState('Getting phrase');
 
   const gameId = location.search.replace('?gameId=', '');
   const contextValue = {
-    youFinishFirst: () => { finishPhrase(gameId, 1); },
+    youFinishFirst: () => {
+      damage('opp');
+      finishPhrase(gameId, yourId);
+    },
     counting
   };
 
-  function removeCountdown() {
+  function allowTyping() {
     setCounting(false);
+    setTimeout(() => { setShowCountdown(false); }, 1000);
   }
 
   function damage(player) {
@@ -52,16 +67,33 @@ export default function Fight(props) {
   // get metaData
   useEffect(() => {
     setMetaData(dummyMeta);
+    setYourId(dummyMeta.hostId);
+    setYourUsername(dummyMeta.hostUsername);
+    setOppUsername(dummyMeta.oppUsername);
   }, []);
 
   // socket connection
   useEffect(() => {
-    connectSocket(gameId, { setPhrase });
-    getRandom(gameId);
+    connectSocket(gameId, {
+      setPhrase,
+      damage
+    });
     return () => {
       disconnectSocket();
     };
   }, []);
+
+  // get new phrase
+  useEffect(() => {
+    if (metaData) {
+      if (yourHp !== 0 && oppHp !== 0 && yourId === metaData.hostId) {
+        getRandom(gameId);
+        setCounting(true);
+        setShowCountdown(true);
+        setPhrase('Getting phrase');
+      }
+    }
+  }, [yourHp, oppHp, metaData]);
 
   if (!metaData) {
     return <></>;
@@ -85,10 +117,13 @@ export default function Fight(props) {
           <Grid container>
             {/* Player 1 */}
             <Grid item xs={6}>
-              <Grid container justifyContent="center">
+              <Grid container direction="column" alignItems="center">
                 {/* HP Bar */}
-                <Grid item onClick={() => damage('you')}>
-                  <Box mb={14}>
+                <Grid item>
+                  <Box mb={8}>
+                    <PlayerName style={{ marginLeft: '1rem' }}>
+                      {yourUsername}
+                    </PlayerName>
                     <HPBar hp={yourHp} side={'left'} />
                   </Box>
                 </Grid>
@@ -102,10 +137,14 @@ export default function Fight(props) {
 
             {/* Player 2 */}
             <Grid item xs={6}>
-              <Grid container justifyContent="center">
+              <Grid container direction="column" alignItems="center">
+
                 {/* HP Bar */}
-                <Grid item onClick={() => damage('opp')}>
-                  <Box mb={14}>
+                <Grid item>
+                  <Box mb={8}>
+                    <PlayerName style={{ textAlign: 'right', marginRight: '1rem' }}>
+                      {oppUsername}
+                    </PlayerName>
                     <HPBar hp={oppHp} side={'right'} />
                   </Box>
                 </Grid>
@@ -119,7 +158,7 @@ export default function Fight(props) {
           </Grid>
         </Grid>
 
-        <Countdown counting={counting} removeCountdown={removeCountdown} />
+        <Countdown showCountdown={showCountdown} allowTyping={allowTyping} />
       </Grid>
     </FightContext.Provider>
   );

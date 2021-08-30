@@ -41,6 +41,7 @@ export default function TypingGame(props) {
   useEffect(() => {
     if (endTime) {
       youFinishFirst();
+      props.onBlur();
     }
   }, [endTime]);
 
@@ -63,7 +64,9 @@ export default function TypingGame(props) {
         {props.text.split('').map((ltr, i) => {
           const state = charsState[i];
           let color = '';
-          if (state === 1) color = 'green-text';
+          if (counting) {
+            color = 'gray-text';
+          } else if (state === 1) color = 'green-text';
           else if (state !== 0 && state !== 1) color = 'red-text';
 
           return (
