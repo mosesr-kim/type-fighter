@@ -10,6 +10,7 @@ const ClientError = require('./client-error');
 const getQuote = require('./get-quote');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser')(process.env.COOKIE_SECRET);
+const authorizationMiddleware = require('./authorization-middleware');
 
 const app = express();
 const server = http.createServer(app);
@@ -41,6 +42,7 @@ app.use(staticMiddleware);
 
 app.use(cookieParser);
 
+// Create a new user
 app.post('/api/user', (req, res, next) => {
   const { username, character } = req.body;
   if (!username || !character) {
@@ -75,55 +77,113 @@ app.post('/api/user', (req, res, next) => {
     .catch(err => next(err));
 });
 
+// Get all available games (no opponent)
 app.get('/api/games', (req, res, next) => {
   const sql = `
-  select *
-    from "games"
-   where "oppId" = null;
+  select "games".*,
+  "host"."username",
+  "host"."character" as "hostChar"
+  from "games"
+  join "users" as "host" on ("games"."hostId" = "host"."userId")
+  where "games"."oppId" is null;
   `;
+
   const dbQuery = db.query(sql);
   dbQuery.then(games => {
-    res.status(200).send(games.rows);
+    res.status(200).json(games.rows);
   }).catch(err => next(err));
 });
 
-app.post('/api/game', (req, res, next) => {
-  const sql = `
-  insert into "games" ("isJoined")
-  values (false)
-  returning *;
-  `;
-  const dbQuery = db.query(sql);
-  dbQuery.then(game => {
-    io.to('lobby').emit('new game', game.rows[0]);
-    res.status(201).send(game.rows[0]);
-  }).catch(err => next(err));
-});
-
-app.put('/api/game', (req, res, next) => {
-  if (!req.query.gameId) {
+// Get info regarding a game
+app.get('/api/game/:gameId', (req, res, next) => {
+  const gameId = parseFloat(req.params.gameId);
+  if (!gameId) {
     throw new ClientError(400, 'gameId is required');
   }
-  const gameId = parseFloat(req.query.gameId);
-  if (!Number.isInteger(gameId)) {
+
+  if (!Number.isInteger(gameId) || gameId < 1) {
     throw new ClientError(400, 'gameId must be a positive integer');
   }
+
+  const sql = `
+  select "g"."gameId",
+         "g"."hostId",
+         "g"."oppId",
+         "host"."username" as "hostName",
+         "host"."character" as "hostChar",
+         "opp"."username" as "oppName",
+         "opp"."character" as "oppChar"
+    from "games" as "g"
+    join "users" as "host" on ("g"."hostId" = "host"."userId")
+    join "users" as "opp" on ("g"."oppId" = "opp"."userId" or
+                             ("g"."oppId" is null))
+   where "g"."gameId" = $1;
+  `;
+
+  const params = [gameId];
+
+  db.query(sql, params)
+    .then(game => {
+      if (game.rows.length === 0) {
+        throw new ClientError(404, 'gameId not found');
+      }
+
+      const gameInfo = game.rows[0];
+      res.json(gameInfo);
+    })
+    .catch(err => next(err));
+});
+
+// Create a game
+app.post('/api/game', authorizationMiddleware, (req, res, next) => {
+  const { userId, username, character } = req.user;
+
+  const sql = `
+  insert into "games" ("hostId")
+  values ($1)
+  returning *;
+  `;
+
+  const params = [userId];
+
+  db.query(sql, params)
+    .then(game => {
+      const newGame = Object.assign({}, game.rows[0], { username, character });
+      io.to('lobby').emit('new game', newGame);
+      res.status(201).send(newGame);
+    })
+    .catch(err => next(err));
+});
+
+// Join a game
+app.put('/api/game/:gameId', authorizationMiddleware, (req, res, next) => {
+  const gameId = parseFloat(req.params.gameId);
+  if (!gameId) {
+    throw new ClientError(400, 'gameId is required');
+  }
+
+  if (!Number.isInteger(gameId) || gameId < 1) {
+    throw new ClientError(400, 'gameId must be a positive integer');
+  }
+
+  const { userId } = req.user;
+
   const sql = `
   update "games"
-     set "isJoined" = true
-   where "gameId" = $1
+     set "oppId" = $1
+   where "gameId" = $2
    returning *;
   `;
-  const params = [gameId];
-  const dbQuery = db.query(sql, params);
-  dbQuery.then(game => {
-    if (game.rows[0]) {
-      io.to('lobby').emit('game joined', game.rows[0]);
-      res.send(game.rows[0]);
-    } else {
-      throw new ClientError(404, 'gameId not found');
-    }
-  }).catch(err => next(err));
+  const params = [userId, gameId];
+  db.query(sql, params)
+    .then(game => {
+      if (game.rows[0]) {
+        io.to('lobby').emit('game joined', game.rows[0]);
+        res.send(game.rows[0]);
+      } else {
+        throw new ClientError(404, 'gameId not found');
+      }
+    }).catch(err => next(err));
 });
 
 app.use(errorMiddleware);
