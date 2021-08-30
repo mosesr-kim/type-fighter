@@ -55,6 +55,20 @@ export default function HomeForm(props) {
       setDisplayMessage('Please select a name and character!');
     }
     setDisplayMessage('Loading...');
+
+    const req = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username,
+        character
+      })
+    };
+    fetch('/api/user', req)
+      .then(result => result.json())
+      .then();
   };
 
   return (
