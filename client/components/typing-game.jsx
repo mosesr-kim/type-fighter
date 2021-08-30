@@ -47,10 +47,12 @@ export default function TypingGame(props) {
   }, [startTime]);
 
   useEffect(() => {
-    if (endTime) {
-      youFinishFirst();
-      props.onBlur();
-    }
+    if (!endTime) return;
+
+    clearInterval(timerId);
+    setWordCount(count => count + 1);
+    youFinishFirst();
+    props.onBlur();
   }, [endTime]);
 
   const handleKeyPress = key => {
