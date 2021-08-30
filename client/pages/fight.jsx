@@ -89,7 +89,7 @@ export default function Fight(props) {
     };
   }, []);
 
-  // get new phrase
+  // get new phrase OR conclude game
   useEffect(() => {
     if (yourHp !== 0 && oppHp !== 0 && metaData && metaData.oppId) {
       if (yourId === metaData.hostId) {
@@ -98,12 +98,14 @@ export default function Fight(props) {
       setCounting(true);
       setShowCountdown(true);
       setPhrase('Getting phrase');
+    } else if (yourHp === 0) {
+      console.log('You Win!');
+    } else if (oppHp === 0) {
+      console.log('You Lose!');
     }
   }, [yourHp, oppHp, metaData]);
 
-  if (!metaData) {
-    return <></>;
-  }
+  if (!metaData) return null;
   return (
     <FightContext.Provider value={contextValue}>
       <Grid container direction="column" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem' }}>
