@@ -84,6 +84,12 @@ export default function Fight(props) {
       setYourHp(damagedHp);
       setPhrase('Getting phrase');
     });
+
+    socket.current.on('user disconnect', () => {
+      // Display a message saying their opponent disconnected.
+      // Then route the user back to the lobby page using history
+    });
+
     return () => {
       socket.current.emit('user disconnect', metaData.gameId);
       socket.current.disconnect();
