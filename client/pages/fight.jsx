@@ -6,6 +6,7 @@ import HPBar from '../components/hp-bar';
 import { Grid, Box, styled } from '@material-ui/core';
 import FightContext from '../lib/fight-context';
 import { io } from 'socket.io-client';
+import EndGameModal from '../components/end-game-modal';
 
 const PlayerName = styled('h1')({
   fontFamily: 'retro, sans-serif',
@@ -33,6 +34,9 @@ export default function Fight(props) {
   const [yourHp, setYourHp] = useState(100);
   const [oppHp, setOppHp] = useState(100);
   const [phrase, setPhrase] = useState('Getting phrase');
+  const [showEndGameModal, setShowModal] = useState(false);
+  const [didWin, setDidWin] = useState(false);
+  const [oppDisconnected, setOppDisconnected] = useState(false);
 
   const hit = 20;
   const gameId = location.search.replace('?gameId=', '');
@@ -99,9 +103,10 @@ export default function Fight(props) {
       setShowCountdown(true);
       setPhrase('Getting phrase');
     } else if (yourHp === 0) {
-      console.log('You Win!');
+      setShowModal(true);
     } else if (oppHp === 0) {
-      console.log('You Lose!');
+      setDidWin(true);
+      setShowModal(true);
     }
   }, [yourHp, oppHp, metaData]);
 
@@ -167,6 +172,7 @@ export default function Fight(props) {
         </Grid>
 
         <Countdown showCountdown={showCountdown} allowTyping={allowTyping} />
+        <EndGameModal showModal={showEndGameModal} didWin={didWin} oppDisconnected={oppDisconnected} />
       </Grid>
     </FightContext.Provider>
   );
