@@ -51,11 +51,11 @@ export default function HomeForm(props) {
       <Grid container spacing={2}>
         {charList.map(char => {
           const selected = char.name === character
-            ? 'selected'
-            : '';
+            ? { border: '3px solid green' }
+            : null;
           return (
           <Grid item key={char.name} onClick={() => chooseChar(char.name)}>
-            <CharPortrait src={char.image} alt={char.name} className={selected} />
+            <CharPortrait src={char.image} alt={char.name} style={selected} />
           </Grid>);
         })}
       </Grid>
