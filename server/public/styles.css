@@ -65,18 +65,8 @@ input#playerName:focus {
   letter-spacing: 0.1rem;
 }
 
-<<<<<<< HEAD
-.startButton:hover {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.portrait {
-  border: 3px solid white;
-  background-color: rgba(0, 0, 0, 0.75);
-=======
 .green-text {
   color: green;
->>>>>>> origin
 }
 
 .red-text {
@@ -110,9 +100,10 @@ input#playerName:focus {
   animation-duration: 1s;
 }
 
-/* #canvas {
+#canvas {
   position: fixed;
-  top: 60%;
-  left: 40%;
+  top: 50%;
+  left: 50%;
   border: 5px solid white;
-} */
+  transform: rotateY(180deg);
+}
