@@ -82,6 +82,10 @@ input#playerName:focus {
   color: red;
 }
 
+.gray-text {
+  color: gray;
+}
+
 .outline-none {
   outline: none;
 }

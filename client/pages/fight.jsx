@@ -33,6 +33,7 @@ export default function Fight(props) {
   const location = useLocation();
 
   const [counting, setCounting] = useState(false);
+  const [showCountdown, setShowCountdown] = useState(false);
   const [yourId, setYourId] = useState(0);
   const [oppId, setOppId] = useState(0);
   const [yourUsername, setYourUsername] = useState('');
@@ -50,8 +51,9 @@ export default function Fight(props) {
     counting
   };
 
-  function removeCountdown() {
+  function allowTyping() {
     setCounting(false);
+    setTimeout(() => { setShowCountdown(false); }, 1000);
   }
 
   function damage(player) {
@@ -78,11 +80,21 @@ export default function Fight(props) {
       setPhrase,
       damage
     });
-    getRandom(gameId);
+    // getRandom(gameId);
     return () => {
       disconnectSocket();
     };
   }, []);
+
+  // get new phrase
+  useEffect(() => {
+    if (yourHp !== 0 && oppHp !== 0) {
+      getRandom(gameId);
+      setCounting(true);
+      setShowCountdown(true);
+      setPhrase('Getting phrase');
+    }
+  }, [yourHp, oppHp]);
 
   if (!metaData) {
     return <></>;
@@ -108,7 +120,7 @@ export default function Fight(props) {
             <Grid item xs={6}>
               <Grid container direction="column" alignItems="center">
                 {/* HP Bar */}
-                <Grid item onClick={() => damage('you')}>
+                <Grid item>
                   <Box mb={8}>
                     <PlayerName style={{ marginLeft: '1rem' }}>
                       {yourUsername}
@@ -129,7 +141,7 @@ export default function Fight(props) {
               <Grid container direction="column" alignItems="center">
 
                 {/* HP Bar */}
-                <Grid item onClick={() => damage('opp')}>
+                <Grid item>
                   <Box mb={8}>
                     <PlayerName style={{ textAlign: 'right', marginRight: '1rem' }}>
                       {oppUsername}
@@ -147,7 +159,7 @@ export default function Fight(props) {
           </Grid>
         </Grid>
 
-        <Countdown counting={counting} removeCountdown={removeCountdown} />
+        <Countdown showCountdown={showCountdown} allowTyping={allowTyping} />
       </Grid>
     </FightContext.Provider>
   );

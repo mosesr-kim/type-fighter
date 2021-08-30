@@ -20,8 +20,8 @@ const CountdownText = styled('div')({
 });
 
 export default function Countdown(props) {
-  const { counting, removeCountdown } = props;
-  if (!counting) {
+  const { showCountdown, allowTyping } = props;
+  if (!showCountdown) {
     return <></>;
   }
 
@@ -29,11 +29,10 @@ export default function Countdown(props) {
   const [counter, setCounter] = useState(0);
 
   setTimeout(() => {
-    if (counter === 3) {
-      removeCountdown();
-    } else {
-      setCounter(counter + 1);
+    if (counter === 2) {
+      allowTyping();
     }
+    setCounter(counter + 1);
   }, 1000);
 
   return (
