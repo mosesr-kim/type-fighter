@@ -60,6 +60,21 @@ io.on('connection', socket => {
     const { gameId, damagedHp } = payload;
     socket.to(gameId).emit('finish phrase', damagedHp);
   });
+
+  socket.on('user disconnect', gameId => {
+    const sql = `
+    delete from "games"
+          where "gameId" = $1;
+    `;
+
+    const params = [gameId];
+
+    db.query(sql, params)
+      .then(result => {
+        io.to('lobby').emit('game joined', { gameId });
+        socket.to(gameId).emit('user disconnect');
+      });
+  });
 });
 
 app.use(jsonMiddleware);
@@ -107,7 +122,7 @@ app.post('/api/user', (req, res, next) => {
       };
       res.cookie('userToken', token, cookieParams)
         .status(201)
-        .json({ success: true });
+        .json(newUser);
     })
     .catch(err => next(err));
 });
