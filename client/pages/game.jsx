@@ -1,13 +1,13 @@
 import React from 'react';
-import HomeForm from '../components/home-form';
+import GameForm from '../components/home-form';
 import { Grid } from '@material-ui/core';
 
-export default function Home(props) {
+export default function Game(props) {
   return (
     <>
       <Grid container justifyContent="center" alignContent="center">
         <Grid item>
-          <HomeForm />
+          <GameForm />
         </Grid>
       </Grid>
     </>
