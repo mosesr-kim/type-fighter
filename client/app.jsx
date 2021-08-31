@@ -51,7 +51,7 @@ export default function App() {
     ? (
       <BGContainer>
         <BGOverlay />
-        <BGImage src="sf2background.png" alt="street fighter 2 background" />
+        <BGImage src="/sf2background.png" alt="street fighter 2 background" />
       </BGContainer>
       )
     : null;
