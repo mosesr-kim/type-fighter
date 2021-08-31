@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Home, Game, Lobby, Fight } from './pages';
 import { styled } from '@material-ui/core';
-import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
+import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import RouterContext from './lib/router-context';
 import UserContext from './lib/user-context';
 
@@ -34,6 +34,7 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [isAuthorizing, setIsAuthorizing] = useState(true);
   const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     fetch('/api/user')
@@ -46,7 +47,7 @@ export default function App() {
 
   if (isAuthorizing) return null;
 
-  const backgroundImage = history.location.pathname !== '/'
+  const backgroundImage = location.pathname !== '/'
     ? (
       <BGContainer>
         <BGOverlay />
