@@ -146,12 +146,12 @@ export default function Fight(props) {
     } else if (yourHp === 0) {
       setAnimation({
         you: 'death',
-        opp: 'idle'
+        opp: 'attack'
       });
       setShowModal(true);
     } else if (oppHp === 0) {
       setAnimation({
-        you: 'idle',
+        you: 'attack',
         opp: 'death'
       });
       setDidWin(true);
@@ -192,7 +192,7 @@ export default function Fight(props) {
 
                 {/* Sprite */}
                 <Grid item>
-                  <Animation animation={animation.you} character={yourChar}/>
+                  <Animation animation={animation.you} character={yourChar} />
                 </Grid>
               </Grid>
             </Grid>
@@ -213,7 +213,7 @@ export default function Fight(props) {
 
                 {/* Sprite */}
                 <Grid item>
-                  <Animation animation={animation.opp} character={oppChar} reverseSide={true}/>
+                  <Animation animation={animation.opp} character={oppChar} reverseSide={true} />
                 </Grid>
               </Grid>
             </Grid>
