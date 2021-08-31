@@ -4,28 +4,28 @@ const sprites = {
   samurai: {
     idle: {
       frames: 8,
-      src: 'sprites/samurai/idle.png',
+      src: '/sprites/samurai/idle.png',
       width: 200,
       height: 200,
       staggerFrames: 25
     },
     attack: {
       frames: 6,
-      src: 'sprites/samurai/attack.png',
+      src: '/sprites/samurai/attack.png',
       width: 200,
       height: 200,
       staggerFrames: 10
     },
     hit: {
       frames: 4,
-      src: 'sprites/samurai/hit.png',
+      src: '/sprites/samurai/hit.png',
       width: 200,
       height: 200,
       staggerFrames: 25
     },
     death: {
       frames: 6,
-      src: 'sprites/samurai/death.png',
+      src: '/sprites/samurai/death.png',
       width: 200,
       height: 200,
       staggerFrames: 50
@@ -34,28 +34,28 @@ const sprites = {
   wizard: {
     idle: {
       frames: 8,
-      src: 'sprites/wizard/idle.png',
+      src: '/sprites/wizard/idle.png',
       width: 150,
       height: 150,
       staggerFrames: 25
     },
     attack: {
       frames: 8,
-      src: 'sprites/wizard/attack.png',
+      src: '/sprites/wizard/attack.png',
       width: 150,
       height: 150,
       staggerFrames: 10
     },
     hit: {
       frames: 4,
-      src: 'sprites/wizard/hit.png',
+      src: '/sprites/wizard/hit.png',
       width: 150,
       height: 150,
       staggerFrames: 25
     },
     death: {
       frames: 5,
-      src: 'sprites/wizard/death.png',
+      src: '/sprites/wizard/death.png',
       width: 150,
       height: 150,
       staggerFrames: 50
@@ -64,28 +64,28 @@ const sprites = {
   king: {
     idle: {
       frames: 8,
-      src: 'sprites/king/idle.png',
+      src: '/sprites/king/idle.png',
       width: 160,
       height: 160,
       staggerFrames: 25
     },
     attack: {
       frames: 4,
-      src: 'sprites/king/attack.png',
+      src: '/sprites/king/attack.png',
       width: 160,
       height: 160,
       staggerFrames: 25
     },
     hit: {
       frames: 4,
-      src: 'sprites/king/hit.png',
+      src: '/sprites/king/hit.png',
       width: 160,
       height: 160,
       staggerFrames: 25
     },
     death: {
       frames: 6,
-      src: 'sprites/king/death.png',
+      src: '/sprites/king/death.png',
       width: 160,
       height: 160,
       staggerFrames: 50
@@ -94,28 +94,28 @@ const sprites = {
   knight: {
     idle: {
       frames: 11,
-      src: 'sprites/knight/idle.png',
+      src: '/sprites/knight/idle.png',
       width: 180,
       height: 180,
       staggerFrames: 25
     },
     attack: {
       frames: 7,
-      src: 'sprites/knight/attack.png',
+      src: '/sprites/knight/attack.png',
       width: 180,
       height: 180,
       staggerFrames: 10
     },
     hit: {
       frames: 4,
-      src: 'sprites/knight/hit.png',
+      src: '/sprites/knight/hit.png',
       width: 180,
       height: 180,
       staggerFrames: 25
     },
     death: {
       frames: 11,
-      src: 'sprites/knight/death.png',
+      src: '/sprites/knight/death.png',
       width: 180,
       height: 180,
       staggerFrames: 50

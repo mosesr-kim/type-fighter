@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import Home from './pages/home';
-import Lobby from './pages/lobby';
-import Fight from './pages/fight';
+import { Home, Game, Lobby, Fight } from './pages';
 import { styled } from '@material-ui/core';
-import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
+import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import RouterContext from './lib/router-context';
 import UserContext from './lib/user-context';
 
@@ -36,6 +34,7 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [isAuthorizing, setIsAuthorizing] = useState(true);
   const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     fetch('/api/user')
@@ -48,23 +47,32 @@ export default function App() {
 
   if (isAuthorizing) return null;
 
-  return (
-    <RouterContext.Provider value={{ history }}>
+  const backgroundImage = location.pathname !== '/'
+    ? (
       <BGContainer>
         <BGOverlay />
-        <BGImage src="sf2background.png" alt="street fighter 2 background" />
+        <BGImage src="/sf2background.png" alt="street fighter 2 background" />
       </BGContainer>
+      )
+    : null;
+
+  return (
+    <RouterContext.Provider value={{ history }}>
+      {backgroundImage}
 
       <UserContext.Provider value={{ user, setUser }}>
         <Switch>
-          <Route path="/lobby" >
-            {user.userId ? <Lobby /> : <Redirect to="/" />}
+          <Route exact path="/">
+            <Home />
           </Route>
-          <Route path="/fight" >
-            {user.userId ? <Fight /> : <Redirect to="/" />}
+          <Route path="/game/lobby" >
+            {user.userId ? <Lobby /> : <Redirect to="/game" />}
           </Route>
-          <Route path="/" >
-            {user.userId ? <Redirect to="/lobby" /> : <Home />}
+          <Route path="/game/fight" >
+            {user.userId ? <Fight /> : <Redirect to="/game" />}
+          </Route>
+          <Route path="/game" >
+            {user.userId ? <Redirect to="/game/lobby" /> : <Game />}
           </Route>
         </Switch>
       </UserContext.Provider>
