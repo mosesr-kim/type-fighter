@@ -1,7 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { styled } from '@material-ui/core';
-
-import RouterContext from '../lib/router-context';
+import { Link } from 'react-router-dom';
 
 const ModalContainer = styled('div')({
   position: 'fixed',
@@ -50,7 +49,6 @@ const ReturnButton = styled('button')({
 
 export default function EndGameModal(props) {
   const { showModal, didWin, oppDisconnected } = props;
-  const { history } = useContext(RouterContext);
 
   let message = 'You Lose';
   if (didWin) {
@@ -59,16 +57,14 @@ export default function EndGameModal(props) {
     message = 'Connection has been lost...';
   }
 
-  function joinLobby(event) {
-    history.push('/game/lobby');
-  }
-
   if (!showModal) return null;
   return (
     <ModalContainer>
       <Modal>
         <Message style={oppDisconnected ? { fontSize: '3rem' } : null}>{message}</Message>
-        <ReturnButton onClick={joinLobby}>Return to Lobby</ReturnButton>
+        <Link to="/game/lobby">
+          <ReturnButton>Return to Lobby</ReturnButton>
+        </Link>
       </Modal>
     </ModalContainer>
   );
