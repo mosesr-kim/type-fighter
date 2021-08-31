@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState, useContext } from 'react';
+import React, { useEffect, useMemo, useRef, useContext } from 'react';
 
 import useTyping from 'react-typing-game-hook';
 import FightContext from '../lib/fight-context';
@@ -7,12 +7,13 @@ export default function TypingGame(props) {
   if (props.text === 'Getting phrase') {
     return <></>;
   }
-  const [duration, setDuration] = useState(0);
-  const [wordCount, setWordCount] = useState(0);
-  const [timerId, setTimerId] = useState(null);
 
   const letters = useRef(null);
-  const { youFinishFirst, counting } = useContext(FightContext);
+  const {
+    youFinishFirst, counting, duration,
+    setDuration, wordCount, setWordCount,
+    timerId, setTimerId
+  } = useContext(FightContext);
 
   const {
     states: {

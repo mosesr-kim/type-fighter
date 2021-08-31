@@ -37,6 +37,9 @@ export default function Fight(props) {
   const [showEndGameModal, setShowModal] = useState(false);
   const [didWin, setDidWin] = useState(false);
   const [oppDisconnected, setOppDisconnected] = useState(false);
+  const [duration, setDuration] = useState(0);
+  const [wordCount, setWordCount] = useState(0);
+  const [timerId, setTimerId] = useState(null);
 
   const hit = 20;
   const gameId = location.search.replace('?gameId=', '');
@@ -46,7 +49,13 @@ export default function Fight(props) {
       setOppHp(damagedHp);
       socket.current.emit('finish phrase', { gameId, damagedHp });
     },
-    counting
+    counting,
+    duration,
+    setDuration,
+    wordCount,
+    setWordCount,
+    timerId,
+    setTimerId
   };
 
   function allowTyping() {
