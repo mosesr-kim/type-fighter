@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useContext } from 'react';
 import { Grid, styled } from '@material-ui/core';
+import formatTime from '../lib/format-time';
 
 import useTyping from 'react-typing-game-hook';
 import FightContext from '../lib/fight-context';
@@ -106,7 +107,9 @@ export default function TypingGame(props) {
           <InfoText>{`WPM: ${Math.floor(wordCount / (duration / 60))}`}</InfoText>
         </Grid>
         <Grid item xs={6}>
-          <InfoText>{duration}</InfoText>
+          <InfoText>
+            {formatTime(duration)}
+          </InfoText>
         </Grid>
       </Grid>
     </>
