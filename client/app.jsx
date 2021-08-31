@@ -46,12 +46,18 @@ export default function App() {
 
   if (isAuthorizing) return null;
 
-  return (
-    <RouterContext.Provider value={{ history }}>
+  const backgroundImage = history.location.pathname !== '/'
+    ? (
       <BGContainer>
         <BGOverlay />
         <BGImage src="sf2background.png" alt="street fighter 2 background" />
       </BGContainer>
+      )
+    : null;
+
+  return (
+    <RouterContext.Provider value={{ history }}>
+      {backgroundImage}
 
       <UserContext.Provider value={{ user, setUser }}>
         <Switch>
@@ -65,7 +71,7 @@ export default function App() {
             {user.userId ? <Fight /> : <Redirect to="/game" />}
           </Route>
           <Route path="/game" >
-            {user.userId ? <Redirect to="/lobby" /> : <Game />}
+            {user.userId ? <Redirect to="/game/lobby" /> : <Game />}
           </Route>
         </Switch>
       </UserContext.Provider>
