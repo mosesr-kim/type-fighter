@@ -32,6 +32,9 @@ export default function Fight(props) {
   const [showEndGameModal, setShowModal] = useState(false);
   const [didWin, setDidWin] = useState(false);
   const [oppDisconnected, setOppDisconnected] = useState(false);
+  const [duration, setDuration] = useState(0);
+  const [wordCount, setWordCount] = useState(0);
+  const [timerId, setTimerId] = useState(null);
 
   const [animation, setAnimation] = useState({
     you: 'idle',
@@ -52,7 +55,11 @@ export default function Fight(props) {
       setOppHp(damagedHp);
       socket.current.emit('finish phrase', { gameId, damagedHp });
     },
-    counting
+    counting,
+    duration,
+    wordCount,
+    setWordCount,
+    timerId
   };
 
   function allowTyping() {
@@ -91,6 +98,15 @@ export default function Fight(props) {
     });
 
     socket.current.on('get random', phrase => {
+      setDuration(-3);
+      setWordCount(0);
+      const id = setInterval(() => {
+        setDuration(prevCount => prevCount + 1);
+      }, 1000);
+      setTimerId(prevId => {
+        clearInterval(prevId);
+        return id;
+      });
       setAnimation({
         you: 'idle',
         opp: 'idle'
