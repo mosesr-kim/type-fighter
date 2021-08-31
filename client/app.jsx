@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Home from './pages/home';
+import Game from './pages/home';
 import Lobby from './pages/lobby';
 import Fight from './pages/fight';
 import { styled } from '@material-ui/core';
@@ -57,14 +57,14 @@ export default function App() {
 
       <UserContext.Provider value={{ user, setUser }}>
         <Switch>
-          <Route path="/lobby" >
-            {user.userId ? <Lobby /> : <Redirect to="/" />}
+          <Route path="/game/lobby" >
+            {user.userId ? <Lobby /> : <Redirect to="/game" />}
           </Route>
-          <Route path="/fight" >
-            {user.userId ? <Fight /> : <Redirect to="/" />}
+          <Route path="/game/fight" >
+            {user.userId ? <Fight /> : <Redirect to="/game" />}
           </Route>
-          <Route path="/" >
-            {user.userId ? <Redirect to="/lobby" /> : <Home />}
+          <Route path="/game" >
+            {user.userId ? <Redirect to="/lobby" /> : <Game />}
           </Route>
         </Switch>
       </UserContext.Provider>
