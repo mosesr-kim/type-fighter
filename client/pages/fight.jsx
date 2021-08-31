@@ -51,11 +51,9 @@ export default function Fight(props) {
     },
     counting,
     duration,
-    setDuration,
     wordCount,
     setWordCount,
-    timerId,
-    setTimerId
+    timerId
   };
 
   function allowTyping() {
@@ -90,6 +88,15 @@ export default function Fight(props) {
     });
 
     socket.current.on('get random', phrase => {
+      setDuration(-3);
+      setWordCount(0);
+      const id = setInterval(() => {
+        setDuration(prevCount => prevCount + 1);
+      }, 1000);
+      setTimerId(prevId => {
+        clearInterval(prevId);
+        return id;
+      });
       setPhrase(phrase.content);
     });
 
