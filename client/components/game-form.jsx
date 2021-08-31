@@ -21,7 +21,7 @@ const ErrorMessage = styled('div')({
   margin: '1rem 0'
 });
 
-export default function HomeForm(props) {
+export default function GameForm(props) {
   const [character, setCharacter] = useState(null);
   const [username, setUsername] = useState('');
   const [displayMessage, setDisplayMessage] = useState(null);
