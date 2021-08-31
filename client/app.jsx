@@ -4,6 +4,7 @@ import { styled } from '@material-ui/core';
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import RouterContext from './lib/router-context';
 import UserContext from './lib/user-context';
+import BGM from './components/bgm';
 
 const BGContainer = styled('div')(() => ({
   position: 'relative'
@@ -52,6 +53,7 @@ export default function App() {
       <BGContainer>
         <BGOverlay />
         <BGImage src="/sf2background.png" alt="street fighter 2 background" />
+        <BGM />
       </BGContainer>
       )
     : null;
