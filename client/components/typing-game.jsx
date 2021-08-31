@@ -65,6 +65,10 @@ export default function TypingGame(props) {
     insertTyping(key);
   };
 
+  const wpmDisplay = duration <= 0
+    ? 'WPM: 0'
+    : `WPM: ${Math.floor(wordCount / (duration / 60))}`;
+
   return (
     <>
       <div
@@ -104,7 +108,7 @@ export default function TypingGame(props) {
       </div>
       <Grid container>
         <Grid item xs={6}>
-          <InfoText>{`WPM: ${Math.floor(wordCount / (duration / 60))}`}</InfoText>
+          <InfoText>{wpmDisplay}</InfoText>
         </Grid>
         <Grid item xs={6}>
           <InfoText>
