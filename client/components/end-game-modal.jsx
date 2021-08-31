@@ -60,7 +60,7 @@ export default function EndGameModal(props) {
   }
 
   function joinLobby(event) {
-    history.push('/lobby');
+    history.push('/game/lobby');
   }
 
   if (!showModal) return null;

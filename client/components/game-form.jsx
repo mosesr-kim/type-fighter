@@ -77,7 +77,7 @@ export default function GameForm(props) {
       .then(user => {
         if (user.userId) {
           setUser(user);
-          history.push('/lobby');
+          history.push('/game/lobby');
         } else {
           setDisplayMessage('An error occurred. Please try again.');
         }

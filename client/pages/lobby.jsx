@@ -76,7 +76,7 @@ export default function Lobby(props) {
       .then(res => res.json())
       .then(result => {
         const { gameId } = result;
-        history.push(`/fight?gameId=${gameId}`);
+        history.push(`/game/fight?gameId=${gameId}`);
       });
   }
 
@@ -89,7 +89,7 @@ export default function Lobby(props) {
       .then(res => res.json())
       .then(result => {
         const { gameId } = result;
-        history.push(`/fight?gameId=${gameId}`);
+        history.push(`/game/fight?gameId=${gameId}`);
       });
   }
 
