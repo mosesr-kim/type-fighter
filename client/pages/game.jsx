@@ -1,5 +1,5 @@
 import React from 'react';
-import GameForm from '../components/home-form';
+import GameForm from '../components/game-form';
 import { Grid } from '@material-ui/core';
 
 export default function Game(props) {
