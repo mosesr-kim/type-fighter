@@ -124,16 +124,16 @@ const sprites = {
 };
 
 export default function Animation(props) {
-  const reverse = props.reverseSide ? 'reverse' : '';
   if (!props.character) return null;
   const { character, animation } = props;
+  const reverse = props.reverseSide ? 'reverse right-sprite' : 'left-sprite';
   const canvasRef = useRef(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    const canvasWidth = canvas.width = 500;
-    const canvasHeight = canvas.height = 500;
+    const canvasWidth = canvas.width = 300;
+    const canvasHeight = canvas.height = 300;
 
     const characterImage = new Image();
     characterImage.src = sprites[character][animation].src;
@@ -157,5 +157,5 @@ export default function Animation(props) {
     animate();
   }, [props]);
 
-  return <canvas ref={canvasRef} className={reverse}/>;
+  return <canvas ref={canvasRef} className={`${reverse} animation`} />;
 }
