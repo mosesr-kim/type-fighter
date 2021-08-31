@@ -102,14 +102,12 @@ input#playerName:focus {
 
 .animation {
   transform: scale(5, 5);
-  margin-bottom: 5rem;
   position: absolute;
   bottom: 5%;
 }
 
 .reverse {
   transform: scale(5, 5) rotateY(180deg);
-  margin-bottom: 5rem;
   position: absolute;
   bottom: 5%;
 }
