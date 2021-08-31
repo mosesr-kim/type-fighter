@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Game from './pages/home';
-import Lobby from './pages/lobby';
-import Fight from './pages/fight';
+import { Home, Game, Lobby, Fight } from './pages';
 import { styled } from '@material-ui/core';
 import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import RouterContext from './lib/router-context';
@@ -57,6 +55,9 @@ export default function App() {
 
       <UserContext.Provider value={{ user, setUser }}>
         <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
           <Route path="/game/lobby" >
             {user.userId ? <Lobby /> : <Redirect to="/game" />}
           </Route>
