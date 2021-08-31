@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useContext } from 'react';
-import { Grid, styled } from '@material-ui/core';
+import { styled } from '@material-ui/core';
 import formatTime from '../lib/format-time';
 
 import useTyping from 'react-typing-game-hook';
@@ -7,8 +7,19 @@ import FightContext from '../lib/fight-context';
 
 const InfoText = styled('span')({
   fontFamily: 'retro, sans-serif',
-  fontSize: '1.15rem',
-  textAlign: 'center'
+  fontSize: '1.15rem'
+});
+
+const WpmDisplay = styled('div')({
+  position: 'absolute',
+  bottom: '0',
+  left: '25%'
+});
+
+const TimerDisplay = styled('div')({
+  position: 'absolute',
+  bottom: '0',
+  right: '25%'
 });
 
 export default function TypingGame(props) {
@@ -106,16 +117,16 @@ export default function TypingGame(props) {
             )
           : null}
       </div>
-      <Grid container>
-        <Grid item xs={6}>
-          <InfoText>{wpmDisplay}</InfoText>
-        </Grid>
-        <Grid item xs={6}>
-          <InfoText>
-            {formatTime(duration)}
-          </InfoText>
-        </Grid>
-      </Grid>
+
+      <WpmDisplay>
+        <InfoText>{wpmDisplay}</InfoText>
+      </WpmDisplay>
+
+      <TimerDisplay>
+        <InfoText>
+          {formatTime(duration)}
+        </InfoText>
+      </TimerDisplay>
     </>
   );
 }
