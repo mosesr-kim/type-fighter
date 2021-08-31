@@ -7,18 +7,13 @@ import { Grid, Box, styled } from '@material-ui/core';
 import FightContext from '../lib/fight-context';
 import { io } from 'socket.io-client';
 import EndGameModal from '../components/end-game-modal';
+import Animation from '../components/animation';
 
 const PlayerName = styled('h1')({
   fontFamily: 'retro, sans-serif',
   color: 'white',
   letterSpacing: '0.1rem',
   margin: '0.5rem 0'
-});
-
-const SpriteDummy = styled('div')({
-  backgroundColor: 'blue',
-  width: '20rem',
-  height: '30rem'
 });
 
 export default function Fight(props) {
@@ -38,10 +33,21 @@ export default function Fight(props) {
   const [didWin, setDidWin] = useState(false);
   const [oppDisconnected, setOppDisconnected] = useState(false);
 
+  const [animation, setAnimation] = useState({
+    you: 'idle',
+    opp: 'idle'
+  });
+  const [yourChar, setYourChar] = useState('');
+  const [oppChar, setOppChar] = useState('');
+
   const hit = 20;
   const gameId = location.search.replace('?gameId=', '');
   const contextValue = {
     youFinishFirst: () => {
+      setAnimation({
+        you: 'attack',
+        opp: 'hit'
+      });
       const damagedHp = oppHp - hit;
       setOppHp(damagedHp);
       socket.current.emit('finish phrase', { gameId, damagedHp });
@@ -62,11 +68,14 @@ export default function Fight(props) {
     if (!metaData.oppId) {
       setYourId(metaData.hostId);
       setYourUsername(metaData.hostName);
+      setYourChar(metaData.hostChar);
       setOppUsername('Waiting for opponent...');
     } else {
       setYourId(metaData.oppId);
       setYourUsername(metaData.oppName);
       setOppUsername(metaData.hostName);
+      setYourChar(metaData.oppChar);
+      setOppChar(metaData.hostChar);
       socket.current.emit('game joined', metaData);
     }
   }, []);
@@ -78,13 +87,22 @@ export default function Fight(props) {
     socket.current.on('game joined', metaData => {
       setMetaData(metaData);
       setOppUsername(metaData.oppName);
+      setOppChar(metaData.oppChar);
     });
 
     socket.current.on('get random', phrase => {
+      setAnimation({
+        you: 'idle',
+        opp: 'idle'
+      });
       setPhrase(phrase.content);
     });
 
     socket.current.on('finish phrase', damagedHp => {
+      setAnimation({
+        you: 'hit',
+        opp: 'attack'
+      });
       setYourHp(damagedHp);
       setPhrase('Getting phrase');
     });
@@ -110,8 +128,16 @@ export default function Fight(props) {
       setShowCountdown(true);
       setPhrase('Getting phrase');
     } else if (yourHp === 0) {
+      setAnimation({
+        you: 'death',
+        opp: 'idle'
+      });
       setShowModal(true);
     } else if (oppHp === 0) {
+      setAnimation({
+        you: 'idle',
+        opp: 'death'
+      });
       setDidWin(true);
       setShowModal(true);
     }
@@ -150,7 +176,7 @@ export default function Fight(props) {
 
                 {/* Sprite */}
                 <Grid item>
-                  <SpriteDummy />
+                  <Animation animation={animation.you} character={yourChar}/>
                 </Grid>
               </Grid>
             </Grid>
@@ -171,7 +197,7 @@ export default function Fight(props) {
 
                 {/* Sprite */}
                 <Grid item>
-                  <SpriteDummy />
+                  <Animation animation={animation.opp} character={oppChar} reverseSide={true}/>
                 </Grid>
               </Grid>
             </Grid>
