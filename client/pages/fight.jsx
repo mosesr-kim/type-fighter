@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { useLocation } from 'react-router';
 import TypingBox from '../components/typing-box';
 import Countdown from '../components/countdown';
@@ -9,6 +9,8 @@ import { io } from 'socket.io-client';
 import EndGameModal from '../components/end-game-modal';
 import Animation from '../components/animation';
 
+import SoundContext from '../lib/sound-context';
+
 const PlayerName = styled('h1')({
   fontFamily: 'retro, sans-serif',
   color: 'white',
@@ -18,6 +20,7 @@ const PlayerName = styled('h1')({
 
 export default function Fight(props) {
   const location = useLocation();
+  const { sound } = useContext(SoundContext);
 
   const socket = useRef(null);
   const [metaData, setMetaData] = useState(null);
@@ -42,8 +45,11 @@ export default function Fight(props) {
   });
   const [yourChar, setYourChar] = useState('');
   const [oppChar, setOppChar] = useState('');
+  const [yourAttack, setYourAttack] = useState(null);
+  const [oppAttack, setOppAttack] = useState(null);
 
   const hit = 20;
+
   const gameId = location.search.replace('?gameId=', '');
   const contextValue = {
     youFinishFirst: () => {
@@ -51,6 +57,7 @@ export default function Fight(props) {
         you: 'attack',
         opp: 'hit'
       });
+      yourAttack.play();
       const damagedHp = oppHp - hit;
       setOppHp(damagedHp);
       socket.current.emit('finish phrase', { gameId, damagedHp });
@@ -76,13 +83,16 @@ export default function Fight(props) {
       setYourId(metaData.hostId);
       setYourUsername(metaData.hostName);
       setYourChar(metaData.hostChar);
+      setYourAttack(new Audio(`/media/${metaData.hostChar}-attack.wav`));
       setOppUsername('Waiting for opponent...');
     } else {
       setYourId(metaData.oppId);
       setYourUsername(metaData.oppName);
       setOppUsername(metaData.hostName);
       setYourChar(metaData.oppChar);
+      setYourAttack(new Audio(`/media/${metaData.oppChar}-attack.wav`));
       setOppChar(metaData.hostChar);
+      setOppAttack(new Audio(`/media/${metaData.hostChar}-attack.wav`));
       socket.current.emit('game joined', metaData);
     }
   }, []);
@@ -95,6 +105,7 @@ export default function Fight(props) {
       setMetaData(metaData);
       setOppUsername(metaData.oppName);
       setOppChar(metaData.oppChar);
+      setOppAttack(new Audio(`/media/${metaData.oppChar}-attack.wav`));
     });
 
     socket.current.on('get random', phrase => {
@@ -133,6 +144,35 @@ export default function Fight(props) {
       socket.current.disconnect();
     };
   }, []);
+
+  // update attack volume
+  useEffect(() => {
+    if (!yourAttack || !oppAttack) return;
+
+    if (sound) {
+      if (yourChar === 'king' || yourChar === 'samurai') {
+        yourAttack.volume = 0.125;
+      } else if (yourChar === 'knight' || yourChar === 'wizard') {
+        yourAttack.volume = 0.5;
+      }
+
+      if (oppChar === 'king' || oppChar === 'samurai') {
+        oppAttack.volume = 0.125;
+      } else if (oppChar === 'knight' || oppChar === 'wizard') {
+        oppAttack.volume = 0.5;
+      }
+    } else {
+      yourAttack.volume = 0;
+      oppAttack.volume = 0;
+
+    }
+  }, [yourAttack, oppAttack, sound]);
+
+  useEffect(() => {
+    if (oppAttack) {
+      oppAttack.play();
+    }
+  }, [yourHp]);
 
   // get new phrase OR conclude game
   useEffect(() => {

@@ -104,6 +104,7 @@ input#playerName:focus {
   transform: scale(5, 5);
   position: absolute;
   bottom: 5%;
+  pointer-events: none;
 }
 
 .reverse {
