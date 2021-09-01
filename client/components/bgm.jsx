@@ -5,6 +5,13 @@ import { styled } from '@material-ui/core';
 import SoundContext from '../lib/sound-context';
 // Illusionary by FLASH ☆ BEAT
 
+const SoundControlContainer = styled('div')({
+  position: 'fixed',
+  bottom: 0,
+  right: 0,
+  margin: '1rem'
+});
+
 const SoundControlButton = styled('img')({
   width: '3rem'
 });
@@ -14,10 +21,10 @@ export default function BGM(props) {
   const soundSrc = sound ? '/media/sound.svg' : '/media/mute.svg';
   const musicSrc = music ? '/media/music.svg' : '/media/no-music.svg';
   return (
-    <>
+    <SoundControlContainer>
       <SoundControlButton src={soundSrc} onClick={() => { setSound(!sound); }} />
       <SoundControlButton src={musicSrc} onClick={() => { setMusic(!music); }} />
       <ReactAudioPlayer autoPlay muted={!music || !sound} loop src="/media/illusionary.mp3" volume={0.15} />
-    </>
+    </SoundControlContainer>
   );
 }
