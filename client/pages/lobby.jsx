@@ -42,6 +42,11 @@ const GamesTable = styled(Table)({
 export default function Lobby(props) {
   const [posts, setPosts] = useState([]);
   const { history } = useContext(RouterContext);
+  const slash = new Audio('/media/king-attack.wav');
+
+  function makeSound(event) {
+    slash.play();
+  }
 
   // connect socket
   useEffect(() => {
@@ -95,6 +100,7 @@ export default function Lobby(props) {
 
   return (
     <Container>
+      <button onClick={makeSound}>test</button>
       <Box mt={'20vh'}>
         <Grid container justifyContent="center">
           <Grid item xs={8}>
