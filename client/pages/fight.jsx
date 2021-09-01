@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { useLocation } from 'react-router';
 import TypingBox from '../components/typing-box';
 import Countdown from '../components/countdown';
@@ -9,6 +9,8 @@ import { io } from 'socket.io-client';
 import EndGameModal from '../components/end-game-modal';
 import Animation from '../components/animation';
 
+import SoundContext from '../lib/sound-context';
+
 const PlayerName = styled('h1')({
   fontFamily: 'retro, sans-serif',
   color: 'white',
@@ -18,6 +20,7 @@ const PlayerName = styled('h1')({
 
 export default function Fight(props) {
   const location = useLocation();
+  const { sound } = useContext(SoundContext);
 
   const socket = useRef(null);
   const [metaData, setMetaData] = useState(null);
@@ -146,18 +149,24 @@ export default function Fight(props) {
   useEffect(() => {
     if (!yourAttack || !oppAttack) return;
 
-    if (yourChar === 'king' || yourChar === 'samurai') {
-      yourAttack.volume = 0.125;
-    } else if (yourChar === 'knight' || yourChar === 'wizard') {
-      yourAttack.volume = 0.5;
-    }
+    if (sound) {
+      if (yourChar === 'king' || yourChar === 'samurai') {
+        yourAttack.volume = 0.125;
+      } else if (yourChar === 'knight' || yourChar === 'wizard') {
+        yourAttack.volume = 0.5;
+      }
 
-    if (oppChar === 'king' || oppChar === 'samurai') {
-      oppAttack.volume = 0.125;
-    } else if (oppChar === 'knight' || oppChar === 'wizard') {
-      oppAttack.volume = 0.5;
+      if (oppChar === 'king' || oppChar === 'samurai') {
+        oppAttack.volume = 0.125;
+      } else if (oppChar === 'knight' || oppChar === 'wizard') {
+        oppAttack.volume = 0.5;
+      }
+    } else {
+      yourAttack.volume = 0;
+      oppAttack.volume = 0;
+
     }
-  }, [yourAttack, oppAttack]);
+  }, [yourAttack, oppAttack, sound]);
 
   useEffect(() => {
     if (oppAttack) {
