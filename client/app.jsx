@@ -4,6 +4,7 @@ import { styled } from '@material-ui/core';
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import RouterContext from './lib/router-context';
 import UserContext from './lib/user-context';
+import SoundContext from './lib/sound-context';
 import BGM from './components/bgm';
 
 const BGContainer = styled('div')(() => ({
@@ -34,6 +35,8 @@ const BGOverlay = styled('div')(() => ({
 export default function App() {
   const [user, setUser] = useState(null);
   const [isAuthorizing, setIsAuthorizing] = useState(true);
+  const [sound, setSound] = useState(true);
+  const [music, setMusic] = useState(false);
   const history = useHistory();
   const location = useLocation();
 
@@ -60,24 +63,26 @@ export default function App() {
 
   return (
     <RouterContext.Provider value={{ history }}>
-      {backgroundImage}
+      <SoundContext.Provider value={{ sound, setSound, music, setMusic }}>
+        {backgroundImage}
 
-      <UserContext.Provider value={{ user, setUser }}>
-        <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/game/lobby" >
-            {user.userId ? <Lobby /> : <Redirect to="/game" />}
-          </Route>
-          <Route path="/game/fight" >
-            {user.userId ? <Fight /> : <Redirect to="/game" />}
-          </Route>
-          <Route path="/game" >
-            {user.userId ? <Redirect to="/game/lobby" /> : <Game />}
-          </Route>
-        </Switch>
-      </UserContext.Provider>
+        <UserContext.Provider value={{ user, setUser }}>
+            <Switch>
+              <Route exact path="/">
+                <Home />
+              </Route>
+              <Route path="/game/lobby" >
+                {user.userId ? <Lobby /> : <Redirect to="/game" />}
+              </Route>
+              <Route path="/game/fight" >
+                {user.userId ? <Fight /> : <Redirect to="/game" />}
+              </Route>
+              <Route path="/game" >
+                {user.userId ? <Redirect to="/game/lobby" /> : <Game />}
+              </Route>
+            </Switch>
+        </UserContext.Provider>
+      </SoundContext.Provider>
     </RouterContext.Provider>
   );
 }
