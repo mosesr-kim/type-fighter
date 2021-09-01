@@ -13,7 +13,7 @@ export default function BGM(props) {
   return (
     <>
       <MuteButton src={muteSrc} onClick={() => { setMute(!mute); }} />
-      <ReactAudioPlayer muted={mute} controls loop src="/media/illusionary.mp3" volume={0.15} />
+      <ReactAudioPlayer autoPlay muted={mute} loop src="/media/illusionary.mp3" volume={0.15} />
     </>
   );
 }
