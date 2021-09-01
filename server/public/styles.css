@@ -101,16 +101,16 @@ input#playerName:focus {
 }
 
 .animation {
-  transform: scale(5, 5);
+  transform: scale(4, 4);
   position: absolute;
-  bottom: 5%;
+  bottom: 10%;
   pointer-events: none;
 }
 
 .reverse {
-  transform: scale(5, 5) rotateY(180deg);
+  transform: scale(4, 4) rotateY(180deg);
   position: absolute;
-  bottom: 5%;
+  bottom: 10%;
 }
 
 .left-sprite {
