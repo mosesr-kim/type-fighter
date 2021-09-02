@@ -8,14 +8,34 @@ const PageSection = styled(Grid)({
   margin: '0 auto'
 });
 
+const HeroImage = styled(Grid)({
+  backgroundImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(81, 61, 61, 1)), url(/media/background.png)',
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'top',
+  backgroundSize: 'cover',
+  minHeight: '50vh',
+  position: 'relative'
+});
+
+const BackGround = styled('div')({
+  backgroundColor: 'rgb(81, 61, 61)',
+  minHeight: '100vh'
+});
+
+const LightBG = styled(Grid)({
+  backgroundColor: '#816A65'
+});
+
 export default function Home(props) {
   return (
-    <div> {/* LANDING PAGE BACKGROUND */}
+    <>
       <Grid container>
         <PageSection item xs={12}>
           <NavBar />
         </PageSection>
+      </Grid>
 
+      <HeroImage container alignItems="center">
         <PageSection item xs={12}>
           <Grid container>
             <Grid item sm={6}>
@@ -48,62 +68,67 @@ export default function Home(props) {
             </Grid>
           </Grid>
         </PageSection>
+      </HeroImage>
 
-        <PageSection item xs={12}>
-          <Grid container>
-            <Grid item sm={6}>
-              <p>Some image here</p>
-            </Grid>
-            <Grid item sm={6}>
-              <Grid container direction='column'>
-                <Grid item>
-                  <h2>About the game</h2>
-                </Grid>
-                <Grid item>
-                  <p>
-                    Interdum et malesuada fames ac ante ipsum primis in faucibus.
-                    Aliquam at velit urna. Nam ex ligula, elementum eget viverra sit
-                    amet, efficitur a tortor. Integer tristique egestas euismod.
-                    Fusce sed risus ac urna mollis pellentesque. Sed et lacinia lectus.
-                    Cras dapibus lacinia ligula, sit amet ullamcorper metus sodales non.
-                    Maecenas fringilla erat ut eros consequat vestibulum. Ut porta sit
-                    amet felis eu imperdiet. Sed id leo ligula.
-                  </p>
+      <BackGround>
+        <Grid container >
+          <PageSection item xs={12}>
+            <Grid container>
+              <Grid item sm={6}>
+                <p>Some image here</p>
+              </Grid>
+              <Grid item sm={6}>
+                <Grid container direction='column'>
+                  <Grid item>
+                    <h2>About the game</h2>
+                  </Grid>
+                  <Grid item>
+                    <p>
+                      Interdum et malesuada fames ac ante ipsum primis in faucibus.
+                      Aliquam at velit urna. Nam ex ligula, elementum eget viverra sit
+                      amet, efficitur a tortor. Integer tristique egestas euismod.
+                      Fusce sed risus ac urna mollis pellentesque. Sed et lacinia lectus.
+                      Cras dapibus lacinia ligula, sit amet ullamcorper metus sodales non.
+                      Maecenas fringilla erat ut eros consequat vestibulum. Ut porta sit
+                      amet felis eu imperdiet. Sed id leo ligula.
+                    </p>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
-          </Grid>
-        </PageSection>
+          </PageSection>
+        </Grid>
 
-        <PageSection item xs={12}>
-          <Grid container>
-            <Grid item sm={6}>
-              <Grid container direction='column'>
-                <Grid item>
-                  <h2>How to play</h2>
+        <LightBG container>
+          <PageSection item xs={12}>
+            <Grid container>
+              <Grid item sm={6}>
+                <Grid container direction='column'>
+                  <Grid item>
+                    <h2>How to play</h2>
+                  </Grid>
+                  <Grid item>
+                    <p>
+                      Interdum et malesuada fames ac ante ipsum primis in faucibus.
+                      Aliquam at velit urna. Nam ex ligula, elementum eget viverra sit
+                      amet, efficitur a tortor. Integer tristique egestas euismod.
+                      Fusce sed risus ac urna mollis pellentesque. Sed et lacinia lectus.
+                      Cras dapibus lacinia ligula, sit amet ullamcorper metus sodales non.
+                      Maecenas fringilla erat ut eros consequat vestibulum. Ut porta sit
+                      amet felis eu imperdiet. Sed id leo ligula.
+                    </p>
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <p>
-                    Interdum et malesuada fames ac ante ipsum primis in faucibus.
-                    Aliquam at velit urna. Nam ex ligula, elementum eget viverra sit
-                    amet, efficitur a tortor. Integer tristique egestas euismod.
-                    Fusce sed risus ac urna mollis pellentesque. Sed et lacinia lectus.
-                    Cras dapibus lacinia ligula, sit amet ullamcorper metus sodales non.
-                    Maecenas fringilla erat ut eros consequat vestibulum. Ut porta sit
-                    amet felis eu imperdiet. Sed id leo ligula.
-                  </p>
+              </Grid>
+              <Grid item sm={6}>
+                <Grid container>
+                  <p>Gif Here</p>
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item sm={6}>
-              <Grid container>
-                <p>Gif Here</p>
-              </Grid>
-            </Grid>
-          </Grid>
-        </PageSection>
-
-      </Grid>
-    </div>
+          </PageSection>
+        </LightBG>
+      </BackGround>
+    </>
   );
 }
