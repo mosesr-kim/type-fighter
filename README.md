@@ -1,6 +1,6 @@
 # Type Fighter
 
-A full stack JavaScript team hackathon project for Mintbean!  Our application Type Fighter(live link here) allows you to put your typing skills to the test against other players in a real-time, online experience.  Race to complete a phrase before your opponent to deal damage and eventually defeat your opposition.
+A full stack JavaScript team hackathon project for Mintbean!  Our application [Type Fighter](https://the-type-fighter.herokuapp.com/) allows you to put your typing skills to the test against other players in a real-time, online experience.  Race to complete a phrase before your opponent to deal damage and eventually defeat your opposition.
 
 Check it out [here](https://the-type-fighter.herokuapp.com/)!
 
