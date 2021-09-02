@@ -4,7 +4,12 @@ import { Grid, styled } from '@material-ui/core';
 
 const PageSection = styled(Grid)({
   maxWidth: '1080px',
-  margin: '0 auto'
+  margin: '0 auto',
+  padding: '2rem 1rem'
+});
+
+const Gif = styled('img')({
+  maxWidth: '100%'
 });
 
 const HeroImage = styled(Grid)({
@@ -17,8 +22,7 @@ const HeroImage = styled(Grid)({
 });
 
 const BackGround = styled('div')({
-  backgroundColor: 'rgb(81, 61, 61)',
-  minHeight: '100vh'
+  backgroundColor: 'rgb(81, 61, 61)'
 });
 
 const LightBG = styled(Grid)({
@@ -43,11 +47,11 @@ export default function Home(props) {
       <BackGround>
         <Grid container >
           <PageSection item xs={12}>
-            <Grid container>
-              <Grid item sm={6}>
+            <Grid container spacing={3}>
+              <Grid item md={6}>
                 <p>Some image here</p>
               </Grid>
-              <Grid item sm={6}>
+              <Grid item md={6}>
                 <Grid container direction='column'>
                   <Grid item>
                     <h2>About the game</h2>
@@ -56,7 +60,7 @@ export default function Home(props) {
                     <p>
                       Interdum et malesuada fames ac ante ipsum primis in faucibus.
                       Aliquam at velit urna. Nam ex ligula, elementum eget viverra sit
-                      amet, efficitur a tortor. Integer tristique egestas euismod.
+                      amet, efficitur a tortor. Integer tristique egestas euimdod.
                       Fusce sed risus ac urna mollis pellentesque. Sed et lacinia lectus.
                       Cras dapibus lacinia ligula, sit amet ullamcorper metus sodales non.
                       Maecenas fringilla erat ut eros consequat vestibulum. Ut porta sit
@@ -71,17 +75,17 @@ export default function Home(props) {
 
         <LightBG container>
           <PageSection item xs={12}>
-            <Grid container>
-              <Grid item sm={6}>
+            <Grid container spacing={3}>
+              <Grid item md={6}>
                 <Grid container direction='column'>
                   <Grid item>
-                    <h2>How to play</h2>
+                    <h2>Technologies Used</h2>
                   </Grid>
                   <Grid item>
                     <p>
                       Interdum et malesuada fames ac ante ipsum primis in faucibus.
                       Aliquam at velit urna. Nam ex ligula, elementum eget viverra sit
-                      amet, efficitur a tortor. Integer tristique egestas euismod.
+                      amet, efficitur a tortor. Integer tristique egestas euimdod.
                       Fusce sed risus ac urna mollis pellentesque. Sed et lacinia lectus.
                       Cras dapibus lacinia ligula, sit amet ullamcorper metus sodales non.
                       Maecenas fringilla erat ut eros consequat vestibulum. Ut porta sit
@@ -90,10 +94,8 @@ export default function Home(props) {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item sm={6}>
-                <Grid container>
-                  <p>Gif Here</p>
-                </Grid>
+              <Grid item md={6}>
+                <Gif src="/media/creating-user.gif" alt="creating user gif" />
               </Grid>
             </Grid>
           </PageSection>
