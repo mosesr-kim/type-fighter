@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Home, Game, Lobby, Fight } from './pages';
 import { styled } from '@material-ui/core';
-import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import { Redirect, Route, Switch, useHistory, useLocation, Link } from 'react-router-dom';
 import RouterContext from './lib/router-context';
 import UserContext from './lib/user-context';
 import SoundContext from './lib/sound-context';
@@ -32,6 +32,18 @@ const BGOverlay = styled('div')(() => ({
   backgroundColor: 'rgba(0, 0, 0, 0.5)'
 }));
 
+const BackButton = styled('button')({
+  position: 'absolute',
+  font: 'retro, sans-serif',
+  fontSize: '1rem',
+  padding: '0.5rem 1rem',
+  border: '3px solid white',
+  background: 'none',
+  color: 'white',
+  top: '2%',
+  left: '2%'
+});
+
 export default function App() {
   const [user, setUser] = useState(null);
   const [isAuthorizing, setIsAuthorizing] = useState(true);
@@ -61,26 +73,35 @@ export default function App() {
       )
     : null;
 
+  if (location.pathname !== '/') {
+    document.body.classList.add('no-scroll');
+  }
+
   return (
-    <RouterContext.Provider value={{ history }}>
-      <SoundContext.Provider value={{ sound, setSound, music, setMusic }}>
-        {backgroundImage}
+      <RouterContext.Provider value={{ history }}>
+        <SoundContext.Provider value={{ sound, setSound, music, setMusic }}>
+          {backgroundImage}
+          {location.pathname !== '/' && (
+            <Link to="/">
+              <BackButton>Back</BackButton>
+            </Link>
+          )}
 
         <UserContext.Provider value={{ user, setUser }}>
-            <Switch>
-              <Route exact path="/">
-                <Home />
-              </Route>
-              <Route path="/game/lobby" >
-                {user.userId ? <Lobby /> : <Redirect to="/game" />}
-              </Route>
-              <Route path="/game/fight" >
-                {user.userId ? <Fight /> : <Redirect to="/game" />}
-              </Route>
-              <Route path="/game" >
-                {user.userId ? <Redirect to="/game/lobby" /> : <Game />}
-              </Route>
-            </Switch>
+          <Switch>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route path="/game/lobby" >
+              {user.userId ? <Lobby /> : <Redirect to="/game" />}
+            </Route>
+            <Route path="/game/fight" >
+              {user.userId ? <Fight style={{ position: 'relative', overflow: 'hidden' }} /> : <Redirect to="/game" />}
+            </Route>
+            <Route path="/game" >
+              {user.userId ? <Redirect to="/game/lobby" /> : <Game />}
+            </Route>
+          </Switch>
         </UserContext.Provider>
       </SoundContext.Provider>
     </RouterContext.Provider>

@@ -1,33 +1,39 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { Grid, Link } from '@material-ui/core';
+import { Grid, Typography, styled } from '@material-ui/core';
+import PlayButton from '../components/play-button';
+
+const NavText = styled(Typography)({
+  color: 'rgb(81, 61, 61)',
+  transition: 'color 0.125s',
+  '&:hover': {
+    color: '#F24956'
+  }
+});
 
 export default function NavBar(props) {
   return (
-    <Grid container spacing={2}>
+    <Grid container alignItems="center" justifyContent="space-between">
       <Grid item>
-        <Link component={RouterLink} to="/">
-          Home
-        </Link>
+        <Grid container spacing={2}>
+          <Grid item>
+            <a href="#about-game" style={{ textDecoration: 'none' }}>
+              <NavText variant="h6">
+                About
+              </NavText>
+            </a>
+          </Grid>
+          <Grid item>
+            <a href="#meet-devs" style={{ textDecoration: 'none' }}>
+              <NavText variant="h6">
+                Developers
+              </NavText>
+            </a>
+          </Grid>
+        </Grid>
       </Grid>
       <Grid item>
-        <Link component={RouterLink} to="#about-game">
-          About the Game
-        </Link>
-      </Grid>
-      <Grid item>
-        <Link component={RouterLink} to="#meet-devs">
-          Meet the Developers
-        </Link>
+        <PlayButton />
       </Grid>
     </Grid>
   );
 }
-
-/*
-<Grid item>
-  <Link to="/game">
-    <button>Play</button>
-  </Link>
-</Grid>
-*/
