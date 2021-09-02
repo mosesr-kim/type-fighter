@@ -61,12 +61,17 @@ export default function App() {
       )
     : null;
 
-  return (
-    <RouterContext.Provider value={{ history }}>
-      <SoundContext.Provider value={{ sound, setSound, music, setMusic }}>
-        {backgroundImage}
+  const noScroll = location.pathname !== '/'
+    ? 'no-scroll'
+    : '';
 
-        <UserContext.Provider value={{ user, setUser }}>
+  return (
+    <div className={noScroll}>
+      <RouterContext.Provider value={{ history }}>
+        <SoundContext.Provider value={{ sound, setSound, music, setMusic }}>
+          {backgroundImage}
+
+          <UserContext.Provider value={{ user, setUser }}>
             <Switch>
               <Route exact path="/">
                 <Home />
@@ -81,8 +86,9 @@ export default function App() {
                 {user.userId ? <Redirect to="/game/lobby" /> : <Game />}
               </Route>
             </Switch>
-        </UserContext.Provider>
-      </SoundContext.Provider>
-    </RouterContext.Provider>
+          </UserContext.Provider>
+        </SoundContext.Provider>
+      </RouterContext.Provider>
+    </div>
   );
 }
