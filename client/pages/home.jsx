@@ -22,6 +22,10 @@ const BackGround = styled('div')({
   minHeight: '100vh'
 });
 
+const LightBG = styled(Grid)({
+  backgroundColor: '#816A65'
+});
+
 export default function Home(props) {
   return (
     <>
@@ -95,7 +99,7 @@ export default function Home(props) {
           </PageSection>
         </Grid>
 
-        <Grid container>
+        <LightBG container>
           <PageSection item xs={12}>
             <Grid container>
               <Grid item sm={6}>
@@ -123,7 +127,7 @@ export default function Home(props) {
               </Grid>
             </Grid>
           </PageSection>
-        </Grid>
+        </LightBG>
       </BackGround>
     </>
   );
