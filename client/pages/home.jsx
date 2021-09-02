@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavBar, AboutTheGame, HowToPlay, TechnologiesUsed } from '../components';
-import { Grid, styled } from '@material-ui/core';
+import { Grid, styled, Fade } from '@material-ui/core';
+import VizSensor from 'react-visibility-sensor';
 
 const NavContainer = styled(Grid)({
   backgroundColor: '#FEFEF2'
