@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavBar, AboutTheGame, HowToPlay, TechnologiesUsed } from '../components';
+import { NavBar, AboutTheGame, HowToPlay, TechnologiesUsed, MeetDevelopers } from '../components';
 import { Grid, styled } from '@material-ui/core';
 
 const NavContainer = styled(Grid)({
@@ -56,6 +56,12 @@ export default function Home(props) {
             <TechnologiesUsed />
           </PageSection>
         </LightBG>
+
+        <Grid container>
+          <PageSection item xs={12}>
+            <MeetDevelopers/>
+          </PageSection>
+        </Grid>
       </BackGround>
     </>
   );

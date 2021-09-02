@@ -20,7 +20,7 @@ export default function HowToPlay(props) {
         <Grid container>
           <Grid container direction='column'>
             <MyTypography variant="h4" style={{ fontFamily: 'retro, sans-serif', color: '#f24956' }}>How to play</MyTypography>
-            <MyTypography variant="body1" style={{ lineHeight: '2.2' }}>
+            <MyTypography variant="body1" style={{ lineHeight: '2' }}>
               &#8226; Enter your username and select your character.<br/>
               &#8226; Join an existing game by clicking JOIN GAME.<br />
               &#8226; Or challenge others by clicking POST A GAME.<br/>
