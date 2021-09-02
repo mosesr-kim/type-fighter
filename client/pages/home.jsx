@@ -8,6 +8,10 @@ const PageSection = styled(Grid)({
   margin: '0 auto'
 });
 
+const Gif = styled('img')({
+  maxWidth: '720px'
+});
+
 const HeroImage = styled(Grid)({
   backgroundImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(81, 61, 61, 1)), url(/media/background.png)',
   backgroundRepeat: 'no-repeat',
@@ -63,7 +67,7 @@ export default function Home(props) {
             </Grid>
             <Grid item sm={6}>
               <Grid container>
-                <p>Gif Here</p>
+                <Gif src="/media/typing-phrase.gif" alt="typing phrase gif"/>
               </Grid>
             </Grid>
           </Grid>
@@ -122,7 +126,7 @@ export default function Home(props) {
               </Grid>
               <Grid item sm={6}>
                 <Grid container>
-                  <p>Gif Here</p>
+                  <Gif src="/media/creating-user.gif" alt="creating user gif" />
                 </Grid>
               </Grid>
             </Grid>
