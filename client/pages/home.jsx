@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavBar, AboutTheGame } from '../components';
+import { NavBar, AboutTheGame, TechnologiesUsed } from '../components';
 import { Grid, styled } from '@material-ui/core';
 
 const PageSection = styled(Grid)({
@@ -75,6 +75,7 @@ export default function Home(props) {
 
         <LightBG container>
           <PageSection item xs={12}>
+            <TechnologiesUsed />
             <Grid container spacing={3}>
               <Grid item md={6}>
                 <Grid container direction='column'>
