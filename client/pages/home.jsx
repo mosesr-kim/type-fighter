@@ -3,6 +3,11 @@ import { NavBar } from '../components';
 import { Link as RouterLink } from 'react-router-dom';
 import { Grid, styled } from '@material-ui/core';
 
+const NavContainer = styled(Grid)({
+  backgroundColor: '#FEFEF2',
+  padding: '1rem 0'
+});
+
 const PageSection = styled(Grid)({
   maxWidth: '1080px',
   margin: '0 auto',
@@ -33,11 +38,11 @@ const LightBG = styled(Grid)({
 export default function Home(props) {
   return (
     <>
-      <Grid container>
+      <NavContainer container>
         <PageSection item xs={12}>
           <NavBar />
         </PageSection>
-      </Grid>
+      </NavContainer>
 
       <HeroImage container alignItems="center">
         <PageSection item xs={12}>
