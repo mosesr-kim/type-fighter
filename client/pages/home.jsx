@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavBar, AboutTheGame } from '../components';
-import { Link as RouterLink } from 'react-router-dom';
-import { Grid, styled, Typography } from '@material-ui/core';
+import { Grid, styled } from '@material-ui/core';
 
 const PageSection = styled(Grid)({
   maxWidth: '1080px',
