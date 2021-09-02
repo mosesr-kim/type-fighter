@@ -73,12 +73,11 @@ export default function App() {
       )
     : null;
 
-  const noScroll = location.pathname !== '/'
-    ? 'no-scroll'
-    : '';
+  if (location.pathname !== '/') {
+    document.body.classList.add('no-scroll');
+  }
 
   return (
-    <div className={noScroll}>
       <RouterContext.Provider value={{ history }}>
         <SoundContext.Provider value={{ sound, setSound, music, setMusic }}>
           {backgroundImage}
@@ -88,24 +87,23 @@ export default function App() {
             </Link>
           )}
 
-          <UserContext.Provider value={{ user, setUser }}>
-            <Switch>
-              <Route exact path="/">
-                <Home />
-              </Route>
-              <Route path="/game/lobby" >
-                {user.userId ? <Lobby /> : <Redirect to="/game" />}
-              </Route>
-              <Route path="/game/fight" >
-                {user.userId ? <Fight /> : <Redirect to="/game" />}
-              </Route>
-              <Route path="/game" >
-                {user.userId ? <Redirect to="/game/lobby" /> : <Game />}
-              </Route>
-            </Switch>
-          </UserContext.Provider>
-        </SoundContext.Provider>
-      </RouterContext.Provider>
-    </div>
+        <UserContext.Provider value={{ user, setUser }}>
+          <Switch>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route path="/game/lobby" >
+              {user.userId ? <Lobby /> : <Redirect to="/game" />}
+            </Route>
+            <Route path="/game/fight" >
+              {user.userId ? <Fight style={{ position: 'relative', overflow: 'hidden' }} /> : <Redirect to="/game" />}
+            </Route>
+            <Route path="/game" >
+              {user.userId ? <Redirect to="/game/lobby" /> : <Game />}
+            </Route>
+          </Switch>
+        </UserContext.Provider>
+      </SoundContext.Provider>
+    </RouterContext.Provider>
   );
 }
