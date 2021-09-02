@@ -14,7 +14,7 @@ export default function TechnologiesUsed(props) {
   return (
     <TechContainer container>
       <Grid item sm={12}>
-        <Typography variant="h4" style={{ fontFamily: 'retro, sans-serif', color: '#F24956' }}>
+        <Typography variant="h4" style={{ fontFamily: 'retro, sans-serif', color: '#EC6D77' }}>
           Technologies Used
         </Typography>
         <Box display="flex" flexWrap="wrap" justifyContent="center">
