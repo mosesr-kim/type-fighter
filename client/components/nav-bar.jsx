@@ -6,7 +6,7 @@ export default function NavBar(props) {
   return (
     <Grid container spacing={2}>
       <Grid item>
-        <Link to="/">
+        <Link component={RouterLink} to="/">
           Home
         </Link>
       </Grid>

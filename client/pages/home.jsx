@@ -6,14 +6,14 @@ import { Grid } from '@material-ui/core';
 export default function Home(props) {
   return (
     <Grid container style={{ maxWidth: '1080px', margin: '0 auto ', justifyContent: 'space-between' }}>
-      <Grid item>
+      <Grid item xs={12}>
         <NavBar />
       </Grid>
 
-      <Grid item>
+      <Grid item xs={12}>
         <Grid container>
-          <Grid item xs={6}>
-            <Grid container direction='column'>
+          <Grid item sm={6}>
+            <Grid container>
               <Grid item>
                 <h2>Type Fighter</h2>
               </Grid>
@@ -35,7 +35,7 @@ export default function Home(props) {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item sm={6}>
             <Grid container>
               <p>Gif Here</p>
             </Grid>
@@ -43,12 +43,12 @@ export default function Home(props) {
         </Grid>
       </Grid>
 
-      <Grid item>
+      <Grid item xs={12}>
         <Grid container>
-          <Grid item xs={6}>
+          <Grid item sm={6}>
             <p>Some image here</p>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item sm={6}>
             <Grid container direction='column'>
               <Grid item>
                 <h2>About the game</h2>
@@ -69,9 +69,9 @@ export default function Home(props) {
         </Grid>
       </Grid>
 
-      <Grid item>
+      <Grid item xs={12}>
         <Grid container>
-          <Grid item xs={6}>
+          <Grid item sm={6}>
             <Grid container direction='column'>
               <Grid item>
                 <h2>How to play</h2>
@@ -89,7 +89,7 @@ export default function Home(props) {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item sm={6}>
             <Grid container>
               <p>Gif Here</p>
             </Grid>
