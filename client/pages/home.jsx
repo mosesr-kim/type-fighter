@@ -107,7 +107,7 @@ export default function Home(props) {
               <Grid item md={6}>
                 <Grid container direction='column'>
                   <Grid item>
-                    <h2>How to play</h2>
+                    <h2>Technologies Used</h2>
                   </Grid>
                   <Grid item>
                     <p>
