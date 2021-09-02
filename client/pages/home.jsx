@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavBar } from '../components';
+import { NavBar, HowToPlay } from '../components';
 import { Link as RouterLink } from 'react-router-dom';
 import { Grid, styled } from '@material-ui/core';
 
@@ -9,7 +9,7 @@ const PageSection = styled(Grid)({
 });
 
 const Gif = styled('img')({
-  maxWidth: '720px'
+  maxWidth: '100%'
 });
 
 const HeroImage = styled(Grid)({
@@ -77,56 +77,27 @@ export default function Home(props) {
       <BackGround>
         <Grid container >
           <PageSection item xs={12}>
-            <Grid container>
-              <Grid item sm={6}>
-                <p>Some image here</p>
-              </Grid>
-              <Grid item sm={6}>
-                <Grid container direction='column'>
-                  <Grid item>
-                    <h2>About the game</h2>
-                  </Grid>
-                  <Grid item>
-                    <p>
-                      Interdum et malesuada fames ac ante ipsum primis in faucibus.
-                      Aliquam at velit urna. Nam ex ligula, elementum eget viverra sit
-                      amet, efficitur a tortor. Integer tristique egestas euismod.
-                      Fusce sed risus ac urna mollis pellentesque. Sed et lacinia lectus.
-                      Cras dapibus lacinia ligula, sit amet ullamcorper metus sodales non.
-                      Maecenas fringilla erat ut eros consequat vestibulum. Ut porta sit
-                      amet felis eu imperdiet. Sed id leo ligula.
-                    </p>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
+            <HowToPlay />
           </PageSection>
         </Grid>
 
         <LightBG container>
           <PageSection item xs={12}>
             <Grid container>
-              <Grid item sm={6}>
-                <Grid container direction='column'>
-                  <Grid item>
-                    <h2>How to play</h2>
-                  </Grid>
-                  <Grid item>
-                    <p>
-                      Interdum et malesuada fames ac ante ipsum primis in faucibus.
-                      Aliquam at velit urna. Nam ex ligula, elementum eget viverra sit
-                      amet, efficitur a tortor. Integer tristique egestas euismod.
-                      Fusce sed risus ac urna mollis pellentesque. Sed et lacinia lectus.
-                      Cras dapibus lacinia ligula, sit amet ullamcorper metus sodales non.
-                      Maecenas fringilla erat ut eros consequat vestibulum. Ut porta sit
-                      amet felis eu imperdiet. Sed id leo ligula.
-                    </p>
-                  </Grid>
+              <Grid container>
+                <Grid item>
+                  <h2>Technologies Used</h2>
                 </Grid>
-              </Grid>
-              <Grid item sm={6}>
-                <Grid container>
-                  <Gif src="/media/creating-user.gif" alt="creating user gif" />
+                <Grid item>
+                  <p>
+                    Interdum et malesuada fames ac ante ipsum primis in faucibus.
+                    Aliquam at velit urna. Nam ex ligula, elementum eget viverra sit
+                    amet, efficitur a tortor. Integer tristique egestas euismod.
+                    Fusce sed risus ac urna mollis pellentesque. Sed et lacinia lectus.
+                    Cras dapibus lacinia ligula, sit amet ullamcorper metus sodales non.
+                    Maecenas fringilla erat ut eros consequat vestibulum. Ut porta sit
+                    amet felis eu imperdiet. Sed id leo ligula.
+                  </p>
                 </Grid>
               </Grid>
             </Grid>
