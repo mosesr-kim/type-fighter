@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { Grid, Link } from '@material-ui/core';
+import PlayButton from '../components/play-button';
 
 export default function NavBar(props) {
   return (
@@ -20,14 +21,9 @@ export default function NavBar(props) {
           Meet the Developers
         </Link>
       </Grid>
+      <Grid item>
+        <PlayButton />
+      </Grid>
     </Grid>
   );
 }
-
-/*
-<Grid item>
-  <Link to="/game">
-    <button>Play</button>
-  </Link>
-</Grid>
-*/
