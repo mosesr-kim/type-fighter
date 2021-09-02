@@ -6,7 +6,7 @@ import { Grid, styled } from '@material-ui/core';
 const PageSection = styled(Grid)({
   maxWidth: '1080px',
   margin: '0 auto',
-  padding: '1rem'
+  padding: '2rem 1rem'
 });
 
 const Gif = styled('img')({
