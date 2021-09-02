@@ -23,8 +23,7 @@ const HeroImage = styled(Grid)({
 });
 
 const BackGround = styled('div')({
-  backgroundColor: 'rgb(81, 61, 61)',
-  minHeight: '100vh'
+  backgroundColor: 'rgb(81, 61, 61)'
 });
 
 const LightBG = styled(Grid)({
