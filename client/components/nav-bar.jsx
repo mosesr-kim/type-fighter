@@ -1,12 +1,10 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { Grid, Link, Typography, styled } from '@material-ui/core';
+import { Grid, Typography, styled } from '@material-ui/core';
 import PlayButton from '../components/play-button';
 
 const NavText = styled(Typography)({
   color: 'rgb(81, 61, 61)',
-  textDecoration: 'none',
-  transition: 'color 0.25s ease-in-out',
+  transition: 'color 0.125s',
   '&:hover': {
     color: '#F24956'
   }
@@ -18,18 +16,18 @@ export default function NavBar(props) {
       <Grid item>
         <Grid container spacing={2}>
           <Grid item>
-            <Link underline="none" component={RouterLink} to="#about-game">
+            <a href="#about-game" style={{ textDecoration: 'none' }}>
               <NavText variant="h6">
                 About
               </NavText>
-            </Link>
+            </a>
           </Grid>
           <Grid item>
-            <Link underline="none" component={RouterLink} to="#meet-devs">
+            <a href="#meet-devs" style={{ textDecoration: 'none' }}>
               <NavText variant="h6">
                 Developers
               </NavText>
-            </Link>
+            </a>
           </Grid>
         </Grid>
       </Grid>

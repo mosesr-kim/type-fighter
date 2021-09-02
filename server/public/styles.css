@@ -124,3 +124,7 @@ input#playerName:focus {
 .no-scroll {
   overflow: hidden;
 }
+
+html {
+  scroll-behavior: smooth;
+}
