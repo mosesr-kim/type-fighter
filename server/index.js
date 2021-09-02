@@ -11,6 +11,7 @@ const getQuote = require('./get-quote');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser')(process.env.COOKIE_SECRET);
 const authorizationMiddleware = require('./authorization-middleware');
+const path = require('path');
 
 const app = express();
 const server = http.createServer(app);
@@ -234,6 +235,13 @@ app.put('/api/game/:gameId', authorizationMiddleware, (req, res, next) => {
         throw new ClientError(404, 'gameId not found');
       }
     }).catch(err => next(err));
+});
+
+// Middleware for React Router. Allows refreshes on page
+app.use((req, res) => {
+  res.sendFile('/index.html', {
+    root: path.join(__dirname, 'public')
+  });
 });
 
 app.use(errorMiddleware);
