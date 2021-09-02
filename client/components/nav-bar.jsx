@@ -11,13 +11,13 @@ export default function NavBar(props) {
         </Link>
       </Grid>
       <Grid item>
-        <Link to="/game">
-          <button>About the game</button>
+        <Link component={RouterLink} to="#about-game">
+          About the Game
         </Link>
       </Grid>
       <Grid item>
-        <Link to="/game">
-          <button>Meet the developers</button>
+        <Link component={RouterLink} to="#meet-devs">
+          Meet the Developers
         </Link>
       </Grid>
     </Grid>
