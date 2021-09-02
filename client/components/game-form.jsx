@@ -48,7 +48,11 @@ export default function GameForm(props) {
   ];
 
   const changeName = event => {
-    setUsername(event.target.value);
+    const name = event.target.value;
+    if (name.length > 20) {
+      return;
+    }
+    setUsername(name);
   };
 
   const chooseChar = char => {
