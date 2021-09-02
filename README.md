@@ -4,11 +4,9 @@ A full stack JavaScript team hackathon project for Mintbean!  Our application Ty
 
 Check it out here(live link here)!
 
-gif of creating a game
+![creating-user](https://user-images.githubusercontent.com/82472092/131790471-3e66d169-6024-49b6-a899-133056af01b6.gif)
 
-gif of damaging opponent
-
-gif of defeating opponent and returning to the lobby
+![typing-phrase](https://user-images.githubusercontent.com/82472092/131790499-42ae7ece-b813-4cad-8717-847610402559.gif)
 
 ## Contributors
 
