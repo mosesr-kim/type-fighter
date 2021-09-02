@@ -1,12 +1,13 @@
 import React from 'react';
 import { NavBar } from '../components';
+import { Link as RouterLink } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 
 export default function Home(props) {
   return (
     <Grid container style={{ maxWidth: '1080px', margin: '0 auto ', justifyContent: 'space-between' }}>
       <Grid item>
-
+        <NavBar />
       </Grid>
 
       <Grid item>
@@ -28,9 +29,9 @@ export default function Home(props) {
                 </p>
               </Grid>
               <Grid item>
-                <Link to="/game">
+                <RouterLink to="/game">
                   <button>Play</button>
-                </Link>
+                </RouterLink>
               </Grid>
             </Grid>
           </Grid>

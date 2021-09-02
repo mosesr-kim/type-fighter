@@ -23,3 +23,11 @@ export default function NavBar(props) {
     </Grid>
   );
 }
+
+/*
+<Grid item>
+  <Link to="/game">
+    <button>Play</button>
+  </Link>
+</Grid>
+*/
