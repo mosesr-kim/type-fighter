@@ -5,11 +5,12 @@ import { Grid, styled } from '@material-ui/core';
 
 const PageSection = styled(Grid)({
   maxWidth: '1080px',
-  margin: '0 auto'
+  margin: '0 auto',
+  padding: '2rem'
 });
 
 const Gif = styled('img')({
-  maxWidth: '720px'
+  maxWidth: '100%'
 });
 
 const HeroImage = styled(Grid)({
