@@ -1,7 +1,7 @@
 import React from 'react';
-import { NavBar } from '../components';
+import { NavBar, AboutTheGame } from '../components';
 import { Link as RouterLink } from 'react-router-dom';
-import { Grid, styled } from '@material-ui/core';
+import { Grid, styled, Typography } from '@material-ui/core';
 
 const PageSection = styled(Grid)({
   maxWidth: '1080px',
@@ -37,36 +37,7 @@ export default function Home(props) {
 
       <HeroImage container alignItems="center">
         <PageSection item xs={12}>
-          <Grid container>
-            <Grid item sm={6}>
-              <Grid container>
-                <Grid item>
-                  <h2>Type Fighter</h2>
-                </Grid>
-                <Grid item>
-                  <p>
-                    Interdum et malesuada fames ac ante ipsum primis in faucibus.
-                    Aliquam at velit urna. Nam ex ligula, elementum eget viverra sit
-                    amet, efficitur a tortor. Integer tristique egestas euismod.
-                    Fusce sed risus ac urna mollis pellentesque. Sed et lacinia lectus.
-                    Cras dapibus lacinia ligula, sit amet ullamcorper metus sodales non.
-                    Maecenas fringilla erat ut eros consequat vestibulum. Ut porta sit
-                    amet felis eu imperdiet. Sed id leo ligula.
-                  </p>
-                </Grid>
-                <Grid item>
-                  <RouterLink to="/game">
-                    <button>Play</button>
-                  </RouterLink>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item sm={6}>
-              <Grid container>
-                <p>Gif Here</p>
-              </Grid>
-            </Grid>
-          </Grid>
+          <AboutTheGame />
         </PageSection>
       </HeroImage>
 
