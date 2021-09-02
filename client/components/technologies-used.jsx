@@ -17,7 +17,7 @@ export default function TechnologiesUsed(props) {
         <Typography variant="h4" style={{ fontFamily: 'retro, sans-serif', color: '#F24956' }}>
           Technologies Used
         </Typography>
-        <Box width="100%" justifyContent="space-between">
+        <Box display="flex" flexWrap="wrap" justifyContent="center">
           <Badge src="/badges/javascript.svg" alt="JavaScript" />
           <Badge src="/badges/react.svg" alt="React" />
           <Badge src="/badges/material-ui.svg" alt="Material UI" />
