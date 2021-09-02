@@ -1,10 +1,14 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
+import { Typography, styled } from '@material-ui/core';
+
+const StyledTypography = styled(Typography)({
+  margin: '0.75rem 0'
+});
 
 export default function MyTypography(props) {
   return (
-    <Typography variant={props.variant} style={props.style}>
+    <StyledTypography variant={props.variant} style={props.style}>
       {props.children}
-    </Typography>
+    </StyledTypography>
   );
 }

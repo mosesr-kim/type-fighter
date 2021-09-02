@@ -15,7 +15,7 @@ const StyledButton = styled('button')({
 export default function PlayButton(props) {
   return (
     <RouterLink to="/game">
-      <StyledButton variant="button">Play</StyledButton>
+      <StyledButton style={props.style} variant="button">Play</StyledButton>
     </RouterLink>
   );
 }
