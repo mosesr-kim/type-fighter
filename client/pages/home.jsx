@@ -1,6 +1,11 @@
 import React from 'react';
-import { NavBar, AboutTheGame, TechnologiesUsed } from '../components';
+import { NavBar, AboutTheGame, HowToPlay, TechnologiesUsed } from '../components';
 import { Grid, styled } from '@material-ui/core';
+
+const NavContainer = styled(Grid)({
+  backgroundColor: '#FEFEF2',
+  padding: '1rem 0'
+});
 
 const PageSection = styled(Grid)({
   maxWidth: '1080px',
@@ -28,11 +33,11 @@ const LightBG = styled(Grid)({
 export default function Home(props) {
   return (
     <>
-      <Grid container>
+      <NavContainer container>
         <PageSection item xs={12}>
           <NavBar />
         </PageSection>
-      </Grid>
+      </NavContainer>
 
       <HeroImage container alignItems="center">
         <PageSection item xs={12}>
@@ -43,29 +48,7 @@ export default function Home(props) {
       <BackGround>
         <Grid container >
           <PageSection item xs={12}>
-            <Grid container spacing={3}>
-              <Grid item md={6}>
-                <p>Some image here</p>
-              </Grid>
-              <Grid item md={6}>
-                <Grid container direction='column'>
-                  <Grid item>
-                    <h2>About the game</h2>
-                  </Grid>
-                  <Grid item>
-                    <p>
-                      Interdum et malesuada fames ac ante ipsum primis in faucibus.
-                      Aliquam at velit urna. Nam ex ligula, elementum eget viverra sit
-                      amet, efficitur a tortor. Integer tristique egestas euimdod.
-                      Fusce sed risus ac urna mollis pellentesque. Sed et lacinia lectus.
-                      Cras dapibus lacinia ligula, sit amet ullamcorper metus sodales non.
-                      Maecenas fringilla erat ut eros consequat vestibulum. Ut porta sit
-                      amet felis eu imperdiet. Sed id leo ligula.
-                    </p>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
+            <HowToPlay />
           </PageSection>
         </Grid>
 
