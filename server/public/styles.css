@@ -121,6 +121,6 @@ input#playerName:focus {
   right: calc(50% - 25rem);
 }
 
-body {
+.no-scroll {
   overflow: hidden;
 }
