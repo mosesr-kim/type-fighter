@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Home, Game, Lobby, Fight } from './pages';
 import { styled } from '@material-ui/core';
-import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import { Redirect, Route, Switch, useHistory, useLocation, Link } from 'react-router-dom';
 import RouterContext from './lib/router-context';
 import UserContext from './lib/user-context';
 import SoundContext from './lib/sound-context';
@@ -31,6 +31,18 @@ const BGOverlay = styled('div')(() => ({
   zIndex: -1,
   backgroundColor: 'rgba(0, 0, 0, 0.5)'
 }));
+
+const BackButton = styled('button')({
+  position: 'absolute',
+  font: 'retro, sans-serif',
+  fontSize: '1rem',
+  padding: '0.5rem 1rem',
+  border: '3px solid white',
+  background: 'none',
+  color: 'white',
+  top: '2%',
+  left: '2%'
+});
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -70,6 +82,11 @@ export default function App() {
       <RouterContext.Provider value={{ history }}>
         <SoundContext.Provider value={{ sound, setSound, music, setMusic }}>
           {backgroundImage}
+          {location.pathname !== '/' && (
+            <Link to="/">
+              <BackButton>Back</BackButton>
+            </Link>
+          )}
 
           <UserContext.Provider value={{ user, setUser }}>
             <Switch>
