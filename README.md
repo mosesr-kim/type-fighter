@@ -4,9 +4,9 @@ A full stack JavaScript team hackathon project for Mintbean!  Our application Ty
 
 Check it out here(live link here)!
 
-![creating-user](https://user-images.githubusercontent.com/82472092/131790471-3e66d169-6024-49b6-a899-133056af01b6.gif)
+![creating-user](https://user-images.githubusercontent.com/82472092/131821068-44aace69-9d0d-4029-a520-5808f7286f53.gif)
+![typing-phrase](https://user-images.githubusercontent.com/82472092/131821077-66f762f2-c522-4301-b427-918749ac6462.gif)
 
-![typing-phrase](https://user-images.githubusercontent.com/82472092/131790499-42ae7ece-b813-4cad-8717-847610402559.gif)
 
 ## Contributors
 
