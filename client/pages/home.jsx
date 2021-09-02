@@ -8,10 +8,6 @@ const PageSection = styled(Grid)({
   padding: '2rem 1rem'
 });
 
-const Gif = styled('img')({
-  maxWidth: '100%'
-});
-
 const HeroImage = styled(Grid)({
   backgroundImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(81, 61, 61, 1)), url(/media/background.png)',
   backgroundRepeat: 'no-repeat',
@@ -76,29 +72,6 @@ export default function Home(props) {
         <LightBG container>
           <PageSection item xs={12}>
             <TechnologiesUsed />
-            <Grid container spacing={3}>
-              <Grid item md={6}>
-                <Grid container direction='column'>
-                  <Grid item>
-                    <h2>Technologies Used</h2>
-                  </Grid>
-                  <Grid item>
-                    <p>
-                      Interdum et malesuada fames ac ante ipsum primis in faucibus.
-                      Aliquam at velit urna. Nam ex ligula, elementum eget viverra sit
-                      amet, efficitur a tortor. Integer tristique egestas euimdod.
-                      Fusce sed risus ac urna mollis pellentesque. Sed et lacinia lectus.
-                      Cras dapibus lacinia ligula, sit amet ullamcorper metus sodales non.
-                      Maecenas fringilla erat ut eros consequat vestibulum. Ut porta sit
-                      amet felis eu imperdiet. Sed id leo ligula.
-                    </p>
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item md={6}>
-                <Gif src="/media/creating-user.gif" alt="creating user gif" />
-              </Grid>
-            </Grid>
           </PageSection>
         </LightBG>
       </BackGround>
