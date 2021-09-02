@@ -3,8 +3,7 @@ import { NavBar, AboutTheGame, HowToPlay } from '../components';
 import { Grid, styled } from '@material-ui/core';
 
 const NavContainer = styled(Grid)({
-  backgroundColor: '#FEFEF2',
-  padding: '1rem 0'
+  backgroundColor: '#FEFEF2'
 });
 
 const PageSection = styled(Grid)({
@@ -38,7 +37,7 @@ export default function Home(props) {
   return (
     <>
       <NavContainer container>
-        <PageSection item xs={12}>
+        <PageSection item xs={12} style={{ padding: '1.25rem' }}>
           <NavBar />
         </PageSection>
       </NavContainer>
