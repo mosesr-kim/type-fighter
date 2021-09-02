@@ -1,17 +1,22 @@
 import React from 'react';
 import { NavBar } from '../components';
 import { Link as RouterLink } from 'react-router-dom';
-import { Grid } from '@material-ui/core';
+import { Grid, styled } from '@material-ui/core';
+
+const PageSection = styled(Grid)({
+  maxWidth: '1080px',
+  margin: '0 auto'
+});
 
 export default function Home(props) {
   return (
     <div> {/* LANDING PAGE BACKGROUND */}
-      <Grid container style={{ maxWidth: '1080px', margin: '0 auto ', justifyContent: 'space-between' }}>
-        <Grid item xs={12}>
+      <Grid container>
+        <PageSection item xs={12}>
           <NavBar />
-        </Grid>
+        </PageSection>
 
-        <Grid item xs={12}>
+        <PageSection item xs={12}>
           <Grid container>
             <Grid item sm={6}>
               <Grid container>
@@ -42,9 +47,9 @@ export default function Home(props) {
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        </PageSection>
 
-        <Grid item xs={12}>
+        <PageSection item xs={12}>
           <Grid container>
             <Grid item sm={6}>
               <p>Some image here</p>
@@ -68,9 +73,9 @@ export default function Home(props) {
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        </PageSection>
 
-        <Grid item xs={12}>
+        <PageSection item xs={12}>
           <Grid container>
             <Grid item sm={6}>
               <Grid container direction='column'>
@@ -96,7 +101,7 @@ export default function Home(props) {
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        </PageSection>
 
       </Grid>
     </div>
