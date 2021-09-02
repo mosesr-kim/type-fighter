@@ -50,8 +50,10 @@ export default function GameForm(props) {
   const changeName = event => {
     const name = event.target.value;
     if (name.length > 20) {
+      setDisplayMessage('Username is too long');
       return;
     }
+    setDisplayMessage('');
     setUsername(name);
   };
 
