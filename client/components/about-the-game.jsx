@@ -26,7 +26,7 @@ export default function AboutTheGame(props) {
         <PlayButton style={{ margin: '1rem 0' }} />
       </Grid>
       <Grid item sm={6}>
-        <Gif src="/media/about-game.gif" />
+        <Gif src="/media/typing-phrase.gif" />
       </Grid>
     </AboutGameContainer>
   );
