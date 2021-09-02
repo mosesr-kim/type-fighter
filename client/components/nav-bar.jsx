@@ -1,8 +1,16 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Grid, Link } from '@material-ui/core';
+import { Grid, Link, Typography, styled } from '@material-ui/core';
 import PlayButton from '../components/play-button';
-import MyTypography from './my-typography';
+
+const NavText = styled(Typography)({
+  color: 'rgb(81, 61, 61)',
+  textDecoration: 'none',
+  transition: 'color 0.25s ease-in-out',
+  '&:hover': {
+    color: '#F24956'
+  }
+});
 
 export default function NavBar(props) {
   return (
@@ -10,17 +18,17 @@ export default function NavBar(props) {
       <Grid item>
         <Grid container spacing={2}>
           <Grid item>
-            <Link component={RouterLink} to="#about-game">
-              <MyTypography variant="h6">
+            <Link underline="none" component={RouterLink} to="#about-game">
+              <NavText variant="h6">
                 About
-              </MyTypography>
+              </NavText>
             </Link>
           </Grid>
           <Grid item>
-            <Link component={RouterLink} to="#meet-devs">
-              <MyTypography variant="h6">
-                Meet the Developers
-              </MyTypography>
+            <Link underline="none" component={RouterLink} to="#meet-devs">
+              <NavText variant="h6">
+                Developers
+              </NavText>
             </Link>
           </Grid>
         </Grid>
