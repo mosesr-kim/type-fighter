@@ -83,7 +83,7 @@ export default function App() {
           {backgroundImage}
           {location.pathname !== '/' && (
             <Link to="/">
-              <BackButton>Back</BackButton>
+              <BackButton tabIndex={-1}>Back</BackButton>
             </Link>
           )}
 
